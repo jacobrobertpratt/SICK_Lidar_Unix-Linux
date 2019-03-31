@@ -1,9 +1,10 @@
 CC=gcc
 CFLAGS=-c -Wall
 LDFLAGS=
-SOURCES=main.c
+SOURCES=ullid.c ullid_comm_format.c ullid_error.c
 OBJECTS=$(SOURCES:.c=.o)
-EXECUTABLE=sick_exe
+EXECUTABLE=ullid
+FILES=ErrorLog.txt
 
 all: $(SOURCES) $(EXECUTABLE)
     
@@ -14,4 +15,4 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm $(OBJECTS) $(EXECUTABLE)
+	rm $(OBJECTS) $(EXECUTABLE) $(FILES)

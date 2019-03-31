@@ -1,8 +1,8 @@
 /*  Holds the most recent version of the software. */
 
-#ifndef _VERSION_SICK_LIDAR
-#define _VERSION_SICK_LIDAR
+#ifndef _ULLID_VERSION_HEADER
+#define _ULLID_VERSION_HEADER
 
-#define _PROG_VERSION   1.0.0
+#define _ULLID_VERSION   1.0.0
 
 #endif
