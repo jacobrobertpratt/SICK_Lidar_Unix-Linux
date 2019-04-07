@@ -4,6 +4,11 @@
 #ifndef _ULLID_COMM_FORMAT_HEADER
 #define _ULLID_COMM_FORMAT_HEADER
 
+#include "ullid_lidar_type.h"
+#include "ullid_error.h"
+#include "LMS1XX.h"
+
+/*  */
 enum TelegramType {
     STX,
     ETX,
@@ -19,6 +24,7 @@ enum TelegramType {
     SPC
 };
 
+/*  */
 enum TelegramComm {
     SetAccessMode,
     mLMPsetscancfg,
@@ -64,31 +70,17 @@ enum TelegramComm {
 };
 
 /*  */
-char * telegramBuilder(const char * format, ... );
+char * teleCommBuilder(enum TelegramComm tele_comm, ... );
 
-char * testFunction();
+/*  */
+char * telegramBuilder(enum TelegramType tele_type, enum TelegramComm tele_comm, ... );
+
+/*  */
+enum PasswordType {
+    Maintenance,
+    Client,
+    Service
+};
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

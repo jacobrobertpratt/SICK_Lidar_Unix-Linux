@@ -7,10 +7,14 @@
 #include <string.h>
 
 /*  LOCAL INCLUDEDS */
+#include "ullid.h"
 #include "ullid_error.h"
 #include "ullid_comm_format.h"
+#include "LMS1XX.h"
 
 int main(int argc, char * argv[]) {
+    
+    Lidar lidar;
     
     int i;  // Used strictly for loops --> must always be initialized to zero
     print_error = false; // initialize this to false.
@@ -20,6 +24,7 @@ int main(int argc, char * argv[]) {
         
         // Sets the device to LMS511
         if(strcmp(argv[i],"LMS511") == 0) {
+            lidar.name = argv[i];
             // TODO --> trigger the LMS511 Methods, variables, ... etc.
         }
         
@@ -30,6 +35,10 @@ int main(int argc, char * argv[]) {
         
     }
     
+    
+    char * str = telegramBuilder(sMN,SetAccessMode,"hello");
+    printf("output: %s\n", str);
+    free(str);
     
     return 0;
 }

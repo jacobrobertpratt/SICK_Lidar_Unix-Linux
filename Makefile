@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-c -Wall
 LDFLAGS=
-SOURCES=ullid.c ullid_comm_format.c ullid_error.c
+SOURCES=ullid.c ullid_comm_format.c ullid_error.c LMS1XX.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=ullid
 FILES=ErrorLog.txt
