@@ -36,8 +36,14 @@ int main(int argc, char * argv[]) {
     }
     
     
+    
     char * str = telegramBuilder(sMN,SetAccessMode,"hello");
-    printf("output: %s\n", str);
+    printf("Output1: %s\n", str);
+    printf("Output: ");
+    for(i = 0; i < 31; i++){
+        printf(" %2X",str[i]);
+    }
+    printf("\n");
     free(str);
     
     return 0;

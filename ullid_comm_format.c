@@ -70,24 +70,45 @@ const char * comm_arr[41] = {
     "LMCstopmeas"
 };
 
-char * teleCommBuilder(enum TelegramComm tele_comm, ... ) {
+char * teleCommBuilder(enum TelegramComm comEnum, ... ) {
     
-    char * out_str = NULL;
+    char * retStr = NULL;
+    char * buildStr = NULL;
+    int tmpStrLen = 0;
+    char * va_string;
+    
     va_list args;
+    va_start(args, comEnum);
     
-    switch (tele_comm) {
+    switch (comEnum) {
         case SetAccessMode:
+            tmpStrLen = strlen(comm_arr[comEnum]);
             
-            va_start(args, tele_comm);
-            char * tmp = va_arg(args, char *);
-            asprintf(&out_str,"%s",tmp);
+            va_string = va_arg(args,char*);
+            buildStr = (char*) malloc(31*sizeof(char));
             
-            /*
-            va_start(args, tele_comm);
-            int8_t user_level = va_arg (args, int);
-            uint32_t pass_word = va_arg (args, long);
-            asprintf(&out_str,"%s %c%c %u",comm_arr[SetAccessMode],'0',user_level,pass_word);
-             */
+            retStr = buildStr;
+            buildStr+=4;
+            *buildStr=0x20;
+            buildStr++;
+            strncpy(buildStr,comm_arr[comEnum], tmpStrLen);
+            buildStr+=tmpStrLen;
+            *buildStr=0x20;
+            buildStr++;
+            
+            if(!strcmp(va_string,"hello")){
+                printf("Entered hello ... ");
+            }
+            if(!strcmp(va_string,"maintenance")){
+                printf("Entered Maintenance ... ");
+            }
+            if(!strcmp(va_string,"client")){
+                printf("Entered Client ... ");
+            }
+            if(!strcmp(va_string,"service")){
+                printf("Entered Service ... ");
+            }
+            
             
             break;
     case mLMPsetscancfg:
@@ -176,7 +197,8 @@ char * teleCommBuilder(enum TelegramComm tele_comm, ... ) {
     }
     
     va_end(args);
-    return out_str;
+    
+    return retStr;
 }
 
 
@@ -207,6 +229,7 @@ char * teleCommBuilder(enum TelegramComm tele_comm, ... ) {
 char * telegramBuilder(enum TelegramType tele_type, enum TelegramComm comm_type, ... ) {
     
     char * out_str = NULL;
+    
     va_list args;
     
     switch (tele_type) {

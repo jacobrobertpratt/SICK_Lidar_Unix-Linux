@@ -70,7 +70,7 @@ enum TelegramComm {
 };
 
 /*  */
-char * teleCommBuilder(enum TelegramComm tele_comm, ... );
+char * teleCommBuilder(enum TelegramComm comEnum, ... );
 
 /*  */
 char * telegramBuilder(enum TelegramType tele_type, enum TelegramComm tele_comm, ... );
@@ -83,4 +83,5 @@ enum PasswordType {
 };
 
 #endif
+
 
