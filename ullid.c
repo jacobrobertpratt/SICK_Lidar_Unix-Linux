@@ -35,9 +35,10 @@ int main(int argc, char * argv[]) {
         
     }
     
+    // 02 73 4D 4E 20 53 65 74 41 63 63 65 73 73 4D 6F 64 65 20 30 33 20 46 34 37 32 34 37 34 34 03
+    // 02 73 4D 4E 20 53 65 74 41 63 63 65 73 73 4D 6F 64 65 20 30 33 20 46 34 37 32 34 37 34 34 03
     
-    
-    char * str = telegramBuilder(sMN,SetAccessMode,"hello");
+    char * str = telegramBuilder(sMN,SetAccessMode,"client", "F4724744");
     printf("Output1: %s\n", str);
     printf("Output: ");
     for(i = 0; i < 31; i++){

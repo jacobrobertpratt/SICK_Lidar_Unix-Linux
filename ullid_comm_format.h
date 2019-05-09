@@ -10,8 +10,6 @@
 
 /*  */
 enum TelegramType {
-    STX,
-    ETX,
     sRA,
     sRN,
     sWN,
@@ -20,8 +18,7 @@ enum TelegramType {
     sMN,
     sEN,
     sEA,
-    sSN,
-    SPC
+    sSN
 };
 
 /*  */
@@ -70,17 +67,17 @@ enum TelegramComm {
 };
 
 /*  */
-char * teleCommBuilder(enum TelegramComm comEnum, ... );
-
-/*  */
-char * telegramBuilder(enum TelegramType tele_type, enum TelegramComm tele_comm, ... );
-
-/*  */
 enum PasswordType {
     Maintenance,
     Client,
     Service
 };
+
+/*  */
+char * teleCommBuilder(enum TelegramComm comEnum, va_list args );
+
+/*  */
+char * telegramBuilder(enum TelegramType tele_type, enum TelegramComm tele_comm, ... );
 
 #endif
 

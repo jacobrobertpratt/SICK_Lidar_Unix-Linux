@@ -13,8 +13,6 @@
 #include "LMS1XX.h"
 
 const char * type_arr[12] = {
-    "<STX>",
-    "<ETX>",
     "sRA",
     "sRN",
     "sWN",
@@ -24,7 +22,6 @@ const char * type_arr[12] = {
     "sEN",
     "sEA",
     "sSN",
-    "{SPC}"
 };
 
 const char * comm_arr[41] = {
@@ -70,46 +67,63 @@ const char * comm_arr[41] = {
     "LMCstopmeas"
 };
 
-char * teleCommBuilder(enum TelegramComm comEnum, ... ) {
+char * teleCommBuilder(enum TelegramComm comEnum, va_list args ) {
     
     char * retStr = NULL;
     char * buildStr = NULL;
-    int tmpStrLen = 0;
-    char * va_string;
-    
-    va_list args;
-    va_start(args, comEnum);
+    int strLen = 0;
+    //char * va_string;
     
     switch (comEnum) {
         case SetAccessMode:
-            tmpStrLen = strlen(comm_arr[comEnum]);
             
-            va_string = va_arg(args,char*);
+            strLen = strlen(comm_arr[comEnum]);
+            
             buildStr = (char*) malloc(31*sizeof(char));
             
             retStr = buildStr;
             buildStr+=4;
             *buildStr=0x20;
             buildStr++;
-            strncpy(buildStr,comm_arr[comEnum], tmpStrLen);
-            buildStr+=tmpStrLen;
+            strncpy(buildStr,comm_arr[comEnum], strLen);
+            buildStr+=strLen;
             *buildStr=0x20;
             buildStr++;
             
-            if(!strcmp(va_string,"hello")){
-                printf("Entered hello ... ");
-            }
-            if(!strcmp(va_string,"maintenance")){
-                printf("Entered Maintenance ... ");
-            }
-            if(!strcmp(va_string,"client")){
-                printf("Entered Client ... ");
-            }
-            if(!strcmp(va_string,"service")){
-                printf("Entered Service ... ");
+            char * testStr = strdup(va_arg(args,char*));
+            
+            if(!strcmp(testStr,"maintenance")){
+                *buildStr = '0';
+                buildStr++;
+                *buildStr = '2';
+                buildStr++;
+            } else if(!strcmp(testStr,"client")){
+                *buildStr = '0';
+                buildStr++;
+                *buildStr = '3';
+                buildStr++;
+            } else if(!strcmp(testStr,"service")){
+                *buildStr = '0';
+                buildStr++;
+                *buildStr = '4';
+                buildStr++;
+            } else {
+                // ERROR TODO --> need to set up error reporting.
+                printf("Error: SetAccessMode failed.");
             }
             
+            *buildStr = 0x20;
+            buildStr++;
             
+            char * password = strdup(va_arg(args,char*));
+            strLen = strlen(password);
+            
+            strncpy(buildStr,password,strLen);
+            buildStr+=strLen;
+            *buildStr=0x03;
+            
+            free(password);
+            free(testStr);
             break;
     case mLMPsetscancfg:
         break;
@@ -196,8 +210,6 @@ char * teleCommBuilder(enum TelegramComm comEnum, ... ) {
         break;
     }
     
-    va_end(args);
-    
     return retStr;
 }
 
@@ -228,10 +240,18 @@ char * teleCommBuilder(enum TelegramComm comEnum, ... ) {
 // hex code for it.
 char * telegramBuilder(enum TelegramType tele_type, enum TelegramComm comm_type, ... ) {
     
-    char * out_str = NULL;
+    char * retStr = NULL;
+    char * builtStr = NULL;
     
     va_list args;
+    va_start(args,comm_type);
     
+    builtStr = retStr = teleCommBuilder(comm_type, args);
+    *builtStr = 0x02;
+    builtStr++;
+    strncpy(builtStr,type_arr[tele_type],3);
+    
+    /*
     switch (tele_type) {
         case sRA:
             break;
@@ -244,9 +264,10 @@ char * telegramBuilder(enum TelegramType tele_type, enum TelegramComm comm_type,
         case sAN:
             break;
         case sMN:
-            va_start(args,comm_type);
-            out_str = teleCommBuilder(comm_type, args);
-            // TODO -->
+            builtStr = retStr = teleCommBuilder(comm_type, args);
+            *builtStr = 0x02;
+            builtStr++;
+            strncpy(builtStr,type_arr[tele_type],3);
             break;
         case sEN:
             break;
@@ -256,9 +277,11 @@ char * telegramBuilder(enum TelegramType tele_type, enum TelegramComm comm_type,
             break;
         default:
             break;
+     
     }
+    */
     
     va_end(args);
-    return out_str;
+    return retStr;
 }
 
