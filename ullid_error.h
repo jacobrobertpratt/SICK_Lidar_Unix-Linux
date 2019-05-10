@@ -1,17 +1,17 @@
-/*  Controls all error messages & updates error log file
- */
-
 #ifndef _ULLID_ERROR_HEADER
 #define _ULLID_ERROR_HEADER
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
-FILE * error_log_file;
-bool print_error;
+char * errorLogName;
 
-/*  */
-void logError(const char * error_msg, const char * file, int line);
+FILE * errorLogFile;
+
+int ConstructErrorLog(const char * fileName);
+
+int DestructErrorLog();
+
+int LogError(const char * errorMessage);
 
 #endif

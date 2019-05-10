@@ -1,0 +1,2 @@
+Test 1) CommunicationFormatTestSet - sMN_SetAccessModeTest_CorrectStringProduced --> PASSED
+	Note: checks if telegramBuilder function produced desired output.

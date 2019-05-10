@@ -1,21 +1,24 @@
-/*
- */
+
+#include <string.h>
 
 #include "ullid_error.h"
 
-void logError(const char * error_msg, const char * file, int line) {
-    
-    if(!error_log_file)
-        error_log_file = fopen("./ErrorLog.txt","w");
-    
-    if(!error_log_file)
-        exit(1);
-    
-    // print_error is false unless set in the arguments
-    if(print_error == true)
-        printf("ERROR: %s in %s @ %d\n", error_msg, file, line);
-    
-    fprintf(error_log_file, "ERROR: %s in %s @ %d\n", error_msg, file, line);
-    
-    exit(1);
+int ConstructErrorLog(const char * fileName){
+    if(fileName == NULL)
+        return 1;
+    errorLogName = (char*) malloc(strlen(fileName)*sizeof(char));
+    strcpy(errorLogName,fileName);
+    return 0;
+}
+
+int DestructErrorLog(){
+    free(errorLogName);
+    return 0;
+}
+
+int LogError(const char * errorMessage) {
+    errorLogFile = fopen(errorLogName,"w");
+    fprintf(errorLogFile,"ERROR: %s in\t%s @ line %d\n",errorMessage,__FILE__,__LINE__);
+    fclose(errorLogFile);
+    return 0;
 }

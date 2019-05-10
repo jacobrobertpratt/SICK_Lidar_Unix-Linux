@@ -10,9 +10,8 @@
 
 /*  */
 #include "ullid_comm_format.h"
-#include "LMS1XX.h"
 
-const char * type_arr[12] = {
+const char * TelegramTypeArr[9] = {
     "sRA",
     "sRN",
     "sWN",
@@ -24,7 +23,7 @@ const char * type_arr[12] = {
     "sSN",
 };
 
-const char * comm_arr[41] = {
+const char * TelegramCommArr[41] = {
     "SetAccessMode",
     "mLMPsetscancfg",
     "LMPscancfg",
@@ -67,153 +66,6 @@ const char * comm_arr[41] = {
     "LMCstopmeas"
 };
 
-char * teleCommBuilder(enum TelegramComm comEnum, va_list args ) {
-    
-    char * retStr = NULL;
-    char * buildStr = NULL;
-    int strLen = 0;
-    //char * va_string;
-    
-    switch (comEnum) {
-        case SetAccessMode:
-            
-            strLen = strlen(comm_arr[comEnum]);
-            
-            buildStr = (char*) malloc(31*sizeof(char));
-            
-            retStr = buildStr;
-            buildStr+=4;
-            *buildStr=0x20;
-            buildStr++;
-            strncpy(buildStr,comm_arr[comEnum], strLen);
-            buildStr+=strLen;
-            *buildStr=0x20;
-            buildStr++;
-            
-            char * testStr = strdup(va_arg(args,char*));
-            
-            if(!strcmp(testStr,"maintenance")){
-                *buildStr = '0';
-                buildStr++;
-                *buildStr = '2';
-                buildStr++;
-            } else if(!strcmp(testStr,"client")){
-                *buildStr = '0';
-                buildStr++;
-                *buildStr = '3';
-                buildStr++;
-            } else if(!strcmp(testStr,"service")){
-                *buildStr = '0';
-                buildStr++;
-                *buildStr = '4';
-                buildStr++;
-            } else {
-                // ERROR TODO --> need to set up error reporting.
-                printf("Error: SetAccessMode failed.");
-            }
-            
-            *buildStr = 0x20;
-            buildStr++;
-            
-            char * password = strdup(va_arg(args,char*));
-            strLen = strlen(password);
-            
-            strncpy(buildStr,password,strLen);
-            buildStr+=strLen;
-            *buildStr=0x03;
-            
-            free(password);
-            free(testStr);
-            break;
-    case mLMPsetscancfg:
-        break;
-    case LMPscancfg:
-        break;
-    case LCMstate:
-        break;
-    case LMDscandatacfg:
-        break;
-    case LMPoutputRange:
-        break;
-    case LMDscandata:
-        break;
-    case LSPsetdatetime:
-        break;
-    case STlms:
-        break;
-    case mEEwriteall:
-        break;
-    case Run:
-        break;
-    case LFPparticle:
-        break;
-    case LFPmeanfilter:
-        break;
-    case LFPnto1filter:
-        break;
-    case FREchoFilter:
-        break;
-    case MSsuppmode:
-        break;
-    case LICsrc:
-        break;
-    case LICencset:
-        break;
-    case LICencres:
-        break;
-    case LICFixVel:
-        break;
-    case LICSpTh:
-        break;
-    case LICencsp:
-        break;
-    case LIDoutputstate:
-        break;
-    case mDOSetOutput:
-        break;
-    case DO6Fnc:
-        break;
-    case DO3And4Fnc:
-        break;
-    case LIDrstoutpcnt:
-        break;
-    case DeviceIdent:
-        break;
-    case SCdevicestate:
-        break;
-    case LocationName:
-        break;
-    case ODoprh:
-        break;
-    case ODpwrc:
-        break;
-    case EIIpAddr:
-        break;
-    case mSCloadfacdef:
-        break;
-    case mSCreboot:
-        break;
-    case LCMcfg:
-        break;
-    case SYPhase:
-        break;
-    case LMLfpFcn:
-        break;
-    case LMCstandby:
-        break;
-    case LMCstartmeas:
-        break;
-    case LMCstopmeas:
-        break;
-    default:
-            logError("Uknown Comm type",__FILE__, __LINE__);
-        break;
-    }
-    
-    return retStr;
-}
-
-
 //1. Log in:                             sMN SetAccessMode
 
 
@@ -236,50 +88,156 @@ char * teleCommBuilder(enum TelegramComm comEnum, va_list args ) {
 
 
 
-// This function takes a general telegram and gets the
-// hex code for it.
-char * telegramBuilder(enum TelegramType tele_type, enum TelegramComm comm_type, ... ) {
+// This function takes a general telegram and gets the hex code for it.
+char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, ... ) {
     
     char * retStr = NULL;
-    char * builtStr = NULL;
+    char * buildStr = NULL;
+    int strLen = 0;
     
     va_list args;
-    va_start(args,comm_type);
+    va_start(args,commEnum);
     
-    builtStr = retStr = teleCommBuilder(comm_type, args);
-    *builtStr = 0x02;
-    builtStr++;
-    strncpy(builtStr,type_arr[tele_type],3);
-    
-    /*
-    switch (tele_type) {
-        case sRA:
+    switch (commEnum) {
+        case SetAccessMode:
+            
+            retStr = buildStr = (char*) malloc(31*sizeof(char));
+            *buildStr = 0x02;
+            buildStr++;
+            
+            strncpy(buildStr,TelegramTypeArr[typeEnum],3);
+            buildStr+=3;
+            
+            *buildStr=0x20;
+            buildStr++;
+            
+            strLen = strlen(TelegramCommArr[commEnum]);
+            printf("%d\n",strLen);
+            strncpy(buildStr,TelegramCommArr[commEnum], strLen);
+            buildStr+=strLen;
+            
+            *buildStr=0x20;
+            buildStr++;
+            
+            char * userLevel = strdup(va_arg(args,char*));
+            
+            if(!strcmp(userLevel,"maintenance")){
+                *buildStr = '0';
+                buildStr++;
+                *buildStr = '2';
+                buildStr++;
+            } else if(!strcmp(userLevel,"client")){
+                *buildStr = '0';
+                buildStr++;
+                *buildStr = '3';
+                buildStr++;
+            } else if(!strcmp(userLevel,"service")){
+                *buildStr = '0';
+                buildStr++;
+                *buildStr = '4';
+                buildStr++;
+            } else {
+                LogError("user level access incorrect");
+            }
+            
+            *buildStr = 0x20;
+            buildStr++;
+            
+            char * password = strdup(va_arg(args,char*));
+            strncpy(buildStr,password,8); // 4 is a required password length
+            buildStr+=8;
+            *buildStr=0x03;
+            
+            free(password);
+            free(userLevel);
+            
+            printf("%s\n",retStr);
+            
             break;
-        case sRN:
+        case mLMPsetscancfg:
             break;
-        case sWN:
+        case LMPscancfg:
             break;
-        case sWA:
+        case LCMstate:
             break;
-        case sAN:
+        case LMDscandatacfg:
             break;
-        case sMN:
-            builtStr = retStr = teleCommBuilder(comm_type, args);
-            *builtStr = 0x02;
-            builtStr++;
-            strncpy(builtStr,type_arr[tele_type],3);
+        case LMPoutputRange:
             break;
-        case sEN:
+        case LMDscandata:
             break;
-        case sEA:
+        case LSPsetdatetime:
             break;
-        case sSN:
+        case STlms:
+            break;
+        case mEEwriteall:
+            break;
+        case Run:
+            break;
+        case LFPparticle:
+            break;
+        case LFPmeanfilter:
+            break;
+        case LFPnto1filter:
+            break;
+        case FREchoFilter:
+            break;
+        case MSsuppmode:
+            break;
+        case LICsrc:
+            break;
+        case LICencset:
+            break;
+        case LICencres:
+            break;
+        case LICFixVel:
+            break;
+        case LICSpTh:
+            break;
+        case LICencsp:
+            break;
+        case LIDoutputstate:
+            break;
+        case mDOSetOutput:
+            break;
+        case DO6Fnc:
+            break;
+        case DO3And4Fnc:
+            break;
+        case LIDrstoutpcnt:
+            break;
+        case DeviceIdent:
+            break;
+        case SCdevicestate:
+            break;
+        case LocationName:
+            break;
+        case ODoprh:
+            break;
+        case ODpwrc:
+            break;
+        case EIIpAddr:
+            break;
+        case mSCloadfacdef:
+            break;
+        case mSCreboot:
+            break;
+        case LCMcfg:
+            break;
+        case SYPhase:
+            break;
+        case LMLfpFcn:
+            break;
+        case LMCstandby:
+            break;
+        case LMCstartmeas:
+            break;
+        case LMCstopmeas:
             break;
         default:
+            // LogError
             break;
-     
     }
-    */
     
     va_end(args);
     return retStr;

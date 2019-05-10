@@ -4,9 +4,7 @@
 #ifndef _ULLID_COMM_FORMAT_HEADER
 #define _ULLID_COMM_FORMAT_HEADER
 
-#include "ullid_lidar_type.h"
 #include "ullid_error.h"
-#include "LMS1XX.h"
 
 /*  */
 enum TelegramType {
