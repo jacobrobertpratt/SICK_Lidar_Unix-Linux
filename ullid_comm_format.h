@@ -6,6 +6,13 @@
 
 #include "ullid_error.h"
 
+// Macros that are used to simplify the code
+#define STRT(a)         *a=0x02;a++;
+#define SPC(b)          *b=0x20;b++;
+#define END(c)          *c=0x03;
+#define ADDSTR(a,b,n)   n=strlen(b);strncpy(a,b,n);a+=n;
+#define PUT(a,b)        *a=b;a++;
+
 /*  */
 enum TelegramType {
     sRA,
@@ -65,7 +72,7 @@ enum TelegramComm {
 };
 
 /*  */
-enum PasswordType {
+enum UserLevel {
     Maintenance,
     Client,
     Service

@@ -66,6 +66,10 @@ const char * TelegramCommArr[41] = {
     "LMCstopmeas"
 };
 
+const char * UserLevelArr[3] = {
+    "02","03","04"
+};
+
 //1. Log in:                             sMN SetAccessMode
 
 
@@ -88,6 +92,7 @@ const char * TelegramCommArr[41] = {
 
 
 
+
 // This function takes a general telegram and gets the hex code for it.
 char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, ... ) {
     
@@ -102,57 +107,51 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
         case SetAccessMode:
             
             retStr = buildStr = (char*) malloc(31*sizeof(char));
-            *buildStr = 0x02;
-            buildStr++;
             
-            strncpy(buildStr,TelegramTypeArr[typeEnum],3);
-            buildStr+=3;
+            // Start
+            STRT(buildStr)
             
-            *buildStr=0x20;
-            buildStr++;
+            // Telegram Type (3 characters)
+            ADDSTR(buildStr,TelegramTypeArr[typeEnum],strLen);
             
-            strLen = strlen(TelegramCommArr[commEnum]);
-            printf("%d\n",strLen);
-            strncpy(buildStr,TelegramCommArr[commEnum], strLen);
-            buildStr+=strLen;
+            //Adds a Space
+            SPC(buildStr)
             
-            *buildStr=0x20;
-            buildStr++;
+            // Telegram Communication (varies)
+            ADDSTR(buildStr,TelegramCommArr[commEnum],strLen);
             
+            // SPACE
+            SPC(buildStr)
+            
+            
+            // Adding the maintenance thing --> try and get this into a common method
             char * userLevel = strdup(va_arg(args,char*));
             
             if(!strcmp(userLevel,"maintenance")){
-                *buildStr = '0';
-                buildStr++;
-                *buildStr = '2';
-                buildStr++;
-            } else if(!strcmp(userLevel,"client")){
-                *buildStr = '0';
-                buildStr++;
-                *buildStr = '3';
-                buildStr++;
+                PUT(buildStr,'0')
+                PUT(buildStr,'2')
+            } else if(!strcmp(userLevel,"client")){ // This class is tested
+                PUT(buildStr,'0')
+                PUT(buildStr,'3')
             } else if(!strcmp(userLevel,"service")){
-                *buildStr = '0';
-                buildStr++;
-                *buildStr = '4';
-                buildStr++;
+                PUT(buildStr,'0')
+                PUT(buildStr,'4')
             } else {
                 LogError("user level access incorrect");
             }
             
-            *buildStr = 0x20;
-            buildStr++;
+            SPC(buildStr) // Adding Space character
             
+            // Adding password to string
             char * password = strdup(va_arg(args,char*));
-            strncpy(buildStr,password,8); // 4 is a required password length
-            buildStr+=8;
-            *buildStr=0x03;
+            ADDSTR(buildStr,password,strLen)
             
+            // adds the end character
+            END(buildStr)
+            
+            // Free allocated space
             free(password);
             free(userLevel);
-            
-            printf("%s\n",retStr);
-            
             break;
         case mLMPsetscancfg:
             break;
@@ -238,6 +237,8 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
             // LogError
             break;
     }
+    
+    printf("%s\n",retStr);
     
     va_end(args);
     return retStr;

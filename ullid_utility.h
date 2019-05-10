@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+
 // This prints out the Hex Values of a given string
 int printHex(const char * str);
 
