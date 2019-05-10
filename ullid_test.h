@@ -3,6 +3,11 @@
 
 #include <stdarg.h>
 
+#include "ullid_utility.h"
+#include "ullid_error.h"
+#include "ullid_comm_format.h"
+#include "ullid_sick_LMS1xx.h"
+
 // Create Test Log File Thingy
 FILE * testLogFile;
 

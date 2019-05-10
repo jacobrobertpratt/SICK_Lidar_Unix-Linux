@@ -70,26 +70,17 @@ const char * UserLevelArr[3] = {
     "02","03","04"
 };
 
-//1. Log in:                             sMN SetAccessMode
+const char * FrequencyArr[5] = {
+    "+2500","+3500","+5000","+7500","+10000"
+};
 
-
+//1. Log in:                             sMN SetAccessMode                      (done)
 //2. Set Frequency and Resolution:       sMN mLMPsetscancfg
-
-
 //3. Configure scan data content:        sWN LMDscandatacfg
-
-
 //4. Configure scan data output:         sWN LMPoutputRange
-
-
 //5. Store Parameters:                   sMN mEEwriteall
-
-
 //6. Log out:                            sMN Run
-
-
 //7. Request Scan:                       sRN LMDscandata / sEN LMDscandata
-
 
 
 
@@ -111,13 +102,13 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
             // Start
             STRT(buildStr)
             
-            // Telegram Type (3 characters)
+            // Add Telegram Type (3 characters)
             ADDSTR(buildStr,TelegramTypeArr[typeEnum],strLen);
             
             //Adds a Space
             SPC(buildStr)
             
-            // Telegram Communication (varies)
+            // Add Telegram Communication Type(varies)
             ADDSTR(buildStr,TelegramCommArr[commEnum],strLen);
             
             // SPACE
@@ -154,6 +145,49 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
             free(userLevel);
             break;
         case mLMPsetscancfg:
+            retStr = buildStr = (char*) malloc(52*sizeof(char));
+            // Start
+            STRT(buildStr)
+            
+            // Add Telegram Type (3 characters)
+            ADDSTR(buildStr,TelegramTypeArr[typeEnum],strLen);
+            
+            //Adds a Space
+            SPC(buildStr)
+            
+            // Add Telegram Communication Type(varies)
+            ADDSTR(buildStr,TelegramCommArr[commEnum],strLen);
+            
+            // SPACE
+            SPC(buildStr)
+#ifdef _ULLID_SICK_LMS1XX_HEADER
+            
+            // Check if LMS1XX is declared
+            if(!strcmp(mainLidar,"SICK_LMS1XX")){
+                // Set the Frequency
+                int freq = va_arg(args,int);
+                if(freq == 25){
+                    ADDSTR(buildStr,FrequencyArr[hz_25],strLen)
+                } else if (freq == 35) {
+                    ADDSTR(buildStr,FrequencyArr[hz_35],strLen)
+                } else if (freq == 50) {
+                    ADDSTR(buildStr,FrequencyArr[hz_50],strLen)
+                } else if (freq == 75) {
+                    ADDSTR(buildStr,FrequencyArr[hz_75],strLen)
+                } else if (freq == 100) {
+                    ADDSTR(buildStr,FrequencyArr[hz_100],strLen)
+                } else {
+                    LogError("failed to recognize freqenecy --> Default 50");
+                    ADDSTR(buildStr,FrequencyArr[hz_50],strLen)
+                }
+            }
+            
+            
+            
+#endif
+            
+#ifdef _ULLID_SICK_LMS5XX_HEADER
+#endif
             break;
         case LMPscancfg:
             break;
@@ -234,7 +268,7 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
         case LMCstopmeas:
             break;
         default:
-            // LogError
+            LogError("incorrect communicaton format type");
             break;
     }
     
@@ -243,4 +277,3 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
     va_end(args);
     return retStr;
 }
-

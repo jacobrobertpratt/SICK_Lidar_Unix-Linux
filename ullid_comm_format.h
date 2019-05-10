@@ -1,10 +1,13 @@
 /*  All communication related building / messages / structures
  */
-
 #ifndef _ULLID_COMM_FORMAT_HEADER
 #define _ULLID_COMM_FORMAT_HEADER
 
+#define _ULLID_SICK_LMS1XX_HEADER
+#define _ULLID_SICK_LMS5XX_HEADER
+
 #include "ullid_error.h"
+#include "ullid_sick_LMS1xx.h"
 
 // Macros that are used to simplify the code
 #define STRT(a)         *a=0x02;a++;
@@ -76,6 +79,14 @@ enum UserLevel {
     Maintenance,
     Client,
     Service
+};
+
+enum Frequency {
+    hz_25,
+    hz_35,
+    hz_50,
+    hz_75,
+    hz_100
 };
 
 /*  */

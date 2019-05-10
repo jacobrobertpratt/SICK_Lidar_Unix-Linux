@@ -8,10 +8,8 @@
 #include <stdarg.h>
 
 /*  LOCAL INCLUDEDS */
-#include "ullid_utility.h"
-#include "ullid_error.h"
-#include "ullid_comm_format.h"
 #include "ullid_test.h"
+
 
 // Initialize the Test Log --> Creats the name --> possibly create and open the file
 int ConstructTestLog(const char * fileName) {
@@ -24,12 +22,14 @@ int ConstructTestLog(const char * fileName) {
     return 0;
 }
 
+
 // Releases all things that have been allocated
 int DestructTestLog(){
     fclose(testLogFile);
     free(testLogName);
     return 0;
 }
+
 
 // Logs the results of the test
 int LogTestResult(const char * testSet, const char * testName, const char * result, ... ) {
@@ -52,8 +52,6 @@ int LogTestResult(const char * testSet, const char * testName, const char * resu
 }
 
 
-
-
 #ifdef _ULLID_COMM_FORMAT_HEADER
 
 int sMN_SetAccessModeTest_CorrectStringProduced() {   // Test SetAccessMode --> Has correct output.
@@ -73,12 +71,28 @@ int sMN_SetAccessModeTest_CorrectStringProduced() {   // Test SetAccessMode --> 
     return 0;
 }
 
+int sMN_mLMPsetscancfgTest_CorrectStringProduct() {
+    
+    const char * message = "checks if telegramBuilder function produced desired output.";
+    const char * correctStr = "\2sMN SetAccessMode +5000 \3";
+    char * testString = telegramBuilder(sMN,mLMPsetscancfg,25);
+    
+    int result = strncmp(correctStr,testString,strlen(testString));
+    if(result == 0){
+        LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"PASSED", message);
+    } else {
+        LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"FAILED", message);
+    }
+    
+    free(testString);
+    return 0;
+}
 
 
 int CommunicationFormatTestSet(){
     
     sMN_SetAccessModeTest_CorrectStringProduced();
-    
+    sMN_mLMPsetscancfgTest_CorrectStringProduct();
     
     return 0;
 }
@@ -86,6 +100,8 @@ int CommunicationFormatTestSet(){
 #endif
 
 int main(int argc, char * argv[]) {
+    
+    
     
     ConstructErrorLog("ErrorLog.txt");
     ConstructTestLog("TestLog.txt");
