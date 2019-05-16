@@ -32,9 +32,8 @@ int AssertStringsEqual(const char * testingStr, const char * correctStr);
 #ifdef _ULLID_COMM_FORMAT_HEADER
 
 #define COMM_FORMAT_TEST_SET "CommunicationFormatTestSet"
+
 int CommunicationFormatTestSet();
-
-
 
 #endif
 

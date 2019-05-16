@@ -3,9 +3,6 @@
 #ifndef _ULLID_COMM_FORMAT_HEADER
 #define _ULLID_COMM_FORMAT_HEADER
 
-#define _ULLID_SICK_LMS1XX_HEADER
-#define _ULLID_SICK_LMS5XX_HEADER
-
 #include "ullid_error.h"
 #include "ullid_sick_LMS1xx.h"
 
@@ -81,14 +78,16 @@ enum UserLevel {
     Service
 };
 
-enum Frequency {
-    hz_25,
-    hz_35,
-    hz_50,
-    hz_75,
-    hz_100
+enum IntegerEnum {
+    PLUS_1,
+    PLUS_2500,
+    PLUS_3500,
+    PLUS_5000,
+    PLUS_7500,
+    PLUS_10000,
+    PLUS_2250000,
+    MIN_450000
 };
-
 /*  */
 char * teleCommBuilder(enum TelegramComm comEnum, va_list args );
 

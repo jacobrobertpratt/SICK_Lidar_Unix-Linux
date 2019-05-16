@@ -30,7 +30,6 @@ int DestructTestLog(){
     return 0;
 }
 
-
 // Logs the results of the test
 int LogTestResult(const char * testSet, const char * testName, const char * result, ... ) {
     va_list lst;
@@ -45,54 +44,61 @@ int LogTestResult(const char * testSet, const char * testName, const char * resu
     char * note = NULL;
     note = va_arg(lst,char*);
     if(note != NULL)
-        fprintf(testLogFile,"\tNote: %s\n",note);
-    
+        fprintf(testLogFile,"\tActual: %s\n",note);
     va_end(lst);
+    testNumber++;
     return 0;
 }
-
 
 #ifdef _ULLID_COMM_FORMAT_HEADER
 
-int sMN_SetAccessModeTest_CorrectStringProduced() {   // Test SetAccessMode --> Has correct output.
-
-    const char * message = "checks if telegramBuilder function produced desired output.";
+/**/
+int sMN_SetAccessModeTest_CorrectStringProduced() {   // Test SetAccessMode --> Has correct output
     const char * correctStr = "\2sMN SetAccessMode 03 F4724744\3";
-    char * testString = telegramBuilder(sMN,SetAccessMode,"client", "F4724744");
-    
+    char * testString = telegramBuilder(sMN,SetAccessMode,"client","F4724744");
     int result = strncmp(correctStr,testString,strlen(testString));
-    if(result == 0){
-        LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"PASSED", message);
+    if (result == 0) {
+        LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"PASSED", testString);
     } else {
-        LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"FAILED", message);
+        LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"FAILED", testString);
     }
-    
     free(testString);
     return 0;
 }
 
+/**/
 int sMN_mLMPsetscancfgTest_CorrectStringProduct() {
-    
-    const char * message = "checks if telegramBuilder function produced desired output.";
-    const char * correctStr = "\2sMN SetAccessMode +5000 \3";
-    char * testString = telegramBuilder(sMN,mLMPsetscancfg,25);
-    
+    const char * correctStr = "\2sMN mLMPsetscancfg +2500 +1 +5000 -450000 +2250000\3";
+    char * testString = telegramBuilder(sMN,mLMPsetscancfg,25,50);
     int result = strncmp(correctStr,testString,strlen(testString));
-    if(result == 0){
-        LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"PASSED", message);
+    if (result == 0) {
+        LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"PASSED", testString);
     } else {
-        LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"FAILED", message);
+        LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"FAILED", testString);
     }
-    
     free(testString);
     return 0;
 }
 
+/**/
+int sMN_LMPscancfgTest_CorrectStringProduct() {
+    const char * correctStr = "\2sRN LMPscancfg\3";
+    char * testString = telegramBuilder(sRN,LMPscancfg);
+    int result = strncmp(correctStr,testString,strlen(testString));
+    if (result == 0) {
+        LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"PASSED", testString);
+    } else {
+        LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"FAILED", testString);
+    }
+    free(testString);
+    return 0;
+}
 
 int CommunicationFormatTestSet(){
     
     sMN_SetAccessModeTest_CorrectStringProduced();
     sMN_mLMPsetscancfgTest_CorrectStringProduct();
+    sMN_LMPscancfgTest_CorrectStringProduct();
     
     return 0;
 }
@@ -100,8 +106,6 @@ int CommunicationFormatTestSet(){
 #endif
 
 int main(int argc, char * argv[]) {
-    
-    
     
     ConstructErrorLog("ErrorLog.txt");
     ConstructTestLog("TestLog.txt");

@@ -66,23 +66,146 @@ const char * TelegramCommArr[41] = {
     "LMCstopmeas"
 };
 
+int TelegramLengthArr[2] = {
+  31,52
+};
+
 const char * UserLevelArr[3] = {
     "02","03","04"
 };
 
-const char * FrequencyArr[5] = {
-    "+2500","+3500","+5000","+7500","+10000"
+const char * PasswordArr[3] = {
+    "B21ACE26", "F4724744", "81BE23AA"
 };
 
-//1. Log in:                             sMN SetAccessMode                      (done)
-//2. Set Frequency and Resolution:       sMN mLMPsetscancfg
-//3. Configure scan data content:        sWN LMDscandatacfg
-//4. Configure scan data output:         sWN LMPoutputRange
-//5. Store Parameters:                   sMN mEEwriteall
-//6. Log out:                            sMN Run
-//7. Request Scan:                       sRN LMDscandata / sEN LMDscandata
+const char * IntegerEnumArr[8] = {
+    "+1",
+    "+2500",
+    "+3500",
+    "+5000",
+    "+7500",
+    "+10000",
+    "+2250000",
+    "-450000"
+};
 
+// 1. Log in:                             sMN SetAccessMode                      (done)
+// 2. Set Frequency and Resolution:       sMN mLMPsetscancfg                     (done)
+// 3. Configure scan data content:        sWN LMDscandatacfg                     (working)
+// 4. Configure scan data output:         sWN LMPoutputRange
+// 5. Store Parameters:                   sMN mEEwriteall
+// 6. Log out:                            sMN Run
+// 7. Request Scan:                       sRN LMDscandata / sEN LMDscandata
 
+char * stringBuilder(char * buildStr, const char * str) {
+    SPC(buildStr)
+    return buildStr;
+}
+
+char * integerBuilder(char * buildStr, int checkInt) {
+    int strLen = 0;
+    SPC(buildStr)
+    
+    // TODO ... 
+    
+    return buildStr;
+}
+
+char * frequencyBuilder(char * buildStr, int checkInt) {
+    int strLen = 0;
+    SPC(buildStr)
+    if(checkInt == 1){
+        ADDSTR(buildStr,IntegerEnumArr[PLUS_1],strLen)
+    } else if (checkInt == 25) {
+        ADDSTR(buildStr,IntegerEnumArr[PLUS_2500],strLen)
+    } else if (checkInt == 35) {
+        ADDSTR(buildStr,IntegerEnumArr[PLUS_3500],strLen)
+    } else if (checkInt == 50) {
+        ADDSTR(buildStr,IntegerEnumArr[PLUS_5000],strLen)
+    } else if (checkInt == 75) {
+        ADDSTR(buildStr,IntegerEnumArr[PLUS_7500],strLen)
+    } else if (checkInt == 100) {
+        ADDSTR(buildStr,IntegerEnumArr[PLUS_10000],strLen)
+    } else {
+        LogError("frequency value is not correctly defined");
+        buildStr = NULL;
+    }
+    return buildStr;
+}
+
+char * passwordBuilder(char * buildStr, const char * checkStr) {
+    int strLen = 0;
+    SPC(buildStr)
+    if(!strcmp(checkStr,"B21ACE26")) {
+        ADDSTR(buildStr,PasswordArr[Maintenance],strLen)
+    } else if (!strcmp(checkStr,"F4724744")) {
+        ADDSTR(buildStr,PasswordArr[Client],strLen)
+    } else if (!strcmp(checkStr,"81BE23AA")) {
+        ADDSTR(buildStr,PasswordArr[Service],strLen)
+    } else {
+        LogError("inccorect password entered.");
+        buildStr = NULL;
+    }
+    return buildStr;
+}
+
+char * userlevelBuilder(char * buildStr, const char * checkStr) {
+    
+    int strLen = 0;
+    SPC(buildStr)
+    if(!strcmp(checkStr,"maintenance")) {
+        ADDSTR(buildStr,UserLevelArr[Maintenance],strLen)
+    } else if(!strcmp(checkStr,"client")) {
+        ADDSTR(buildStr,UserLevelArr[Client],strLen)
+    } else if(!strcmp(checkStr,"service")) {
+        ADDSTR(buildStr,UserLevelArr[Service],strLen)
+    } else {
+        LogError("incorrect user level entered.");
+        buildStr = NULL;
+    }
+    return buildStr;
+}
+
+char * argumentBuilder(char * buildStr, const char * fmt, va_list args){
+    
+    char * str;
+    int num;
+    
+    while (*fmt) {
+        switch(*fmt++) {
+            case 'u':                       /* user level */
+                str = va_arg(args,char*);
+                buildStr = userlevelBuilder(buildStr,str);
+                if(buildStr == NULL)
+                    LogError("userLevel was not correct");
+                break;
+            case 'p':                       /* password */
+                str = va_arg(args,char*);
+                buildStr = passwordBuilder(buildStr,str);
+                if(buildStr == NULL)
+                    LogError("password in argument builder failed.");
+                break;
+            case 'f':                       /* frequency */
+                num = va_arg(args,int);
+                buildStr = frequencyBuilder(buildStr,num);
+                if(buildStr == NULL)
+                    LogError("frequenc argument is not defined");
+                break;
+            case 'a':                       /* angular resolution */
+                num = va_arg(args,int);
+                buildStr = integerBuilder(buildStr, num);
+                if(buildStr == NULL)
+                    LogError("frequenc argument is not defined");
+                break;
+            default:
+                LogError("incorrectly formated character");
+                break;
+        }
+    }
+    END(buildStr)
+    
+    return buildStr;
+}
 
 // This function takes a general telegram and gets the hex code for it.
 char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, ... ) {
@@ -90,110 +213,118 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
     char * retStr = NULL;
     char * buildStr = NULL;
     int strLen = 0;
+    int angRes = 0;
+    char * fmt = NULL;
+    
+    int freq;
     
     va_list args;
     va_start(args,commEnum);
     
+    // Always sets the start of the telegram message to the specified enum values
+    retStr = buildStr = (char*) malloc(TelegramLengthArr[commEnum] * sizeof(char));
+    STRT(buildStr)
+    ADDSTR(buildStr,TelegramTypeArr[typeEnum],strLen)
+    SPC(buildStr)
+    ADDSTR(buildStr,TelegramCommArr[commEnum],strLen)
+    
     switch (commEnum) {
         case SetAccessMode:
             
-            retStr = buildStr = (char*) malloc(31*sizeof(char));
+            // defines the order in which arguments must be entered
+            fmt = strdup("up");
             
-            // Start
-            STRT(buildStr)
-            
-            // Add Telegram Type (3 characters)
-            ADDSTR(buildStr,TelegramTypeArr[typeEnum],strLen);
-            
-            //Adds a Space
-            SPC(buildStr)
-            
-            // Add Telegram Communication Type(varies)
-            ADDSTR(buildStr,TelegramCommArr[commEnum],strLen);
-            
-            // SPACE
-            SPC(buildStr)
-            
-            
-            // Adding the maintenance thing --> try and get this into a common method
-            char * userLevel = strdup(va_arg(args,char*));
-            
-            if(!strcmp(userLevel,"maintenance")){
-                PUT(buildStr,'0')
-                PUT(buildStr,'2')
-            } else if(!strcmp(userLevel,"client")){ // This class is tested
-                PUT(buildStr,'0')
-                PUT(buildStr,'3')
-            } else if(!strcmp(userLevel,"service")){
-                PUT(buildStr,'0')
-                PUT(buildStr,'4')
-            } else {
-                LogError("user level access incorrect");
-            }
-            
-            SPC(buildStr) // Adding Space character
-            
-            // Adding password to string
-            char * password = strdup(va_arg(args,char*));
-            ADDSTR(buildStr,password,strLen)
-            
-            // adds the end character
-            END(buildStr)
-            
-            // Free allocated space
-            free(password);
-            free(userLevel);
+            // Build all arguments that are added in va_list
+            buildStr = argumentBuilder(buildStr,fmt,args);
+
             break;
+            
         case mLMPsetscancfg:
-            retStr = buildStr = (char*) malloc(52*sizeof(char));
-            // Start
-            STRT(buildStr)
             
-            // Add Telegram Type (3 characters)
-            ADDSTR(buildStr,TelegramTypeArr[typeEnum],strLen);
+            fmt = strdup("");
             
-            //Adds a Space
-            SPC(buildStr)
-            
-            // Add Telegram Communication Type(varies)
-            ADDSTR(buildStr,TelegramCommArr[commEnum],strLen);
-            
-            // SPACE
-            SPC(buildStr)
 #ifdef _ULLID_SICK_LMS1XX_HEADER
             
-            // Check if LMS1XX is declared
-            if(!strcmp(mainLidar,"SICK_LMS1XX")){
-                // Set the Frequency
-                int freq = va_arg(args,int);
-                if(freq == 25){
-                    ADDSTR(buildStr,FrequencyArr[hz_25],strLen)
-                } else if (freq == 35) {
-                    ADDSTR(buildStr,FrequencyArr[hz_35],strLen)
-                } else if (freq == 50) {
-                    ADDSTR(buildStr,FrequencyArr[hz_50],strLen)
-                } else if (freq == 75) {
-                    ADDSTR(buildStr,FrequencyArr[hz_75],strLen)
-                } else if (freq == 100) {
-                    ADDSTR(buildStr,FrequencyArr[hz_100],strLen)
-                } else {
-                    LogError("failed to recognize freqenecy --> Default 50");
-                    ADDSTR(buildStr,FrequencyArr[hz_50],strLen)
-                }
+            // TODO --> Need to add the if() statement when adding a LMS1XX type lidar.
+            
+            fmt = strdup("");
+            
+            // Set Scan Frequency
+            freq = va_arg(args,int);
+            if(freq == 25){
+                ADDSTR(buildStr,IntegerEnumArr[PLUS_2500],strLen)
+            } else if (freq == 50) {
+                ADDSTR(buildStr,IntegerEnumArr[PLUS_5000],strLen)
+            } else {
+                LogError("failed to recognize freqenecy --> Default 50");
+                ADDSTR(buildStr,IntegerEnumArr[PLUS_2500],strLen)
             }
             
+            SPC(buildStr)
             
+            // Set active sector
+            ADDSTR(buildStr,IntegerEnumArr[PLUS_1],strLen)
+            SPC(buildStr)
+            
+            // Set angular resoluiton
+            angRes = va_arg(args,int);
+            if(angRes == 25){
+                ADDSTR(buildStr,IntegerEnumArr[PLUS_2500], strLen)
+                SPC(buildStr)
+            } else if (angRes == 50){
+                ADDSTR(buildStr,IntegerEnumArr[PLUS_5000], strLen)
+                SPC(buildStr)
+            } else {
+                ADDSTR(buildStr,IntegerEnumArr[PLUS_2500], strLen)
+                SPC(buildStr)
+                LogError("no angular resolution set for LMS1XX --> default 0.25 deg");
+            }
+            
+            // Set start angle
+            ADDSTR(buildStr,IntegerEnumArr[MIN_450000],strLen)
+            SPC(buildStr)
+            
+            // Set stop angle
+            ADDSTR(buildStr,IntegerEnumArr[PLUS_2250000],strLen)
             
 #endif
             
 #ifdef _ULLID_SICK_LMS5XX_HEADER
+            
+            // TODO --> Need to add the if() statement when adding a LMS5XX type lidar.
+            /*
+            freq = va_arg(args,int);
+            if(freq == 25){
+                ADDSTR(buildStr,FrequencyArr[hz_25],strLen)
+            } else if (freq == 35) {
+                ADDSTR(buildStr,FrequencyArr[HZ_35],strLen)
+            } else if (freq == 50) {
+                ADDSTR(buildStr,FrequencyArr[HZ_50],strLen)
+            } else if (freq == 75) {
+                ADDSTR(buildStr,FrequencyArr[HZ_75],strLen)
+            } else if (freq == 100) {
+                ADDSTR(buildStr,FrequencyArr[HZ_100],strLen)
+            } else {
+                LogError("failed to recognize freqenecy --> Default 50");
+                ADDSTR(buildStr,FrequencyArr[HZ_50],strLen)
+            }
+             */
+            
 #endif
+            END(buildStr)
             break;
         case LMPscancfg:
+            retStr = buildStr = (char*) malloc(16*sizeof(char));
+            STRT(buildStr)
+            ADDSTR(buildStr,TelegramTypeArr[typeEnum],strLen);
+            SPC(buildStr)
+            ADDSTR(buildStr,TelegramCommArr[commEnum],strLen);
+            END(buildStr)
             break;
         case LCMstate:
             break;
         case LMDscandatacfg:
+            
             break;
         case LMPoutputRange:
             break;
@@ -275,5 +406,7 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
     printf("%s\n",retStr);
     
     va_end(args);
+    
+    free(fmt);
     return retStr;
 }
