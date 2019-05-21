@@ -69,7 +69,7 @@ int sMN_SetAccessModeTest_CorrectStringProduced() {   // Test SetAccessMode --> 
 /**/
 int sMN_mLMPsetscancfgTest_CorrectStringProduct() {
     const char * correctStr = "\2sMN mLMPsetscancfg +2500 +1 +5000 -450000 +2250000\3";
-    char * testString = telegramBuilder(sMN,mLMPsetscancfg,25,50);
+    char * testString = telegramBuilder(sMN,mLMPsetscancfg,25,0.50);
     int result = strncmp(correctStr,testString,strlen(testString));
     if (result == 0) {
         LogTestResult(COMM_FORMAT_TEST_SET,__FUNCTION__,"PASSED", testString);

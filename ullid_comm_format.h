@@ -80,9 +80,12 @@ enum UserLevel {
 
 enum IntegerEnum {
     PLUS_1,
+    PLUS_1667,
     PLUS_2500,
+    PLUS_3333,
     PLUS_3500,
     PLUS_5000,
+    PLUS_6667,
     PLUS_7500,
     PLUS_10000,
     PLUS_2250000,

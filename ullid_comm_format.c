@@ -67,7 +67,7 @@ const char * TelegramCommArr[41] = {
 };
 
 int TelegramLengthArr[2] = {
-  31,52
+  31,52,16
 };
 
 const char * UserLevelArr[3] = {
@@ -78,11 +78,14 @@ const char * PasswordArr[3] = {
     "B21ACE26", "F4724744", "81BE23AA"
 };
 
-const char * IntegerEnumArr[8] = {
+const char * IntegerEnumArr[11] = {
     "+1",
+    "+1667",
     "+2500",
+    "+3333",
     "+3500",
     "+5000",
+    "+6667",
     "+7500",
     "+10000",
     "+2250000",
@@ -102,16 +105,23 @@ char * stringBuilder(char * buildStr, const char * str) {
     return buildStr;
 }
 
-char * integerBuilder(char * buildStr, int checkInt) {
+/**/
+char * angularResolutionBuilder(char * buildStr, double checkFloat) {
     int strLen = 0;
     SPC(buildStr)
-    
-    // TODO ... 
-    
+    if(checkFloat == 0.25) {
+        ADDSTR(buildStr,IntegerEnumArr[PLUS_2500],strLen)
+    } else if (checkFloat == 0.50) {
+        ADDSTR(buildStr,IntegerEnumArr[PLUS_5000],strLen)
+    } else {
+        LogError("angular resolution value is not correctly defined");
+        buildStr = NULL;
+    }
     return buildStr;
 }
 
-char * frequencyBuilder(char * buildStr, int checkInt) {
+/**/
+char * scanFrequencyBuilder(char * buildStr, int checkInt) {
     int strLen = 0;
     SPC(buildStr)
     if(checkInt == 1){
@@ -127,12 +137,13 @@ char * frequencyBuilder(char * buildStr, int checkInt) {
     } else if (checkInt == 100) {
         ADDSTR(buildStr,IntegerEnumArr[PLUS_10000],strLen)
     } else {
-        LogError("frequency value is not correctly defined");
+        LogError("angular resolution value is not correctly defined");
         buildStr = NULL;
     }
     return buildStr;
 }
 
+/**/
 char * passwordBuilder(char * buildStr, const char * checkStr) {
     int strLen = 0;
     SPC(buildStr)
@@ -149,6 +160,7 @@ char * passwordBuilder(char * buildStr, const char * checkStr) {
     return buildStr;
 }
 
+/**/
 char * userlevelBuilder(char * buildStr, const char * checkStr) {
     
     int strLen = 0;
@@ -170,6 +182,7 @@ char * argumentBuilder(char * buildStr, const char * fmt, va_list args){
     
     char * str;
     int num;
+    double dou;
     
     while (*fmt) {
         switch(*fmt++) {
@@ -187,22 +200,21 @@ char * argumentBuilder(char * buildStr, const char * fmt, va_list args){
                 break;
             case 'f':                       /* frequency */
                 num = va_arg(args,int);
-                buildStr = frequencyBuilder(buildStr,num);
+                buildStr = scanFrequencyBuilder(buildStr,num);
                 if(buildStr == NULL)
-                    LogError("frequenc argument is not defined");
+                    LogError("scan frequency argument is not defined");
                 break;
-            case 'a':                       /* angular resolution */
-                num = va_arg(args,int);
-                buildStr = integerBuilder(buildStr, num);
+            case 'a':
+                dou = va_arg(args,double);
+                buildStr = angularResolutionBuilder(buildStr,dou);
                 if(buildStr == NULL)
-                    LogError("frequenc argument is not defined");
+                    LogError("angular resolution argument not defined");
                 break;
             default:
                 LogError("incorrectly formated character");
                 break;
         }
     }
-    END(buildStr)
     
     return buildStr;
 }
@@ -213,10 +225,9 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
     char * retStr = NULL;
     char * buildStr = NULL;
     int strLen = 0;
-    int angRes = 0;
     char * fmt = NULL;
-    
-    int freq;
+    int tmpInt = 0;
+    double tmpDouble = 0.0;
     
     va_list args;
     va_start(args,commEnum);
@@ -237,80 +248,33 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
             // Build all arguments that are added in va_list
             buildStr = argumentBuilder(buildStr,fmt,args);
 
+            END(buildStr)
             break;
             
         case mLMPsetscancfg:
             
-            fmt = strdup("");
-            
 #ifdef _ULLID_SICK_LMS1XX_HEADER
             
             // TODO --> Need to add the if() statement when adding a LMS1XX type lidar.
-            
-            fmt = strdup("");
-            
-            // Set Scan Frequency
-            freq = va_arg(args,int);
-            if(freq == 25){
-                ADDSTR(buildStr,IntegerEnumArr[PLUS_2500],strLen)
-            } else if (freq == 50) {
-                ADDSTR(buildStr,IntegerEnumArr[PLUS_5000],strLen)
-            } else {
-                LogError("failed to recognize freqenecy --> Default 50");
-                ADDSTR(buildStr,IntegerEnumArr[PLUS_2500],strLen)
-            }
-            
+            tmpInt = va_arg(args,int);
+            buildStr = scanFrequencyBuilder(buildStr,tmpInt);
             SPC(buildStr)
-            
-            // Set active sector
             ADDSTR(buildStr,IntegerEnumArr[PLUS_1],strLen)
+            tmpDouble = va_arg(args,double);
+            buildStr = angularResolutionBuilder(buildStr,tmpDouble);
             SPC(buildStr)
-            
-            // Set angular resoluiton
-            angRes = va_arg(args,int);
-            if(angRes == 25){
-                ADDSTR(buildStr,IntegerEnumArr[PLUS_2500], strLen)
-                SPC(buildStr)
-            } else if (angRes == 50){
-                ADDSTR(buildStr,IntegerEnumArr[PLUS_5000], strLen)
-                SPC(buildStr)
-            } else {
-                ADDSTR(buildStr,IntegerEnumArr[PLUS_2500], strLen)
-                SPC(buildStr)
-                LogError("no angular resolution set for LMS1XX --> default 0.25 deg");
-            }
-            
-            // Set start angle
-            ADDSTR(buildStr,IntegerEnumArr[MIN_450000],strLen)
+            ADDSTR(buildStr,IntegerEnumArr[MIN_450000],strLen);
             SPC(buildStr)
-            
-            // Set stop angle
-            ADDSTR(buildStr,IntegerEnumArr[PLUS_2250000],strLen)
+            ADDSTR(buildStr,IntegerEnumArr[PLUS_2250000],strLen);
             
 #endif
             
 #ifdef _ULLID_SICK_LMS5XX_HEADER
             
-            // TODO --> Need to add the if() statement when adding a LMS5XX type lidar.
-            /*
-            freq = va_arg(args,int);
-            if(freq == 25){
-                ADDSTR(buildStr,FrequencyArr[hz_25],strLen)
-            } else if (freq == 35) {
-                ADDSTR(buildStr,FrequencyArr[HZ_35],strLen)
-            } else if (freq == 50) {
-                ADDSTR(buildStr,FrequencyArr[HZ_50],strLen)
-            } else if (freq == 75) {
-                ADDSTR(buildStr,FrequencyArr[HZ_75],strLen)
-            } else if (freq == 100) {
-                ADDSTR(buildStr,FrequencyArr[HZ_100],strLen)
-            } else {
-                LogError("failed to recognize freqenecy --> Default 50");
-                ADDSTR(buildStr,FrequencyArr[HZ_50],strLen)
-            }
-             */
+ 
             
 #endif
+            
             END(buildStr)
             break;
         case LMPscancfg:
@@ -324,9 +288,14 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
         case LCMstate:
             break;
         case LMDscandatacfg:
-            
             break;
         case LMPoutputRange:
+            SPC(buildStr)
+            PUT(buildStr,'1')
+            SPC(buildStr)
+            tmpDouble = va_arg(args,double);
+            buildStr = angularResolutionBuilder(buildStr,tmpDouble);
+            
             break;
         case LMDscandata:
             break;
