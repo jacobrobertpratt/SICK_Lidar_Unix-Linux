@@ -1,6 +1,0 @@
-Test 1) CommunicationFormatTestSet - sMN_SetAccessModeTest_CorrectStringProduced --> PASSED
-	Actual: sMN SetAccessMode 03 F4724744
-Test 2) CommunicationFormatTestSet - sMN_mLMPsetscancfgTest_CorrectStringProduct --> PASSED
-	Actual: sMN mLMPsetscancfg +2500 +1 +5000 -450000 +2250000
-Test 3) CommunicationFormatTestSet - sMN_LMPscancfgTest_CorrectStringProduct --> PASSED
-	Actual: sRN LMPscancfg
