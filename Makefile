@@ -1,10 +1,10 @@
 CC=gcc
 CFLAGS=-c -Wall
 LDFLAGS=
-SOURCES=ullid_test.c ullid_comm_format.c ullid_error.c ullid_utility.c
+SOURCES=ullid.c ullid_comm_format.c ullid_error.c ullid_utility.c ullid_connection_tcp.c
 OBJECTS=$(SOURCES:.c=.o)
-EXECUTABLE=ullid_test
-FILES=*Log.txt 
+EXECUTABLE=ullid
+FILES=
 
 all: $(SOURCES) $(EXECUTABLE)
     

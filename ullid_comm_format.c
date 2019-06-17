@@ -66,7 +66,7 @@ const char * TelegramCommArr[41] = {
     "LMCstopmeas"
 };
 
-int TelegramLengthArr[2] = {
+int TelegramLengthArr[3] = {
   31,52,16
 };
 
@@ -114,7 +114,7 @@ char * angularResolutionBuilder(char * buildStr, double checkFloat) {
     } else if (checkFloat == 0.50) {
         ADDSTR(buildStr,IntegerEnumArr[PLUS_5000],strLen)
     } else {
-        LogError("angular resolution value is not correctly defined");
+        // Log error
         buildStr = NULL;
     }
     return buildStr;
@@ -137,7 +137,7 @@ char * scanFrequencyBuilder(char * buildStr, int checkInt) {
     } else if (checkInt == 100) {
         ADDSTR(buildStr,IntegerEnumArr[PLUS_10000],strLen)
     } else {
-        LogError("angular resolution value is not correctly defined");
+        // Log error
         buildStr = NULL;
     }
     return buildStr;
@@ -154,7 +154,7 @@ char * passwordBuilder(char * buildStr, const char * checkStr) {
     } else if (!strcmp(checkStr,"81BE23AA")) {
         ADDSTR(buildStr,PasswordArr[Service],strLen)
     } else {
-        LogError("inccorect password entered.");
+        // Log error
         buildStr = NULL;
     }
     return buildStr;
@@ -172,7 +172,7 @@ char * userlevelBuilder(char * buildStr, const char * checkStr) {
     } else if(!strcmp(checkStr,"service")) {
         ADDSTR(buildStr,UserLevelArr[Service],strLen)
     } else {
-        LogError("incorrect user level entered.");
+        // Log error
         buildStr = NULL;
     }
     return buildStr;
@@ -190,28 +190,28 @@ char * argumentBuilder(char * buildStr, const char * fmt, va_list args){
                 str = va_arg(args,char*);
                 buildStr = userlevelBuilder(buildStr,str);
                 if(buildStr == NULL)
-                    LogError("userLevel was not correct");
+                    // Log error
                 break;
             case 'p':                       /* password */
                 str = va_arg(args,char*);
                 buildStr = passwordBuilder(buildStr,str);
                 if(buildStr == NULL)
-                    LogError("password in argument builder failed.");
+                   // Log error
                 break;
             case 'f':                       /* frequency */
                 num = va_arg(args,int);
                 buildStr = scanFrequencyBuilder(buildStr,num);
                 if(buildStr == NULL)
-                    LogError("scan frequency argument is not defined");
+                   // Log error
                 break;
             case 'a':
                 dou = va_arg(args,double);
                 buildStr = angularResolutionBuilder(buildStr,dou);
                 if(buildStr == NULL)
-                    LogError("angular resolution argument not defined");
+                    // Log error
                 break;
             default:
-                LogError("incorrectly formated character");
+               // Log error
                 break;
         }
     }
@@ -226,7 +226,6 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
     char * buildStr = NULL;
     int strLen = 0;
     char * fmt = NULL;
-    int tmpInt = 0;
     double tmpDouble = 0.0;
     
     va_list args;
@@ -368,7 +367,7 @@ char * telegramBuilder(enum TelegramType typeEnum, enum TelegramComm commEnum, .
         case LMCstopmeas:
             break;
         default:
-            LogError("incorrect communicaton format type");
+            // Log error
             break;
     }
     

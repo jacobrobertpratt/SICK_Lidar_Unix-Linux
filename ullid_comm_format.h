@@ -4,7 +4,6 @@
 #define _ULLID_COMM_FORMAT_HEADER
 
 #include "ullid_error.h"
-#include "ullid_sick_LMS1xx.h"
 
 // Macros that are used to simplify the code
 #define STRT(a)         *a=0x02;a++;

@@ -3,15 +3,32 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <stdarg.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
-char * errorLogName;
+/* ErrorLog */
+typedef struct ErrorLog {
+    FILE * file;
+    char * path;
+    int count;
+} ErrorLog;
 
-FILE * errorLogFile;
+/*  CreateErrorLog
+    Creates the directory and error log file.
+    Saves important information to ErrorLog struct.
+ Returns: <not yet documented >*/
+int CreateErrorLog(ErrorLog * log, const char * directory, const char * name);
 
-int ConstructErrorLog(const char * fileName);
+/*  DestroyErrorLog
+    */
+int DestroyErrorLog(ErrorLog * log);
 
-int DestructErrorLog();
+/* LogError */
+int LogError(ErrorLog * log, const char * msg, const char * file, int line);
 
-int LogError(const char * errorMessage);
+/* PrintErrorLog */
+void PrintErrorLog(ErrorLog * log);
 
 #endif
