@@ -9,17 +9,16 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#include "ullid_connection_tcp.h"
-
-
+#include "ulid_tcp_conn.h"
 
 /*  */
-int CreateTCPConnection(TcpSocket * sock) {
+int CreateTCPConnection(tcp_socket_t * sock) {
     
     // Create a socket
     sock->sockid = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     if(sock->sockid < 0){
         // log error
+        printf("ERROR: Socket failed to initialize --> %s   @   %d\n", __FUNCTION__, __LINE__);
         return 1;
     }
     
@@ -40,37 +39,9 @@ int CreateTCPConnection(TcpSocket * sock) {
     return 0;
 }
 
-
-
 /*  */
-int DestroyTCPConnection(TcpSocket * sock) {
+int DestroyTCPConnection(tcp_socket_t * sock) {
     if(!sock->sockid)
         close(sock->sockid);
-    return 0;
-}
-
-
-
-/*  */
-int TCPMessage(TcpSocket * sock, char * sendMsg, char * recvMsg) {
-   
-    // Check if parameters have value
-    if(sock == NULL || sendMsg == NULL) {
-        // log error
-        return 1;
-    }
-    
-    // Send message to connection
-    if(send(sock->sockid,sendMsg,sizeof(sendMsg),0)<0){
-        // log error
-        return 2;
-    }
-    
-    // Recieve message from connection
-    if(recv(sock->sockid,recvMsg,sizeof(recvMsg),0)<0){
-        // log error
-        return 3;
-    }
-    
     return 0;
 }

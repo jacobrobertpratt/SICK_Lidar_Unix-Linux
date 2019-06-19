@@ -1,5 +1,5 @@
-#ifndef __ULLID_CONNECTION_TCP__
-#define __ULLID_CONNECTION_TCP__
+#ifndef __ULID_TCP_CONNECTION__
+#define __ULID_TCP_CONNECTION__
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,20 +12,18 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-/*  */
+
 typedef struct {
     int sockid, port;
     struct sockaddr_in addr;
-    char * ip;
-} TcpSocket;
+    char ip[16];
+} tcp_socket_t;
 
 /*  */
-int CreateTCPConnection(TcpSocket * sock);
+int CreateTCPConnection(tcp_socket_t * sock);
 
 /*  */
-int DestroyTCPConnection(TcpSocket * sock);
+int DestroyTCPConnection(tcp_socket_t * sock);
 
-/*  */
-int TCPMessage(TcpSocket * sock, char * sendMsg, char * recvMsg);
 
 #endif

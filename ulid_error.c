@@ -1,9 +1,9 @@
 #include <string.h>
 
-#include "ullid_error.h"
+#include "ulid_error.h"
 
 // Create Log
-int CreateErrorLog(ErrorLog * log, const char * directory, const char * name) {
+int CreateErrorLog(error_log_t * log, const char * directory, const char * name) {
     
     // current time yyyy_mm_dd format
     time_t rawtime = time(NULL);
@@ -28,7 +28,7 @@ int CreateErrorLog(ErrorLog * log, const char * directory, const char * name) {
 }
 
 // destroy error log
-int DestroyErrorLog(ErrorLog * log) {
+int DestroyErrorLog(error_log_t * log) {
     
     if(log->file)
         fclose(log->file);
@@ -40,13 +40,13 @@ int DestroyErrorLog(ErrorLog * log) {
 }
 
 // print to error log
-int LogError(ErrorLog * log, const char * msg, const char * file, int line) {
+int LogError(error_log_t * log, const char * msg, const char * file, int line) {
     log->count++;
     // Add in time functionality here
     fprintf(log->file,"%d) ERROR: %s \t file: %s -->\t line: %d \n",log->count,msg,file,line);
     return 0;
 }
 
-void PrintErrorLog(ErrorLog * log) {
+void PrintErrorLog(error_log_t * log) {
     
 }

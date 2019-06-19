@@ -1,5 +1,5 @@
-#ifndef _ULLID_ERROR_HEADER
-#define _ULLID_ERROR_HEADER
+#ifndef _ULLID_ERROR__
+#define _ULLID_ERROR__
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,22 +13,21 @@ typedef struct ErrorLog {
     FILE * file;
     char * path;
     int count;
-} ErrorLog;
+} error_log_t;
 
 /*  CreateErrorLog
     Creates the directory and error log file.
     Saves important information to ErrorLog struct.
  Returns: <not yet documented >*/
-int CreateErrorLog(ErrorLog * log, const char * directory, const char * name);
+int CreateErrorLog(error_log_t * log, const char * directory, const char * name);
 
-/*  DestroyErrorLog
-    */
-int DestroyErrorLog(ErrorLog * log);
+/*  DestroyErrorLog */
+int DestroyErrorLog(error_log_t * log);
 
 /* LogError */
-int LogError(ErrorLog * log, const char * msg, const char * file, int line);
+int LogError(error_log_t * log, const char * msg, const char * file, int line);
 
 /* PrintErrorLog */
-void PrintErrorLog(ErrorLog * log);
+void PrintErrorLog(error_log_t * log);
 
 #endif

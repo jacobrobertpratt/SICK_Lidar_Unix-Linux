@@ -1,7 +1,7 @@
 
 #include <string.h>
 
-#include "ullid_utility.h"
+#include "ulid_utility.h"
 
 /*
  printHex:
