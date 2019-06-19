@@ -1,18 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-
+#include "ulid_common.h"
 #include "ulid_tcp_conn.h"
 
-/*  */
-int CreateTCPConnection(tcp_socket_t * sock) {
+/*********************** TO IMPROVE ******************************
+ *
+ *  1)  Work on timeout checks --> approx 30 seconds try again 10x
+ *  2)  ...
+ *
+ ****************************************************************/
+
+
+
+int CreateTCPConnection(TcpSocket * sock) {
     
     // Create a socket
     sock->sockid = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -32,7 +30,7 @@ int CreateTCPConnection(tcp_socket_t * sock) {
     
     // Connect socket to the Lidar
     if(connect(sock->sockid, (struct sockaddr *)(&sock->addr), sizeof(sock->addr)) < 0) {
-        // log error
+        // error log
         return 2;
     }
     
@@ -40,8 +38,10 @@ int CreateTCPConnection(tcp_socket_t * sock) {
 }
 
 /*  */
-int DestroyTCPConnection(tcp_socket_t * sock) {
+int DestroyTCPConnection(TcpSocket * sock) {
     if(!sock->sockid)
         close(sock->sockid);
     return 0;
 }
+
+

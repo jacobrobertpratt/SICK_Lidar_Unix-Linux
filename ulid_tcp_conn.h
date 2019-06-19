@@ -1,6 +1,6 @@
 #ifndef __ULID_TCP_CONNECTION__
 #define __ULID_TCP_CONNECTION__
-
+/*
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,19 +11,16 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+*/
 
-
-typedef struct {
-    int sockid, port;
-    struct sockaddr_in addr;
-    char ip[16];
-} tcp_socket_t;
+#include "ulid_common.h"
 
 /*  */
-int CreateTCPConnection(tcp_socket_t * sock);
+int CreateTCPConnection(TcpSocket * sock);
 
 /*  */
-int DestroyTCPConnection(tcp_socket_t * sock);
+int DestroyTCPConnection(TcpSocket * sock);
+
 
 
 #endif

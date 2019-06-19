@@ -1,10 +1,7 @@
 #ifndef _ULLID_UTILITY_HEADER
 #define _ULLID_UTILITY_HEADER
 
-#include <stdio.h>
-#include <stdlib.h>
-
-
+#include "ulid_common.h"
 
 // This prints out the Hex Values of a given string
 int printHex(const char * str);

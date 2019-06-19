@@ -1,16 +1,10 @@
-#include <stdio.h>
 
-#include "ulid_lidar.h"
-#include "ulid_sopas_comm.h"
+#include "ulid_common.h"
 
 int main(int argc, char * argv[]) {
     
-    lidar_t one;
-    InitializeLidarDevice(&one,TIM551);
-    
-    SOPAS_ReadScanConfig(one.sock.sockid);
-    
-    DestroyLidarDevice(&one);
+    Lidar lidar;
+    InitializeLidarDevice(&lidar,TIM551);
     
     return 0;
 }

@@ -8,11 +8,10 @@ char * PasswordArr[3] = {
     "B21ACE26", "F4724744", "81BE23AA"
 };
 
-
-
+/************************ SHARED SOPAS FUNCTIONS ************************/
 
 /*  SOPAS_LogIn */
-int SOPAS_LogIn(int sock_id, enum UserLevel level) {
+int SOPAS_LogIn(int sock_id, UserLevel level) {
     
     int check;
     char outMsg[31];
