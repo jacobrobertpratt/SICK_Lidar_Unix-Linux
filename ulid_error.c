@@ -1,6 +1,20 @@
 
 #include "ulid_error.h"
 
+
+
+
+
+/*  Sets the function that will deallocate memory before the system is forced to shut down. */
+void SetKillProcessCallback(int (*callback)(Lidar*)) {
+    printf("Entered: %s\n",__FUNCTION__);   // callback test
+    killProcess_callback = callback;
+}
+
+
+
+
+
 // Create Log
 int CreateErrorLog(Lidar * lidar) {
     
@@ -23,14 +37,9 @@ int CreateErrorLog(Lidar * lidar) {
     return 0;
 }
 
-void SetKillProcessCallback(int (*callback)(Lidar*)) {
-    printf("Entered: %s\n",__FUNCTION__);
-    killProcess_callback = callback;
-}
-
 // destroy error log
 int DestroyErrorLog(Lidar * lidar) {
-    printf("Entered: %s\n",__FUNCTION__);
+    printf("Entered: %s\n",__FUNCTION__);   // callback test
     fclose(lidar->errorLog.file);
     return 0;
 }

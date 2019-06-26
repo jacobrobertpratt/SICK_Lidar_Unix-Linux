@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-c -Wall
 LDFLAGS=
-SOURCES=ulid.c ulid_lidar.c ulid_error.c ulid_utility.c ulid_tcp_conn.c ulid_sopas_comm.c ulid_common.c
+SOURCES=ulid.c ulid_lidar.c ulid_error.c ulid_utility.c ulid_tcp_conn.c ulid_sopas_comm.c ulid_common.c ulid_sick_tim551.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=ulid
 FILES=

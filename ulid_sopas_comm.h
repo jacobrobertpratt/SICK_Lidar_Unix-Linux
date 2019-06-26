@@ -3,23 +3,62 @@
 
 #include "ulid_common.h"
 
-/*  User Level Enumorator
-    This is used to log in and specify the userlevel of the SOPAS device.
-    Not a direct association with a device it will need to be specified. */
-typedef enum UserLevel {
-    MAINTENENCE,
-    CLIENT,
-    SERVICE
-} UserLevel;
-
-/************************ SHARED SOPAS FUNCTIONS ************************/
+/*  */
+typedef enum command_t {
+    READ,
+    WRITE,
+    METHOD,
+    EVENT
+} Command;
 
 /*  */
-int SOPAS_LogIn(int sock_id, enum UserLevel level);
+typedef enum subject_t {
+    LOGIN,
+    mLMPsetscancfg,
+    LMPscancfg,
+    LCMstate,
+    LMDscandatacfg,
+    LMPoutputRange,
+    LMDscandata,
+    LSPsetdatetime,
+    STlms,
+    mEEwriteall,
+    Run,
+    LFPparticle,
+    LFPmeanfilter,
+    LFPnto1filter,
+    FREchoFilter,
+    MSsuppmode,
+    LICsrc,
+    LICencset,
+    LICencres,
+    LICFixVel,
+    LICSpTh,
+    LICencsp,
+    LIDoutputstate,
+    mDOSetOutput,
+    DO6Fnc,
+    DO3And4Fnc,
+    LIDrstoutpcnt,
+    DeviceIdent,
+    SCdevicestate,
+    LocationName,
+    ODoprh,
+    ODpwrc,
+    EIIpAddr,
+    mSCloadfacdef,
+    mSCreboot,
+    LCMcfg,
+    SYPhase,
+    LMLfpFcn,
+    LMCstandby,
+    LMCstartmeas,
+    LMCstopmeas
+} Subject;
 
-/*  */
-int SOPAS_ReadScanConfig(int sock_id);
+char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject);
 
+char * SOPAS_EncodeMessage(Lidar * lidar, Command command, Subject subject);
 
 
 #endif

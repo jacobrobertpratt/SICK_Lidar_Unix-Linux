@@ -2,8 +2,9 @@
 
 /*  */
 int DestroyLidarDevice(Lidar * lidar) {
-    printf("Entered: %s\n",__FUNCTION__);
-    DestroyErrorLog(lidar);
+    printf("Entered: %s\n",__FUNCTION__); // callback test
+    // use callback to destroy error log
+    // use callback to destroy tcp connection
     return 0;
 }
 
@@ -12,24 +13,16 @@ int DestroyLidarDevice(Lidar * lidar) {
 int InitializeLidarDevice(Lidar * lidar, Device device) {
     switch(device){
         case TIM551:
-            lidar->model = device;
-            // Below needs to be put in an init file //
-            lidar->scan_freq = 15;
-            lidar->active_sectors = 1;
-            lidar->ang_res = 1;
-            lidar->start_ang = -45;
-            lidar->stop_ang = 225;
-            strcpy(lidar->errorLog.path,"./");
-            strcpy(lidar->errorLog.name,"error_log");
-            CreateErrorLog(lidar);
-            SetKillProcessCallback(DestroyLidarDevice); // If an error occurs then the callback calls the destroyLidarDevice function
-            LogError(lidar,"test message",__FILE__,__LINE__);
+            SICK_InitializeTim551(lidar); // Sets callbacks for TIM551 specific functions
+            // Initialize error messaging --> set error callbacks
+            // Initialize TCP Connections --> set tcp callbacks
+            // Initialize SOPAS Commands --> set sopas callbacks
             break;
         case LMS511:
             // TODO -->
             break;
         default:
-            printf("ERROR: lidar device doesn't exist --> %s   @   %d\n",__FILE__,__LINE__);
+            printf("printf - ERROR: lidar device doesn't exist --> %s   @   %d\n",__FILE__,__LINE__);
             return 1;
     }
     return 0;

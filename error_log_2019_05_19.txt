@@ -1,2 +1,0 @@
-1. ERROR: test message  -->  file: ulid_lidar.c 	 line: 26 
-1. ERROR: test message  -->  file: ulid_lidar.c 	 line: 26 

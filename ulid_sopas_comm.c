@@ -1,71 +1,215 @@
 #include "ulid_sopas_comm.h"
 
+const char * CommandArr[4] = {
+  "sRN","sWN","sMN","sEN"
+};
+
+const char * SubjectArr[41] = {
+    "SetAccessMode",
+    "mLMPsetscancfg",
+    "LMPscancfg",
+    "LMDscandatacfg",
+    "LMPoutputRange",
+    "LMDscandata",
+    "LSPsetdatetime",
+    "STlms",
+    "mEEwriteall",
+    "Run",
+    "LFPparticle",
+    "LFPmeanfilter",
+    "LFPnto1filter",
+    "FREchoFilter",
+    "MSsuppmode",
+    "LICsrc",
+    "LICencset",
+    "LICencres",
+    "LICFixVel",
+    "LICSpTh",
+    "LICencsp",
+    "LIDoutputstate",
+    "mDOSetOutput",
+    "DO6Fnc",
+    "DO3And4Fnc",
+    "LIDrstoutpcnt",
+    "DeviceIdent",
+    "SCdevicestate",
+    "LocationName",
+    "ODoprh",
+    "ODpwrc",
+    "EIIpAddr",
+    "mSCloadfacdef",
+    "mSCreboot",
+    "LCMcfg",
+    "SYPhase",
+    "LMLfpFcn",
+    "LMCstandby",
+    "LMCstartmeas",
+    "LMCstopmeas"
+};
+
+int outMsgSize[1] = {
+    31
+};
+
+int retMsgSize[1] = {
+    21
+};
+
 const char * UserLevelArr[3] = {
     "02","03","04"
 };
 
+// Possible to cause a problem since the password and user level are defined in the ulid_common.h
 char * PasswordArr[3] = {
-    "B21ACE26", "F4724744", "81BE23AA"
+    "B21ACE26",
+    "F4724744",
+    "81BE23AA"
 };
 
-/************************ SHARED SOPAS FUNCTIONS ************************/
-
-/*  SOPAS_LogIn */
-int SOPAS_LogIn(int sock_id, UserLevel level) {
+char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
     
-    int check;
-    char outMsg[31];
-    char retMsg[21];
-    bzero(outMsg,sizeof(outMsg));
-    bzero(retMsg,sizeof(retMsg));
+    char * outStr = NULL;
+    int msgSize = 0;
     
-    // Build string
-    snprintf(outMsg,31,"\2sMN SetAccessMode %s %s\3",UserLevelArr[level],PasswordArr[level]);
-    //printf("outMsg: %s\n", outMsg);
-    
-    // Send Message
-    if(send(sock_id, outMsg, sizeof(outMsg), 0) < 0){
-        perror("ERROR: ");
+    switch (subject) {
+        case LOGIN:
+            // Calculate size
+            msgSize = strlen(SubjectArr[subject]) + strlen(UserLevelArr[lidar->userLevel])      \
+            + strlen(PasswordArr[lidar->userLevel]) + 1;
+            // allocate memory
+            outStr = (char*) malloc(msgSize * sizeof(char));
+            // set string
+            sprintf(outStr,"%s %s %s",SubjectArr[subject],UserLevelArr[lidar->userLevel],PasswordArr[lidar->userLevel]);
+            break;
+        case mLMPsetscancfg:
+            // Check lidar device for compatability
+            // Calculate size
+            // Allocate memory
+            // Set string
+            break;
+        case LMPscancfg:
+            
+            break;
+        case LCMstate:
+            
+            break;
+        case LMDscandatacfg:
+            
+            break;
+        case LMPoutputRange:
+            
+            break;
+        case LMDscandata:
+            
+            break;
+        case LSPsetdatetime:
+            
+            break;
+        case STlms:
+            
+            break;
+        case mEEwriteall:
+            
+            break;
+        case Run:
+            
+            
+            break;
+        case LFPparticle:
+            break;
+        case LFPmeanfilter:
+            break;
+        case LFPnto1filter:
+            break;
+        case FREchoFilter:
+            break;
+        case MSsuppmode:
+            break;
+        case LICsrc:
+            break;
+        case LICencset:
+            break;
+        case LICencres:
+            break;
+        case LICFixVel:
+            break;
+        case LICSpTh:
+            break;
+        case LICencsp:
+            break;
+        case LIDoutputstate:
+            break;
+        case mDOSetOutput:
+            break;
+        case DO6Fnc:
+            break;
+        case DO3And4Fnc:
+            break;
+        case LIDrstoutpcnt:
+            break;
+        case DeviceIdent:
+            break;
+        case SCdevicestate:
+            break;
+        case LocationName:
+            break;
+        case ODoprh:
+            break;
+        case ODpwrc:
+            break;
+        case EIIpAddr:
+            break;
+        case mSCloadfacdef:
+            break;
+        case mSCreboot:
+            break;
+        case LCMcfg:
+            break;
+        case SYPhase:
+            break;
+        case LMLfpFcn:
+            break;
+        case LMCstandby:
+            break;
+        case LMCstartmeas:
+            break;
+        case LMCstopmeas:
+            break;
+        default:
+            // Log error -->
+            break;
     }
-    
-    // Recv Message
-    check = recv(sock_id, retMsg, sizeof(retMsg), 0);
-    if(check < 0){
-        perror("ERROR :");
-    }
-    
-    // Check Message --> TODO
-    printf("ret: %s\n",retMsg);
-    
-    return 0;
+    return outStr;
 }
 
+// Make a method to generate string ... verbose? NO ... pulls information from Lidar Struct
+    // Ex. foo1(lidar,METHOD,LOGIN); --> Logs into the lidar
+    // Ex. foo2(lidar,METHOD,START_MEASURMENT);
+    // ...
 
+// 1) for - loop to get command string
+// 2) for - loop to get
 
-
-/*  SOPAS Read Scan Configuraiton */
-int SOPAS_ReadScanConfig(int sock_id) {
+/*  SOPAS_EncodeMessage
+    Must free memory after recieved. Wise to allocate specific local string and free this right away. */
+char * SOPAS_EncodeMessage(Lidar * lidar, Command command, Subject subject) {
     
-    int check;
-    char outMsg[1024];
-    char retMsg[1024];
-    bzero(outMsg,sizeof(outMsg));
-    bzero(retMsg,sizeof(retMsg));
+    char * tmp_msg = SOPAS_BuildSubjectString(lidar,subject);
     
-    strcpy(outMsg,"\2sRN LMPscancfg\3");
+    int msgLen = strlen(tmp_msg) + 5;
     
-    send(sock_id,outMsg,sizeof(outMsg),0);
-    check = recv(sock_id,retMsg,sizeof(retMsg),0);
-    if(check < 0){
-        perror("ERROR :");
-    }
+    // Allocate memory
+    char * outMsg = (char*) malloc(msgLen * sizeof(char));
+    if(!outMsg)
+        printf("ERROR: outMsg failed to allocate memory --> %s   @   %d\n", __FUNCTION__, __LINE__);
     
-    // Check Message --> TODO
-    printf("ret: %s\n",retMsg);
-    return 0;
+    // build the strings
+    sprintf(outMsg,"\2%s %s\3",CommandArr[command],tmp_msg);
+    
+    // Free memory after string is set
+    free(tmp_msg);
+    
+    //printf("outMsg(%lu): %s\n",strlen(outMsg),outMsg);
+    return outMsg;
 }
-
-
-
-/*  */
 
