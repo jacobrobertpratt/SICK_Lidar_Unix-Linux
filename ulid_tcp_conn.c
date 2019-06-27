@@ -9,7 +9,9 @@
  ****************************************************************/
 
 
-
+/*  Create TCP Connection
+    Creates a TCP connection and returns
+    returns 1 if socket fails, 2 if connection fails and 0 upon success. */
 int CreateTCPConnection(TcpSocket * sock) {
     
     // Create a socket
@@ -44,4 +46,20 @@ int DestroyTCPConnection(TcpSocket * sock) {
     return 0;
 }
 
-
+/*  */
+int ExchangeTCPMessage(TcpSocket * sock, Message * packet) {
+    
+    if(send(sock->sockid, packet->outMsg, sizeof(packet->outMsg), 0) == -1){
+        // error message
+        printf("ERROR: send message failed --> %s   at    %d\n", __FUNCTION__, __LINE__);
+        return 1;
+    }
+    
+    if(recv(sock->sockid, packet->retMsg, sizeof(packet->retMsg), 0) < 0){
+        // Error message
+        printf("ERROR: recv message failed --> %s   at    %d\n", __FUNCTION__, __LINE__);
+        return 2; // Would like to, at some point, check the global errno that is set
+    }
+    
+    return 0;
+}

@@ -65,13 +65,10 @@ typedef enum subject_t {
     LMC_STOP
 } Subject;
 
-
-int SOPAS_NumberToString(char * str, int number);
-
-char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject);
-
+/*  */
 char * SOPAS_EncodeMessage(Lidar * lidar, Command command, Subject subject);
 
+/*  */
 int SOPAS_DecodeMessage(char * message);
 
 #endif

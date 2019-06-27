@@ -52,14 +52,6 @@ const char * SubjectArr[41] = {
     "LMCstopmeas"
 };
 
-int outMsgSize[1] = {
-    31
-};
-
-int retMsgSize[1] = {
-    21
-};
-
 const char * UserLevelArr[3] = {
     "02","03","04"
 };
@@ -72,8 +64,8 @@ char * PasswordArr[3] = {
 };
 
 /*  Number to String
-    Returns 1 if number is 0.*/
-int SOPAS_NumberToString(char * str, int number) {
+    Returns 1 if number is 0.
+static int SOPAS_NumberToString(char * str, int number) {
     
     if(number == 0){
         // Error --> TODO
@@ -85,8 +77,9 @@ int SOPAS_NumberToString(char * str, int number) {
     }
     return 0;
 }
+ */
 
-char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
+static char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
     
     char * outStr = NULL;
     int msgSize = 0;

@@ -28,12 +28,16 @@ typedef struct errorLog_t {
     int count;
 } ErrorLog;
 
+
+
 /*  TCP Socket structure */
 typedef struct tcpSocket_t {
     int sockid, port;
     struct sockaddr_in addr;
     char ip[16];
 } TcpSocket;
+
+
 
 /*  Device is an enum of all available devices */
 typedef enum device_t {
@@ -42,13 +46,20 @@ typedef enum device_t {
     MRS1000
 } Device;
 
+
+
+
 /*  Callbacks */
 typedef struct callbacks_t {
+    //int (*errorMessage)(struct lidar_t * lidar, const char * msg, const char * file, int line);  // --> setting error message callback
     int (*setScanFrequency)(struct lidar_t * lidar, int freq);
     int (*setAngularResolution)(struct lidar_t * lidar, int resolution);
     int (*setStartAngle)(struct lidar_t * lidar, int angle);
     int (*setStopAngle)(struct lidar_t * lidar, int angle);
 } Callbacks;
+
+
+
 
 /*  User Level Enumorator
  This is used to log in and specify the userlevel of the SOPAS device.
@@ -58,6 +69,9 @@ typedef enum userlevel_t {
     CLIENT,
     SERVICE
 } UserLevel;
+
+
+
 
 /*  Lidar general */
 typedef struct lidar_t {
@@ -74,10 +88,15 @@ typedef struct lidar_t {
     Callbacks callbacks;
 } Lidar;
 
+
+
+
 /*  Message packet that can be passed around */
 typedef struct message_t {
-    char * outMsg;
-    char * retMsg;
+    // would like to make this a pointer not array but need a function to initialize it same with outMsg;
+    char outMsg[100];
+    char retMsg[100000];
+    //int outMsgSize, retMsgSize;
 } Message;
 
 /****************** MACROS ******************/

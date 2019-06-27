@@ -21,6 +21,7 @@ int CreateTCPConnection(TcpSocket * sock);
 /*  */
 int DestroyTCPConnection(TcpSocket * sock);
 
-
+/*  */
+int ExchangeTCPMessage(TcpSocket * sock, Message * packet);
 
 #endif

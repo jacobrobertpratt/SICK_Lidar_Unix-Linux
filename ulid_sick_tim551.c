@@ -1,6 +1,14 @@
 #include "ulid_sick_tim551.h"
 
 /*  */
+int SICK_SetIPAddress(Lidar * lidar, const char * address) {
+    if(strlen(address) > 15)
+        printf("ERROR: ip address is too long try again --> %s   at   %d\n",__FUNCTION__, __LINE__);
+    // TODO --> Actually set the IP address
+    return 0;
+}
+
+/*  */
 int SICK_SetStopAngleTIM551(Lidar * lidar, int angle) {
     // TODO -->
     return 0;
@@ -18,7 +26,8 @@ int SICK_SetAngularResolutionTIM551(Lidar * lidar, int resolution) {
     return 0;
 }
 
-// Sets the basic settings and
+/*  Sets the basic settings and
+    */
 int SICK_InitializeTim551(Lidar * lidar) {
     // device
     lidar->device = TIM551;
