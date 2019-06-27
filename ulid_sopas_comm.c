@@ -4,6 +4,10 @@ const char * CommandArr[4] = {
   "sRN","sWN","sMN","sEN"
 };
 
+const char * RetCommandArr[6] = {
+    "sRA","sWA","sAN","sEA","sSN","sFA"
+};
+
 const char * SubjectArr[41] = {
     "SetAccessMode",
     "mLMPsetscancfg",
@@ -90,7 +94,6 @@ char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
     switch (subject) {
         case LOGIN:
             // Check for compatibility
-            //  ...
             // Calculate size
             msgSize = strlen(SubjectArr[subject]) + strlen(UserLevelArr[lidar->userLevel]) + strlen(PasswordArr[lidar->userLevel]) + 1;
             // allocate memory
@@ -104,6 +107,7 @@ char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
             // Calculate size
             msgSize = strlen(SubjectArr[subject]) + 1;
             // Allocate memory
+            
             // Set string
             break;
         case CONFIG: // combine with similar methods
@@ -114,14 +118,17 @@ char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
         case LCMstate:
             
             break;
-        case LMDscandatacfg:
+        case SCAN_CONFIG:
             
             break;
         case LMPoutputRange:
             
             break;
-        case LMDscandata:
-            
+        case SCAN_DATA: // Reads a single can telegram
+            // Check compatability ...
+            msgSize = strlen(SubjectArr[subject]) + 1;
+            outStr = (char*) malloc(msgSize * sizeof(char));
+            sprintf(outStr,"%s",SubjectArr[subject]);
             break;
         case LSPsetdatetime:
             
@@ -252,5 +259,46 @@ char * SOPAS_EncodeMessage(Lidar * lidar, Command command, Subject subject) {
     
     //printf("outMsg(%lu): %s\n",strlen(outMsg),outMsg);
     return outMsg;
+}
+
+
+/*  */
+int SOPAS_DecodeMessage(char * message) {
+    
+    char *token, *string, *tofree;
+    
+    tofree = string = strdup(message);
+    
+    if((token = strsep(&string, " \2\3")) == NULL)
+        return 1;
+    
+    printf("token: %s\n",token);
+    
+    if(!strcmp(token,RetCommandArr[RET_READ])) {
+        printf("Entered: %s statement\n",RetCommandArr[RET_READ]);
+    }
+    
+    if(!strcmp(token,RetCommandArr[RET_WRITE])) {
+        printf("Entered: %s statement\n",RetCommandArr[RET_WRITE]);
+    }
+    
+    if(!strcmp(token,RetCommandArr[RET_METHOD])) {
+        printf("Entered: %s statement\n",RetCommandArr[RET_METHOD]);
+    }
+    
+    if(!strcmp(token,RetCommandArr[RET_EVENT])) {
+        printf("Entered: %s statement\n",RetCommandArr[RET_EVENT]);
+    }
+    
+    if(!strcmp(token,RetCommandArr[RET_CHANGE])) {
+        printf("Entered: %s statement\n",RetCommandArr[RET_CHANGE]);
+    }
+    
+    if(!strcmp(token,RetCommandArr[RET_ERROR])) {
+        printf("Entered: %s statement\n",RetCommandArr[RET_ERROR]);
+    }
+    
+    free(tofree);
+    return 0;
 }
 

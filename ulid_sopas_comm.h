@@ -11,15 +11,24 @@ typedef enum command_t {
     EVENT
 } Command;
 
+typedef enum ret_command_t {
+    RET_READ,
+    RET_WRITE,
+    RET_METHOD,
+    RET_EVENT,
+    RET_CHANGE,
+    RET_ERROR
+} RetCommand;
+
 /*  */
 typedef enum subject_t {
     LOGIN,
     mLMPsetscancfg,
     CONFIG,
     LCMstate,
-    LMDscandatacfg,
+    SCAN_CONFIG,
     LMPoutputRange,
-    LMDscandata,
+    SCAN_DATA,
     LSPsetdatetime,
     STlms,
     HARD_SAVE,
@@ -56,11 +65,13 @@ typedef enum subject_t {
     LMC_STOP
 } Subject;
 
+
 int SOPAS_NumberToString(char * str, int number);
 
 char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject);
 
 char * SOPAS_EncodeMessage(Lidar * lidar, Command command, Subject subject);
 
+int SOPAS_DecodeMessage(char * message);
 
 #endif

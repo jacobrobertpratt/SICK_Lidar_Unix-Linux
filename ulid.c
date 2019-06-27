@@ -6,13 +6,20 @@ int main(int argc, char * argv[]) {
     // Assume config file is generated and ready to go ...
     
     
-    Lidar lidar;
-    InitializeLidarDevice(&lidar,TIM551);
+    //Lidar lidar;
+    //InitializeLidarDevice(&lidar,TIM551);
     
-    char * outMsg = SOPAS_EncodeMessage(&lidar,METHOD,LMC_STOP);
     
-    printf("outMsg: %s\n",outMsg);
-    free(outMsg);
+    
+    
+    
+    
+    //char * outMsg = SOPAS_EncodeMessage(&lidar,READ,SCAN_DATA);
+    
+    SOPAS_DecodeMessage("\2sRA LFPnto1filter\3");
+    
+    //printf("outMsg: %s\n",outMsg);
+    //free(outMsg);
     
     
     // 1) Initialize list to set shared memory loation, config file, lidar name ... etc.
