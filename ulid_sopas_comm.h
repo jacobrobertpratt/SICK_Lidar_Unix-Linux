@@ -15,15 +15,15 @@ typedef enum command_t {
 typedef enum subject_t {
     LOGIN,
     mLMPsetscancfg,
-    LMPscancfg,
+    CONFIG,
     LCMstate,
     LMDscandatacfg,
     LMPoutputRange,
     LMDscandata,
     LSPsetdatetime,
     STlms,
-    mEEwriteall,
-    Run,
+    HARD_SAVE,
+    RUN,
     LFPparticle,
     LFPmeanfilter,
     LFPnto1filter,
@@ -46,15 +46,17 @@ typedef enum subject_t {
     ODoprh,
     ODpwrc,
     EIIpAddr,
-    mSCloadfacdef,
-    mSCreboot,
+    HARD_RESET,
+    REBOOT,
     LCMcfg,
     SYPhase,
     LMLfpFcn,
     LMCstandby,
-    LMCstartmeas,
-    LMCstopmeas
+    LMC_START,
+    LMC_STOP
 } Subject;
+
+int SOPAS_NumberToString(char * str, int number);
 
 char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject);
 

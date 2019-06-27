@@ -8,6 +8,7 @@ const char * SubjectArr[41] = {
     "SetAccessMode",
     "mLMPsetscancfg",
     "LMPscancfg",
+    "LCMstate",
     "LMDscandatacfg",
     "LMPoutputRange",
     "LMDscandata",
@@ -66,6 +67,21 @@ char * PasswordArr[3] = {
     "81BE23AA"
 };
 
+/*  Number to String
+    Returns 1 if number is 0.*/
+int SOPAS_NumberToString(char * str, int number) {
+    
+    if(number == 0){
+        // Error --> TODO
+        return 1;
+    } else if (number > 0){
+        sprintf(str,"+%d",number);
+    } else {
+        sprintf(str,"%d",number);
+    }
+    return 0;
+}
+
 char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
     
     char * outStr = NULL;
@@ -73,9 +89,10 @@ char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
     
     switch (subject) {
         case LOGIN:
+            // Check for compatibility
+            //  ...
             // Calculate size
-            msgSize = strlen(SubjectArr[subject]) + strlen(UserLevelArr[lidar->userLevel])      \
-            + strlen(PasswordArr[lidar->userLevel]) + 1;
+            msgSize = strlen(SubjectArr[subject]) + strlen(UserLevelArr[lidar->userLevel]) + strlen(PasswordArr[lidar->userLevel]) + 1;
             // allocate memory
             outStr = (char*) malloc(msgSize * sizeof(char));
             // set string
@@ -83,12 +100,16 @@ char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
             break;
         case mLMPsetscancfg:
             // Check lidar device for compatability
+            
             // Calculate size
+            msgSize = strlen(SubjectArr[subject]) + 1;
             // Allocate memory
             // Set string
             break;
-        case LMPscancfg:
-            
+        case CONFIG: // combine with similar methods
+            msgSize = strlen(SubjectArr[subject]) + 1;
+            outStr = (char*) malloc(msgSize * sizeof(char));
+            sprintf(outStr,"%s",SubjectArr[subject]);
             break;
         case LCMstate:
             
@@ -108,12 +129,16 @@ char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
         case STlms:
             
             break;
-        case mEEwriteall:
-            
+        case HARD_SAVE:
+            // Check compatability ...
+            msgSize = strlen(SubjectArr[subject]) + 1;
+            outStr = (char*) malloc(msgSize * sizeof(char));
+            sprintf(outStr,"%s",SubjectArr[subject]);
             break;
-        case Run:
-            
-            
+        case RUN: // combine with similar methods universal method
+            msgSize = strlen(SubjectArr[subject]) + 1;
+            outStr = (char*) malloc(msgSize * sizeof(char));
+            sprintf(outStr,"%s",SubjectArr[subject]);
             break;
         case LFPparticle:
             break;
@@ -159,9 +184,17 @@ char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
             break;
         case EIIpAddr:
             break;
-        case mSCloadfacdef:
+        case HARD_RESET:
+            // Check compatability ...
+            msgSize = strlen(SubjectArr[subject]) + 1;
+            outStr = (char*) malloc(msgSize * sizeof(char));
+            sprintf(outStr,"%s",SubjectArr[subject]);
             break;
-        case mSCreboot:
+        case REBOOT:
+            // Check compatability ...
+            msgSize = strlen(SubjectArr[subject]) + 1;
+            outStr = (char*) malloc(msgSize * sizeof(char));
+            sprintf(outStr,"%s",SubjectArr[subject]);
             break;
         case LCMcfg:
             break;
@@ -171,9 +204,17 @@ char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
             break;
         case LMCstandby:
             break;
-        case LMCstartmeas:
+        case LMC_START:
+            // Check compatability ...
+            msgSize = strlen(SubjectArr[subject]) + 1;
+            outStr = (char*) malloc(msgSize * sizeof(char));
+            sprintf(outStr,"%s",SubjectArr[subject]);
             break;
-        case LMCstopmeas:
+        case LMC_STOP:
+            // Check compatability ...
+            msgSize = strlen(SubjectArr[subject]) + 1;
+            outStr = (char*) malloc(msgSize * sizeof(char));
+            sprintf(outStr,"%s",SubjectArr[subject]);
             break;
         default:
             // Log error -->

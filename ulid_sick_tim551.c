@@ -21,7 +21,7 @@ int SICK_SetAngularResolutionTIM551(Lidar * lidar, int resolution) {
 // Sets the basic settings and
 int SICK_InitializeTim551(Lidar * lidar) {
     // device
-    lidar->model = TIM551;
+    lidar->device = TIM551;
     lidar->userLevel = CLIENT;
     // basic settings
     lidar->scan_freq = 15;

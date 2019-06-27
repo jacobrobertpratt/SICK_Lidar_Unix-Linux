@@ -5,10 +5,11 @@ int main(int argc, char * argv[]) {
     
     // Assume config file is generated and ready to go ...
     
+    
     Lidar lidar;
     InitializeLidarDevice(&lidar,TIM551);
     
-    char * outMsg = SOPAS_EncodeMessage(&lidar,METHOD,LOGIN);
+    char * outMsg = SOPAS_EncodeMessage(&lidar,METHOD,LMC_STOP);
     
     printf("outMsg: %s\n",outMsg);
     free(outMsg);

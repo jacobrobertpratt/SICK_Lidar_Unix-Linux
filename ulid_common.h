@@ -38,7 +38,8 @@ typedef struct tcpSocket_t {
 /*  Device is an enum of all available devices */
 typedef enum device_t {
     TIM551,
-    LMS511
+    LMS511,
+    MRS1000
 } Device;
 
 /*  Callbacks */
@@ -65,7 +66,7 @@ typedef struct lidar_t {
     int32_t start_ang, stop_ang;
     uint16_t active_sectors;
     // structs
-    Device model;
+    Device device;
     UserLevel userLevel;
     ErrorLog errorLog;
     TcpSocket tcpSocket;
