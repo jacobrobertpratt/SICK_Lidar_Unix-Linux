@@ -77,15 +77,15 @@ static int SOPAS_NumberToString(char * str, int number) {
     }
     return 0;
 }
- */
+*/
 
-static char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
+static char * SOPAS_EncodeSubjectString(Lidar * lidar, Subject subject) {
     
     char * outStr = NULL;
     int msgSize = 0;
     
     switch (subject) {
-        case LOGIN:
+        case SetAccessMode:
             // Check for compatibility
             // Calculate size
             msgSize = strlen(SubjectArr[subject]) + strlen(UserLevelArr[lidar->userLevel]) + strlen(PasswordArr[lidar->userLevel]) + 1;
@@ -103,114 +103,171 @@ static char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
             
             // Set string
             break;
-        case CONFIG: // combine with similar methods
+        case LMPscancfg: // combine with similar methods
             msgSize = strlen(SubjectArr[subject]) + 1;
             outStr = (char*) malloc(msgSize * sizeof(char));
             sprintf(outStr,"%s",SubjectArr[subject]);
             break;
         case LCMstate:
-            
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
-        case SCAN_CONFIG:
-            
+        case LMDscandatacfg:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LMPoutputRange:
-            
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
-        case SCAN_DATA: // Reads a single can telegram
+        case LMDscandata: // Reads a single can telegram
             // Check compatability ...
             msgSize = strlen(SubjectArr[subject]) + 1;
             outStr = (char*) malloc(msgSize * sizeof(char));
             sprintf(outStr,"%s",SubjectArr[subject]);
             break;
         case LSPsetdatetime:
-            
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case STlms:
-            
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
-        case HARD_SAVE:
+        case mEEwriteall:
             // Check compatability ...
             msgSize = strlen(SubjectArr[subject]) + 1;
             outStr = (char*) malloc(msgSize * sizeof(char));
             sprintf(outStr,"%s",SubjectArr[subject]);
             break;
-        case RUN: // combine with similar methods universal method
+        case Run: // combine with similar methods universal method
             msgSize = strlen(SubjectArr[subject]) + 1;
             outStr = (char*) malloc(msgSize * sizeof(char));
             sprintf(outStr,"%s",SubjectArr[subject]);
             break;
         case LFPparticle:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LFPmeanfilter:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LFPnto1filter:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case FREchoFilter:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case MSsuppmode:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LICsrc:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LICencset:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LICencres:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LICFixVel:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LICSpTh:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LICencsp:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LIDoutputstate:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case mDOSetOutput:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case DO6Fnc:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case DO3And4Fnc:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LIDrstoutpcnt:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case DeviceIdent:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case SCdevicestate:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LocationName:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case ODoprh:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case ODpwrc:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case EIIpAddr:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
-        case HARD_RESET:
+        case mSCloadfacdef:
             // Check compatability ...
             msgSize = strlen(SubjectArr[subject]) + 1;
             outStr = (char*) malloc(msgSize * sizeof(char));
             sprintf(outStr,"%s",SubjectArr[subject]);
             break;
-        case REBOOT:
+        case mSCreboot:
             // Check compatability ...
             msgSize = strlen(SubjectArr[subject]) + 1;
             outStr = (char*) malloc(msgSize * sizeof(char));
             sprintf(outStr,"%s",SubjectArr[subject]);
             break;
         case LCMcfg:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case SYPhase:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LMLfpFcn:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
         case LMCstandby:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
             break;
-        case LMC_START:
+        case LMCstartmeas:
             // Check compatability ...
             msgSize = strlen(SubjectArr[subject]) + 1;
             outStr = (char*) malloc(msgSize * sizeof(char));
             sprintf(outStr,"%s",SubjectArr[subject]);
             break;
-        case LMC_STOP:
+        case LMCstopmeas:
             // Check compatability ...
             msgSize = strlen(SubjectArr[subject]) + 1;
             outStr = (char*) malloc(msgSize * sizeof(char));
@@ -218,24 +275,17 @@ static char * SOPAS_BuildSubjectString(Lidar * lidar, Subject subject) {
             break;
         default:
             // Log error -->
+            printf("ERROR: subject doesn't exists --> %s  at  %d\n",__FUNCTION__,__LINE__);
             break;
     }
     return outStr;
 }
 
-// Make a method to generate string ... verbose? NO ... pulls information from Lidar Struct
-    // Ex. foo1(lidar,METHOD,LOGIN); --> Logs into the lidar
-    // Ex. foo2(lidar,METHOD,START_MEASURMENT);
-    // ...
-
-// 1) for - loop to get command string
-// 2) for - loop to get
-
 /*  SOPAS_EncodeMessage
     Must free memory after recieved. Wise to allocate specific local string and free this right away. */
 char * SOPAS_EncodeMessage(Lidar * lidar, Command command, Subject subject) {
     
-    char * tmp_msg = SOPAS_BuildSubjectString(lidar,subject);
+    char * tmp_msg = SOPAS_EncodeSubjectString(lidar,subject);
     
     int msgLen = strlen(tmp_msg) + 5;
     
@@ -255,43 +305,238 @@ char * SOPAS_EncodeMessage(Lidar * lidar, Command command, Subject subject) {
 }
 
 
+static int SOPAS_DecodeSubjectString(Lidar * lidar, Subject subject, Message * message) {
+    
+    //printf("Entered %s function \n", __FUNCTION__);
+    
+    switch (subject) {
+        case SetAccessMode:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case mLMPsetscancfg:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LMPscancfg:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LCMstate:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LMDscandatacfg:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LMPoutputRange:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LMDscandata:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LSPsetdatetime:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case STlms:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case mEEwriteall:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case Run:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LFPparticle:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LFPmeanfilter:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LFPnto1filter:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case FREchoFilter:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case MSsuppmode:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LICsrc:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LICencset:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LICencres:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LICFixVel:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LICSpTh:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LICencsp:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LIDoutputstate:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case mDOSetOutput:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case DO6Fnc:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case DO3And4Fnc:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LIDrstoutpcnt:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case DeviceIdent:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case SCdevicestate:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LocationName:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case ODoprh:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case ODpwrc:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case EIIpAddr:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case mSCloadfacdef:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case mSCreboot:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LCMcfg:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case SYPhase:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LMLfpFcn:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LMCstandby:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LMCstartmeas:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        case LMCstopmeas:
+            printf("Need to implement subject %s at %d\n",SubjectArr[subject],__LINE__);
+            lidar->callbacks.destroyLidar(lidar);
+            break;
+        default:
+            // Log error -->
+            printf("ERROR: subject doesn't exists --> %s  at  %d\n",__FUNCTION__,__LINE__);
+            break;
+    }
+    return 0;
+}
+
 /*  */
-int SOPAS_DecodeMessage(char * message) {
+int SOPAS_DecodeMessage(Lidar * lidar, Message * message) {
     
-    char *token, *string, *tofree;
+    int index;
     
-    tofree = string = strdup(message);
+    char **ap, *argv[2], *inputstring;
     
-    if((token = strsep(&string, " \2\3")) == NULL)
-        return 1;
+    // Copy retMsg to tmp location --> not sure if we need this
+    inputstring = strdup(message->retMsg);
     
-    printf("token: %s\n",token);
+    for (ap = argv; (*ap = strsep(&inputstring, " \2\3")) != NULL;)
+        if (**ap != '\0')
+            if (++ap >= &argv[2])
+                break;
     
-    if(!strcmp(token,RetCommandArr[RET_READ])) {
-        printf("Entered: %s statement\n",RetCommandArr[RET_READ]);
+    // gets subject argument index
+    for(index = 0; index < 41; index++) {
+        if(!strcmp(argv[1],SubjectArr[index])){
+            printf("argv[1]: %s\n", argv[1]);
+            break;
+        }
     }
     
-    if(!strcmp(token,RetCommandArr[RET_WRITE])) {
-        printf("Entered: %s statement\n",RetCommandArr[RET_WRITE]);
+    //
+    if(!strcmp(argv[0],RetCommandArr[RET_READ])) {
+        printf("Entered: implement %s statement\n",RetCommandArr[RET_READ]);
+        SOPAS_DecodeSubjectString(lidar, index, message);
+        
+    }else if(!strcmp(argv[0],RetCommandArr[RET_WRITE])) {
+        printf("Entered: implement %s statement\n",RetCommandArr[RET_READ]);
+        SOPAS_DecodeSubjectString(lidar, index, message);
+        
+    } else if(!strcmp(argv[0],RetCommandArr[RET_METHOD])) {
+        printf("Entered: implement %s statement\n",RetCommandArr[RET_READ]);
+        SOPAS_DecodeSubjectString(lidar, index, message);
+        
+    } else if(!strcmp(argv[0],RetCommandArr[RET_EVENT])) {
+        printf("Entered: implement %s statement\n",RetCommandArr[RET_READ]);
+        SOPAS_DecodeSubjectString(lidar, index, message);
+        
+    } else if(!strcmp(argv[0],RetCommandArr[RET_CHANGE])) {
+        printf("Entered: implement %s statement\n",RetCommandArr[RET_READ]);
+        SOPAS_DecodeSubjectString(lidar, index, message);
+        
+    } else if(!strcmp(argv[0],RetCommandArr[RET_ERROR])) {
+        printf("Entered: implement %s statement\n",RetCommandArr[RET_READ]);
+        SOPAS_DecodeSubjectString(lidar, index, message);
+        
+    } else {
+        printf("ERROR: unrecognized sopas return message --> %s  at  %d\n",__FUNCTION__,__LINE__);
+        return -1;
     }
     
-    if(!strcmp(token,RetCommandArr[RET_METHOD])) {
-        printf("Entered: %s statement\n",RetCommandArr[RET_METHOD]);
-    }
+    free(inputstring);
     
-    if(!strcmp(token,RetCommandArr[RET_EVENT])) {
-        printf("Entered: %s statement\n",RetCommandArr[RET_EVENT]);
-    }
-    
-    if(!strcmp(token,RetCommandArr[RET_CHANGE])) {
-        printf("Entered: %s statement\n",RetCommandArr[RET_CHANGE]);
-    }
-    
-    if(!strcmp(token,RetCommandArr[RET_ERROR])) {
-        printf("Entered: %s statement\n",RetCommandArr[RET_ERROR]);
-    }
-    
-    free(tofree);
     return 0;
 }
 

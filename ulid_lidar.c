@@ -6,6 +6,7 @@ int DestroyLidarDevice(Lidar * lidar) {
     DestroyTCPConnection(&lidar->tcpSocket);
     // Destroy error log
     DestroyErrorLog(lidar);
+    exit(0);
     return 0;
 }
 
@@ -14,17 +15,26 @@ int DestroyLidarDevice(Lidar * lidar) {
 int InitializeLidarDevice(Lidar * lidar, Device device) {
     switch(device){
         case TIM551:
-            SICK_InitializeTim551(lidar); // Sets callbacks for TIM551 specific functions
+            // Sets callbacks for TIM551 specific functions & basic settings
+            SICK_InitializeTim551(lidar);
+            
+            // If config file exists --> read and update from config file
+                // ConfigureLidarDevice(lidar);
+            
             // Initialize error messaging --> set error callbacks
             CreateErrorLog(lidar);
             SetKillProcessCallback(DestroyLidarDevice);
             
             // Initialize TCP Connections --> set tcp callbacks
             CreateTCPConnection(&lidar->tcpSocket);
-            // Initialize SOPAS Commands --> set sopas callbacks
+            
+            // Sets callback to kill lidar device
+            lidar->callbacks.destroyLidar = DestroyLidarDevice;
+            
             break;
         case LMS511:
             // TODO -->
+            
             break;
         default:
             printf("printf - ERROR: lidar device doesn't exist --> %s   @   %d\n",__FILE__,__LINE__);
@@ -32,6 +42,3 @@ int InitializeLidarDevice(Lidar * lidar, Device device) {
     }
     return 0;
 }
-
-
-// Put a Lidar_main(int argv, char * argc[]) ... here to fork to at some point.

@@ -9,6 +9,14 @@
  ****************************************************************/
 
 
+/*  */
+int SetIPAddress(Lidar * lidar, const char * address) {
+    if(strlen(address) > 15)
+        printf("ERROR: ip address is too long try again --> %s   at   %d\n",__FUNCTION__, __LINE__);
+    strcpy(lidar->tcpSocket.ip,address);
+    return 0;
+}
+
 /*  Create TCP Connection
     Creates a TCP connection and returns
     returns 1 if socket fails, 2 if connection fails and 0 upon success. */

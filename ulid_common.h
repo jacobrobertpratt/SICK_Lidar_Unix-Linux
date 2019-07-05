@@ -30,12 +30,14 @@ typedef struct errorLog_t {
 
 
 
+
 /*  TCP Socket structure */
 typedef struct tcpSocket_t {
     int sockid, port;
     struct sockaddr_in addr;
     char ip[16];
 } TcpSocket;
+
 
 
 
@@ -51,11 +53,9 @@ typedef enum device_t {
 
 /*  Callbacks */
 typedef struct callbacks_t {
-    //int (*errorMessage)(struct lidar_t * lidar, const char * msg, const char * file, int line);  // --> setting error message callback
-    int (*setScanFrequency)(struct lidar_t * lidar, int freq);
-    int (*setAngularResolution)(struct lidar_t * lidar, int resolution);
-    int (*setStartAngle)(struct lidar_t * lidar, int angle);
-    int (*setStopAngle)(struct lidar_t * lidar, int angle);
+    // int (*errorMessage)(struct lidar_t * lidar, const char * msg, const char * file, int line);  // --> setting error message callback
+    int (*ScanData)(struct lidar_t * lidar);
+    int (*destroyLidar)(struct lidar_t * lidar);
 } Callbacks;
 
 
@@ -98,6 +98,12 @@ typedef struct message_t {
     char retMsg[100000];
     //int outMsgSize, retMsgSize;
 } Message;
+
+
+
+
+
+
 
 /****************** MACROS ******************/
 

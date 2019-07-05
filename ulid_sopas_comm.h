@@ -22,17 +22,17 @@ typedef enum ret_command_t {
 
 /*  */
 typedef enum subject_t {
-    LOGIN,
+    SetAccessMode,
     mLMPsetscancfg,
-    CONFIG,
+    LMPscancfg,
     LCMstate,
-    SCAN_CONFIG,
+    LMDscandatacfg,
     LMPoutputRange,
-    SCAN_DATA,
+    LMDscandata,
     LSPsetdatetime,
     STlms,
-    HARD_SAVE,
-    RUN,
+    mEEwriteall,
+    Run,
     LFPparticle,
     LFPmeanfilter,
     LFPnto1filter,
@@ -55,20 +55,20 @@ typedef enum subject_t {
     ODoprh,
     ODpwrc,
     EIIpAddr,
-    HARD_RESET,
-    REBOOT,
+    mSCloadfacdef,
+    mSCreboot,
     LCMcfg,
     SYPhase,
     LMLfpFcn,
     LMCstandby,
-    LMC_START,
-    LMC_STOP
+    LMCstartmeas,
+    LMCstopmeas
 } Subject;
 
 /*  */
 char * SOPAS_EncodeMessage(Lidar * lidar, Command command, Subject subject);
 
 /*  */
-int SOPAS_DecodeMessage(char * message);
+int SOPAS_DecodeMessage(Lidar * lidar, Message * message);
 
 #endif

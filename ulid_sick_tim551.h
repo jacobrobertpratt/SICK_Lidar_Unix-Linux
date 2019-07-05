@@ -3,14 +3,10 @@
 
 #include "ulid_common.h"
 
-/*  */
-int SICK_SetStopAngleTIM551(Lidar * lidar, int angle);
 
-/*  */
-int SICK_SetStartAngleTIM551(Lidar * lidar, int angle);
+int SICK_UpdateParametersTim551(Lidar * lidar);
 
-/*  */
-int SICK_SetAngularResolutionTIM551(Lidar * lidar, int resolution);
+int SICK_ScanDataTim551(Lidar * lidar);
 
 /*  Sets default values for SICK's TIM551 per SOPAS Documentation */
 int SICK_InitializeTim551(Lidar * lidar);

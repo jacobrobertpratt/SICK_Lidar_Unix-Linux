@@ -8,27 +8,37 @@
 // b. Process (n+1) ... to generate logic, building PCL, and other things
 // c. Process (n+2) ... to generate front end application that can be seen by the user.
 
+/*  Input arguments ulid tim551 -sm
+ *  -sm <shared memory name>]
+ *  -config <file_name>
+ *
+ */
 
+
+/*  example: args = ./ulid tim551 <dir/config.txt> */
 int main(int argc, char * argv[]) {
     
-    // Creat lidar device --> might want to change it into a lidar pointer.
     Lidar lidar;
+    
+    // Check for config file --> open and read from config file
     InitializeLidarDevice(&lidar,TIM551);
     
-    // Create message packet
-    Message msg;
+    // Get output message
+    char * msg = SOPAS_EncodeMessage(&lidar, READ, LMDscandata);
     
-    // Get message from SOPAS
-    char * sopasMsg = SOPAS_EncodeMessage(&lidar,READ,SCAN_DATA);
-    printf("sopasMsg: %s\n",sopasMsg);
+    // Create a message packet
+    Message msgPacket;
+    strcpy(msgPacket.outMsg,msg);
     
-    // Copy message to packet
-    strcpy(msg.outMsg,sopasMsg);
-    free(sopasMsg); // free Encoded Message
-    printf("outMsg: %s\n",msg.outMsg);
+    // Sends the and returns the message
+    ExchangeTCPMessage(&lidar.tcpSocket,&msgPacket);
     
-    ExchangeTCPMessage(&lidar.tcpSocket, &msg);
-    printf("retMsg: %s\n",msg.retMsg);
+    printf("retMsg: %s\n",msgPacket.retMsg);
+    
+    // Confirm message
+    SOPAS_DecodeMessage(&lidar,&msgPacket);
+    
+    free(msg);
     
     DestroyLidarDevice(&lidar);
     
