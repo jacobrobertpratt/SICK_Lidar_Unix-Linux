@@ -1,5 +1,10 @@
 
-#include "ulid_common.h"
+//#include "ulid_common.h" // Currently working on error.h
+
+#include "./include/error.h"
+#include "./include/util.h"
+
+#include <time.h>
 
 // 1) Initialize list to set shared memory loation, config file, lidar name ... etc.
 
@@ -18,29 +23,19 @@
 /*  example: args = ./ulid tim551 <dir/config.txt> */
 int main(int argc, char * argv[]) {
     
-    Lidar lidar;
+    ErrorLog * log;
+    log = errorlog_alloc();
     
-    // Check for config file --> open and read from config file
-    InitializeLidarDevice(&lidar,TIM551);
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    printf("now: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1,tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
     
-    // Get output message
-    char * msg = SOPAS_EncodeMessage(&lidar, READ, LMDscandata);
+    char str[100];
+    getYYYYMMDDString(str);
     
-    // Create a message packet
-    Message msgPacket;
-    strcpy(msgPacket.outMsg,msg);
     
-    // Sends the and returns the message
-    ExchangeTCPMessage(&lidar.tcpSocket,&msgPacket);
     
-    printf("retMsg: %s\n",msgPacket.retMsg);
-    
-    // Confirm message
-    SOPAS_DecodeMessage(&lidar,&msgPacket);
-    
-    free(msg);
-    
-    DestroyLidarDevice(&lidar);
+    errorlog_free(log);
     
     return 0;
 }

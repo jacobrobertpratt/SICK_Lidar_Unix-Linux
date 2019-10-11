@@ -3,16 +3,44 @@
 
 #include "ulid_common.h"
 
-/*  */
-int SetIPAddress(Lidar * lidar, const char * address);
+/* CreateSocketStruct()
+*  @param none
+*  @return A TcpSocket structure that is allocated. Sets all integers to 0, all structures
+*          to NULL. Returns NULL on failure.
+*  Must remember to deallocate the TcpSocket strut using DestroySocket(TcpSocket * socket)
+*/
+TcpSocket * TCPCreateSocketStruct();
 
-/*  */
-int CreateTCPConnection(TcpSocket * sock);
 
-/*  */
-int DestroyTCPConnection(TcpSocket * sock);
+/*  TCPDestroySocket(TcpSocket * sock)
+ *  */
+int TCPDestroySocket(TcpSocket * sock);
 
-/*  */
-int ExchangeTCPMessage(TcpSocket * sock, Message * packet);
+
+/*  TCPSetIPAddress(Lidar * lidar, const char * address)
+ *  */
+int TCPSetIPAddress(Lidar * lidar, const char * address);
+
+
+/*  TCPSetPortNumber(Lidar * lidar, const char * port)
+ *  */
+int TCPSetPortNumber(Lidar * lidar, const char * port);
+
+
+/*  TCPCreateConnection(TcpSocket * sock)
+ *  */
+int TCPCreateConnection(TcpSocket * sock);
+
+
+/*  TCPCloseConnection(TcpSocket * sock)
+ *  */
+int TCPCloseConnection(TcpSocket * sock);
+
+
+/*  TCPExchangeMessage(TcpSocket * sock, Message * packet)
+ *   */
+int TCPExchangeMessage(TcpSocket * sock, char * sendMsg, char * retMsg);
+
+
 
 #endif

@@ -10,6 +10,9 @@
  Returns: 0 upon completion
  */
 int printHex(const char * str){
+    if(!str)
+        return 1;
+    
     int i, j;
     j = strlen(str);
     for(i = 0; i < j; i++){
@@ -19,7 +22,10 @@ int printHex(const char * str){
     return 0;
 }
 
+/* Free String */
 void freeString(char * string) {
     if(string != NULL)
         free(string);
 }
+
+

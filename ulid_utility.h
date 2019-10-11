@@ -3,10 +3,15 @@
 
 #include "ulid_common.h"
 
-// This prints out the Hex Values of a given string
+/*  printHex(const char * str)
+ *  This will print the Hex values of the string and end with a new line.
+ *  If the string is NULL then nothing will print.
+ *  @return 1 on failure, 0 upon success. */ 
 int printHex(const char * str);
 
-// This checks if the string is NULL before freeing
+/*  freeString(char * string)
+ *  This checks if the string is NULL before freeing
+ *  */
 void freeString(char * string);
 
 #endif

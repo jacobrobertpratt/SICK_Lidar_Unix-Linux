@@ -11,6 +11,7 @@ typedef enum command_t {
     EVENT
 } Command;
 
+/*  */
 typedef enum ret_command_t {
     RET_READ,
     RET_WRITE,
@@ -65,10 +66,32 @@ typedef enum subject_t {
     LMCstopmeas
 } Subject;
 
-/*  */
-char * SOPAS_EncodeMessage(Lidar * lidar, Command command, Subject subject);
+
+/*  SOPAS_EncodeMessage(Lidar * lidar, Command command, Subject subject)
+ *
+ *  Takes a Lidar structure, enum command, and enum subject and returns
+ *  the a Message structt that can be used.
+ *  The returned Message struct must be freed using free().
+ *  @param Lidar * lidar, enum Command, enum Subject
+ *  @return allocated (char *) upon success, NULL on failure. */
+Message * SOPAS_EncodeMessage(Lidar * lidar, Command command, Subject subject);
 
 /*  */
-int SOPAS_DecodeMessage(Lidar * lidar, Message * message);
+int SOPAS_ExchangeMessage(Lidar * lidar, Message * message);
+    
+    // Check to make sure lidar is not null and is initialized,
+    
+    // Check to make sure that the Message is initialized
+    
+    // Need to check what type of exchange is happening: TCP or UARD ... etc.
+    
+    // If TCP Connection -->
+        
+        // 
+    
+    
+
+
+
 
 #endif

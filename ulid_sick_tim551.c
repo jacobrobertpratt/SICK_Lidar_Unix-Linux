@@ -1,44 +1,81 @@
 #include "ulid_sick_tim551.h"
 
-int SICK_UpdateParametersTim551(Lidar * lidar) {
-    
-    // updates the parameters on the lidar
-    
-    return 0;
-}
 
-int SICK_ScanDataTim551(Lidar * lidar) {
-    // method to run and take in data then send it to the shared memory location
-    
-    return 0;
-}
-
-
-/*  Sets default values for SICK's TIM551 per SOPAS Documentation */
 int SICK_InitializeTim551(Lidar * lidar) {
     
-    // device
+    // device specific values
     lidar->device = TIM551;
-    lidar->userLevel = CLIENT;
     
-    // basic settings
-    lidar->scan_freq = 15;
-    lidar->active_sectors = 1;
-    lidar->ang_res = 1;
-    lidar->start_ang = -45;
-    lidar->stop_ang = 225;
+    // Allocate memory for TCP socket
+    lidar->tcpSocket = TCPCreateSocketStruct();
     
-    // Error Reporting
-    strcpy(lidar->errorLog.path,"./");
-    strcpy(lidar->errorLog.path,"tim551_errorLog");
-    lidar->errorLog.count = 0;
+    lidar->tcpSocket->port = 2112;
+    strcpy(lidar->tcpSocket->ip,"192.168.0.2"); // Temp value and will need to be set earlier in the code during start or an .ini file.
     
-    // TCP Connection
-    lidar->tcpSocket.port = 2112;
-    strcpy(lidar->tcpSocket.ip,"192.168.0.2");
+    // Establish socket connection
+    if(TCPCreateConnection(lidar->tcpSocket)){
+        printf("ERROR: failed to create tcp connection --> %s @ line %d\n",__FILE__,__LINE__);
+        return 1;
+    }
     
     // Set callbacks
-    lidar->callbacks.ScanData = SICK_ScanDataTim551;
+    lidar->callbacks.startMeasurments = SICK_StartMeasurmentTim551;
+    
+    return 0;
+}
+
+
+int SICK_DestroyTim551(Lidar * lidar) {
+    
+    // Stop any measurment
+    
+    
+    // Destroy the socket
+    if(TCPDestroySocket(lidar->tcpSocket)){
+        printf("Warning: couldn't close socket struct --> %s @ line %d\n",__FILE__,__LINE__);
+    }
+    
+    
+    
+    return 0;
+}
+
+
+int SICK_StartMeasurmentTim551(Lidar * lidar) {
+    
+    /*  Will need to make this a loop if we want to get continuous measurments */
+    
+    // Make sure Lidar isn't NULL
+    if(lidar == NULL){
+        printf("ERROR: lidar device doesn't exist --> %s   @   %d\n",__FILE__,__LINE__);
+        return 1;
+    }
+    
+    // Create a message packet
+    Message * message = CreateMessagePacket();
+    if(message == NULL){
+        printf("ERROR: message failed to allocate --> %s   @   %d\n",__FILE__,__LINE__);
+        return 1;
+    }
+    
+    // Gets the message from SOPAS functions and structures.
+    message = SOPAS_EncodeMessage(lidar,READ,LMDscandata);
+    if(message == NULL){
+        printf("ERROR: failed to encode sopas message --> %s   @   %d\n",__FILE__,__LINE__);
+        return 1;
+    }
+    
+    // Send message to lidar
+    /*if(TCPExchangeMessage(lidar->tcpSocket,message->data)){
+        printf("ERROR: message to lidar failed to send --> %s   @   %d\n",__FILE__,__LINE__);
+        return 1;
+    }*/
+    
+    // Destroy message packet
+    if(DestroyMessagePacket(message)){
+        printf("ERROR: message to deallocate --> %s   @   %d\n",__FILE__,__LINE__);
+        return 1;
+    }
     
     return 0;
 }

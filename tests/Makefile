@@ -1,9 +1,9 @@
 CC=gcc
 CFLAGS=-c -Wall
 LDFLAGS=
-SOURCES=ulid.c src/error.c src/util.c
+SOURCES=test.c errortest.c ../src/util.c
 OBJECTS=$(SOURCES:.c=.o)
-EXECUTABLE=ulid
+EXECUTABLE=test
 FILES=
 
 all: $(SOURCES) $(EXECUTABLE)
@@ -15,4 +15,4 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm $(OBJECTS) $(EXECUTABLE) $(FILES) $(TESTEXECUTABLE)
+	rm $(OBJECTS) $(EXECUTABLE) $(FILES)
