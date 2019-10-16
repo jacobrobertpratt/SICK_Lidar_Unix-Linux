@@ -1,32 +1,31 @@
 
-#include "message.h"
+#include "../include/message.h"
 
-Message * allocate_message(){
+Message * message_alloc(){
     // allocate memory for the Message struct.
     Message * message = (Message *) malloc(sizeof(Message));
     if(message == NULL) {
-        printf("ERROR: not enough memory to create message packet --> %s   at   %d\n",__FILE__, __LINE__);
+        uliderror(errno);
         return NULL;
     }
     
     message->data = NULL;
     message->size = 0;
+    message->time_stamp = 0;
+    
     return message;
 }
 
-
-
-int deallocate_message(Message * message) {
+int message_free(Message * message) {
     
-    if(message == NULL) {
-        printf("ERROR: message packet could not be freed --> %s   at   %d\n",__FILE__, __LINE__);
-        return 1;
-    }
+    if(!message)
+        return ERROR_MSGNULL;
     
-    if(message->data != NULL)
+    if(message->data)
         free(message->data);
     
     free(message);
     
     return 0;
 }
+

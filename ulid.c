@@ -3,6 +3,7 @@
 
 #include "./include/error.h"
 #include "./include/util.h"
+#include "./include/message.h"
 
 #include <time.h>
 
@@ -23,19 +24,11 @@
 /*  example: args = ./ulid tim551 <dir/config.txt> */
 int main(int argc, char * argv[]) {
     
-    ErrorLog * log;
-    log = errorlog_alloc();
-    
-    time_t t = time(NULL);
-    struct tm tm = *localtime(&t);
-    printf("now: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1,tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-    
-    char str[100];
-    getYYYYMMDDString(str);
+    Message * msg = message_alloc();
     
     
     
-    errorlog_free(log);
+    message_free(msg);
     
     return 0;
 }

@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-c -Wall
 LDFLAGS=
-SOURCES=ulid.c src/error.c src/util.c
+SOURCES=ulid.c src/error.c src/util.c src/message.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=ulid
 FILES=

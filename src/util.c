@@ -49,13 +49,11 @@ int createDir(const char * directory, const char * dirname) {
     
     return ret;
 }
-
+/*
 int getYYYYMMDDString(char * string) {
     
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
-    
-    
     
     if(!string)
         return 1;
@@ -64,7 +62,8 @@ int getYYYYMMDDString(char * string) {
     char * str = (char*) malloc(sizeof(char) * 8 + 1);
     
     // build string after this
-    sprint(str, "%04d%02d%02d", tm.year, tm.m
+    free(str);
     
     return 0;
 }
+*/
