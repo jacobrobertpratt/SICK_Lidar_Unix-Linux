@@ -80,10 +80,6 @@ char * errorstr(int errnum);
  */
 int printError(int errnum, const char * file, int line);
 
-
-
-
-
 /**
  * Macro that prints the error message to the terminal. 
  *
