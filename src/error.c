@@ -2,7 +2,9 @@
 #include "../include/error.h"
 
 static char * errorArray[] = {
-    "message was null pointer"
+    "message was null pointer",
+    "size_t is not valid",
+    "data is not valid"
 };
 
 ErrorLog * errorlog_alloc(){
@@ -67,9 +69,9 @@ int printError(int errnum, const char * file, int line) {
     // Get the error string
     err_str = errorstr(errnum);
     if(err_str == NULL)
-        printf("[%s @ %d] Error: invalide error code\n",file,line);
+        printf("[%s @ %d] Error: invalide error code: - \n",file,line);
     else
-        printf("[%s @ %d] Error: %s\n",file,line,err_str);
+        printf("[%s @ %d] Error: %s: %d\n",file,line,err_str,errnum);
     
     return ret;
 }

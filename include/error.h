@@ -13,8 +13,9 @@
 /**
  * Error message definitions specific to the ULID library.
  */
-#define ERROR_MSGNULL  103     // If a message is NULL but it shouldn't be.
-
+#define ERROR_MSGNULL   103    // If a message is NULL but it shouldn't be.
+#define ERROR_MSGSIZE   104    // If size is not a valid number
+#define ERROR_MSGDATA   105     // If data is invalid
 
 /**
  * Represents an error log that can be passed to different error log functions

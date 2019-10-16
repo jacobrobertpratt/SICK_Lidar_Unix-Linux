@@ -1,11 +1,14 @@
 
 /**
- * Write intro here
+ * Write intro here ...
  */
 
 #ifndef ULID_MESSAGE_H
 #define ULID_MESSAGE_H
 
+/* Global headers*/
+
+/* Local header files */
 #include "error.h"
 
 /**
@@ -16,7 +19,7 @@
 /**
  * The messge_t struct defines labels, data, and general information about a message
  * being sent or recieved. The general communication form from a lidar device is by sending a
- * message to the lidar device and in-turn the lidar device sends a message back.
+ * message to the lidar device and in-turn the lidar device sends a message back. 
  */
 typedef struct message_t {
     
@@ -24,10 +27,10 @@ typedef struct message_t {
     uint32_t size;
     
     /*  Pointer to the information in the message */
-    uint8_t * data;
+    void * data;
     
     /* The time stamp of the message */
-    uint32_t time_stamp;
+    uint64_t time_stamp;
     
 } Message;
 
@@ -48,6 +51,10 @@ Message * message_alloc();
  */
 int message_free(Message * message);
 
+/**
+ *
+ */
+int message_set(Message * msg, size_t size, void * data);
 
 
 #endif

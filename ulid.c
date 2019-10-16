@@ -25,10 +25,21 @@
 int main(int argc, char * argv[]) {
     
     Message * msg = message_alloc();
+    Message * test = message_alloc();
+    
+    printf("sizeof test: %lu\n",sizeof(test));
+    
+    int ret = 0;
+    
+    ret = message_set(msg, 4, test);
+    
+    uliderror(ret);
     
     
     
+    message_free(test);
     message_free(msg);
+    
     
     return 0;
 }
