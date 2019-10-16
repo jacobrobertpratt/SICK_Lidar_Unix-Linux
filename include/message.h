@@ -1,6 +1,6 @@
 
 /**
- * Write intro here ...
+ * Write intro here ... GNU liscense ... etc.
  */
 
 #ifndef ULID_MESSAGE_H
@@ -49,12 +49,19 @@ typedef struct message_t {
 Message * message_alloc();
 
 /**
+ * Frees all internal values of the message and sets their values back to the initial values. Does
+ * not free the whole message.
+ * @todo
+ */
+int message_reset(Message * msg);
+
+/**
  * Deallocates a message which has been allocated by allocate_message(). If the input message is
  * NULL, will return appropriate error message.
  * @param message * Message structure.
  * @return error message number.
  */
-int message_free(Message * message);
+int message_free(Message * msg);
 
 /**
  * Function will take an already allocated Message structure and set the whatever is passed
@@ -98,7 +105,9 @@ int message_free(Message * message);
 int message_set_data(Message * msg, void * data, size_t size, const char * data_type);
 
 /**
+ * Timestamp
  */
+int message_set_timestamp(Message * msg, uint64_t timestamp);
 
 
 #endif

@@ -3,18 +3,22 @@
 
 Message * message_alloc(){
     // allocate memory for the Message struct.
-    Message * message = (Message *) malloc(sizeof(Message));
-    if(message == NULL) {
+    Message * msg = (Message *) malloc(sizeof(Message));
+    if(msg == NULL) {
         uliderror(errno);
         return NULL;
     }
     
-    message->data = NULL; // void * of data
-    message->data_type = NULL; // type of data as string
-    message->size = 0; // 32-bit integer
-    message->time_stamp = -1; // 64-bit integer
+    msg->data = NULL; // void * of data
+    msg->data_type = NULL; // type of data as string
+    msg->size = 0; // 32-bit integer
+    msg->time_stamp = -1; // 64-bit integer
     
-    return message;
+    return msg;
+}
+
+int message_reset(Message * msg){
+    return 0;
 }
 
 int message_free(Message * msg) {
@@ -77,5 +81,9 @@ int message_set_data(Message * msg, void * data, size_t size, const char * data_
         msg->data_type = strdup(data_type);
     
     // Returns zero on success
+    return 0;
+}
+
+int message_set_timestamp(Message * msg, uint64_t timestamp){
     return 0;
 }
