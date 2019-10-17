@@ -37,6 +37,8 @@ typedef struct message_t {
     /* The time stamp of the message */
     uint64_t time_stamp;
     
+    
+    
 } Message;
 
 /**
@@ -105,9 +107,15 @@ int message_free(Message * msg);
 int message_set_data(Message * msg, void * data, size_t size, const char * data_type);
 
 /**
- * Timestamp
+ * This will set the internal field time_stamp (uint64_t) to the provided timestamp value. If the
+ * Message structure is not allocated the function will return the appropriate error message.
+ * @param msg Message struct, must be allocated
+ * @param timestamp uint64_t representing the time of the message
+ * @return 0 on success, error message on failure.
  */
 int message_set_timestamp(Message * msg, uint64_t timestamp);
+
+
 
 
 #endif

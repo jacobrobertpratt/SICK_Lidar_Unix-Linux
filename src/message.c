@@ -1,6 +1,7 @@
 
 #include "../include/message.h"
 
+
 Message * message_alloc(){
     // allocate memory for the Message struct.
     Message * msg = (Message *) malloc(sizeof(Message));
@@ -85,5 +86,16 @@ int message_set_data(Message * msg, void * data, size_t size, const char * data_
 }
 
 int message_set_timestamp(Message * msg, uint64_t timestamp){
+    
+    // Check if the message struct is NULL -> return error
+    if(!msg){
+        return ERROR_MSGNULL;
+    }
+    
+    if(timestamp < 0)
+        return ERROR_NEGVAL;
+    
+    msg->time_stamp = timestamp;
+    
     return 0;
 }

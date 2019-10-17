@@ -4,7 +4,8 @@
 static char * errorArray[] = {
     "message was null pointer",
     "size_t is not valid",
-    "data is not valid"
+    "data is not valid",
+    "negative values are not valid"
 };
 
 ErrorLog * errorlog_alloc(){
