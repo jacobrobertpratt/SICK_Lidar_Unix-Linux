@@ -67,15 +67,12 @@ char * error_getString(int errnum) {
 }
 
 int error_print(int errnum, const char * file, int line) {
-    
     char * err_str = NULL;
     int ret = 0;
-    
     err_str = error_getString(errnum);
     if(!err_str)
         printf("[%s @ %d] Error: invalide error code: - \n",file,line);
     else
         printf("[%s @ %d] Error: %s: %d\n",file,line,err_str,errnum);
-    
     return ret;
 }

@@ -8,6 +8,12 @@
 
 #include "../include/error.h"
 
+enum SocketType{
+    STREAM_SOCKET,
+    DATAGRAM_SOCKET,
+    RAW_SOCKET
+};
+
 /**
  *
  */
@@ -26,7 +32,7 @@ typedef struct socket_t {
     char ip[16];
     
     /* type of socket */
-    
+    enum SocketType type;
     
 } Socket;
 
@@ -51,6 +57,10 @@ int socket_setIP(Socket * sock, const char * address);
 /**
  */
 int socket_setPort(Socket * sock, const char * port);
+
+/**
+ */
+int socket_setType(Socket * sock, const enum SocketType type);
 
 /**
  */

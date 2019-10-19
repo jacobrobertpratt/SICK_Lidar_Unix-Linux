@@ -32,5 +32,4 @@ int createDir(const char * directory, const char * dirname);
  */
 int getYYYYMMDDString(char * string);
 
-
 #endif

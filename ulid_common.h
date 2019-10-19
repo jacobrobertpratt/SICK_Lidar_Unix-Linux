@@ -16,9 +16,6 @@
 #include <time.h>
 #include <string.h>
 
-#include "include/message.h"
-#include "include/error.h"
-
 /****************** COMMON STRUCTS ******************/
 
 
@@ -54,8 +51,8 @@ typedef enum device_t {
  *  The ULID program to become more modular. (Need to make a flowchart of the
  *  modularity of the ULID structure)*/
 typedef struct callbacks_t {
-    int (*destroyLidar)(struct lidar_t * lidar);
-    int (*startMeasurments)(struct lidar_t * lidar);
+    //int (*destroyLidar)(struct lidar_t * lidar);
+    //int (*startMeasurments)(struct lidar_t * lidar);
 } Callbacks;
 
 
@@ -88,7 +85,7 @@ typedef struct lidar_t {
     TcpSocket * tcpSocket;
     
     // Callback functions that are spcific to this individual lidar.
-    Callbacks callbacks;
+    //Callbacks callbacks;
     
 } Lidar;
 
@@ -100,14 +97,14 @@ typedef struct lidar_t {
 #define ENTERED printf("Entered %s in %s at line %d\n", __FUNCTION__, __FILE__, __LINE__)
 
 /* ***************** LOCAL HEADERS ***************** */
-#include "ulid_utility.h"
+//#include "ulid_utility.h"
 //#include "ulid_error.h"
-#include "ulid_tcp_conn.h"
-#include "ulid_sopas_comm.h"
-#include "ulid_lidar.h"
+//#include "ulid_tcp_conn.h"
+//#include "ulid_sopas_comm.h"
+//#include "ulid_lidar.h"
 
 /* ***************** LIDAR HEADERS ***************** */
-#include "ulid_sick_tim551.h"
+//#include "ulid_sick_tim551.h"
 
 /* ***************** COMMON FUNCTIONS ***************** */
 

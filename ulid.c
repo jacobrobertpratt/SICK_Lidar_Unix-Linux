@@ -1,11 +1,10 @@
-
-//#include "ulid_common.h" // Currently working on error.h
+#include <time.h>
 
 #include "./include/error.h"
 #include "./include/util.h"
 #include "./include/message.h"
-
-#include <time.h>
+#include "./include/socket.h"
+#include "ulid_common.h"
 
 // 1) Initialize list to set shared memory loation, config file, lidar name ... etc.
 
@@ -25,12 +24,11 @@
 
 int main(int argc, char * argv[]) {
     
-    Message * msg = message_alloc();
+    Socket * sock = socket_alloc();
     
+    socket_setType(sock,STREAM_SOCKET);
     
-    
-    
-    message_free(msg);
+    socket_free(sock);
     
     return 0;
 }

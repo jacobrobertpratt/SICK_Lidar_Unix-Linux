@@ -10,6 +10,7 @@ Socket * socket_alloc() {
     
     sock->sockid = 0;
     sock->port = 0;
+    sock->type = STREAM_SOCKET;
     
     return sock;
 }
@@ -57,9 +58,21 @@ int socket_setPort(Socket * sock, const char * port) {
     
     int port_num = atoi(port);
     sock->port = port_num;
+    
     return 0;
 }
 
+int socket_setType(Socket * sock, const enum SocketType type) {
+    
+    if(!sock) {
+        uliderror(ERROR_STRING);
+        return ERROR_TYPENULL;
+    }
+    
+    sock->type = type;
+    
+    return 0;
+}
 
 int socket_connect(Socket * sock) {
     
@@ -67,7 +80,6 @@ int socket_connect(Socket * sock) {
     if (!sock) {
         uliderror(ERROR_TYPENULL);
         return ERROR_TYPENULL;
-        
     }
     
     /* If socket is already connected throws error
