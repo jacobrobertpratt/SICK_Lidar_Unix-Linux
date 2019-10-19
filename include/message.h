@@ -37,8 +37,6 @@ typedef struct message_t {
     /* The time stamp of the message */
     uint64_t time_stamp;
     
-    
-    
 } Message;
 
 /**
@@ -114,6 +112,7 @@ int message_set_data(Message * msg, void * data, size_t size, const char * data_
  * @return 0 on success, error message on failure.
  */
 int message_set_timestamp(Message * msg, uint64_t timestamp);
+
 
 
 

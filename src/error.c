@@ -5,15 +5,19 @@ static char * errorArray[] = {
     "message was null pointer",
     "size_t is not valid",
     "data is not valid",
-    "negative values are not valid"
+    "negative values are not valid",
+    "struct type was NULL",
+    "invalid string entered",
+    "ID was previously opened"
 };
 
 ErrorLog * errorlog_alloc(){
     
     // Allocate main structure memory
     ErrorLog * log = (ErrorLog *) malloc(sizeof(ErrorLog));
-    if(!log){
-        printf("ERROR: failed to allocate error log struct @ %d\n", __LINE__);
+    if(!log) {
+        uliderror(errno);
+        return NULL;
     }
     
     // Set all variables to initial values
@@ -40,7 +44,7 @@ int errorlog_free(ErrorLog * log) {
     
 }
 
-char * errorstr(int errnum) {
+char * error_getString(int errnum) {
     
     char * retStr = NULL;
     
@@ -62,14 +66,13 @@ char * errorstr(int errnum) {
     return retStr;
 }
 
-int printError(int errnum, const char * file, int line) {
+int error_print(int errnum, const char * file, int line) {
     
     char * err_str = NULL;
     int ret = 0;
     
-    // Get the error string
-    err_str = errorstr(errnum);
-    if(err_str == NULL)
+    err_str = error_getString(errnum);
+    if(!err_str)
         printf("[%s @ %d] Error: invalide error code: - \n",file,line);
     else
         printf("[%s @ %d] Error: %s: %d\n",file,line,err_str,errnum);

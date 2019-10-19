@@ -1,6 +1,6 @@
 
-#ifndef ULID_ERROR_H
-#define ULID_ERROR_H
+#ifndef _ULID_ERROR_H_
+#define _ULID_ERROR_H_
 
 #include <errno.h>
 #include <stdio.h>
@@ -16,7 +16,10 @@
 #define ERROR_MSGNULL   103     // If a message is NULL but it shouldn't be.
 #define ERROR_MSGSIZE   104     // If size is not a valid number
 #define ERROR_MSGDATA   105     // If data is invalid
-#define ERROR_NEGVAL    106     // If a negative value is entered but shouldn't have been.
+#define ERROR_NEGVAL    106     // A negative value is entered but shouldn't have been.
+#define ERROR_TYPENULL  107     // struct type shouldn't have been NULL
+#define ERROR_STRING    108     // An invalid string is being used
+#define ERROR_IDOPEN    109     // ID was opened when it shouldn't have been
 
 /**
  * Represents an error log that can be passed to different error log functions
@@ -24,7 +27,7 @@
  */
 typedef struct errorLog_t {
     
-    // the full path file name
+    /* Full file path to error log file */
     char * filename;
     
 } ErrorLog;
@@ -70,7 +73,7 @@ int errorlog_log(ErrorLog * log, const char * msg);
  * @param errnum is a global error number (int) that is defined in error.h
  * @return (char *) of the string, or NULL on failure.
  */
-char * errorstr(int errnum);
+char * error_getString(int errnum);
 
 /**
  * Function will print the provided global integer message to the terminal. If a message
@@ -80,7 +83,7 @@ char * errorstr(int errnum);
  * @param message to add to the standard error message
  * @return 0 on success, 1 on failure.
  */
-int printError(int errnum, const char * file, int line);
+int error_print(int errnum, const char * file, int line);
 
 /**
  * Macro that prints the error message to the terminal. 
@@ -88,7 +91,7 @@ int printError(int errnum, const char * file, int line);
  * The general format will be:
  * [<function name> @ <line number> ] Error: <error message here>
  */
-#define uliderror(a) printError(a, __FILE__, __LINE__)
+#define uliderror(a) error_print(a, __FILE__, __LINE__)
 
 
 
