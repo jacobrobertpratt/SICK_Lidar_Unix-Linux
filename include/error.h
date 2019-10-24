@@ -13,13 +13,13 @@
 /**
  * Error message definitions specific to the ULID library.
  */
-#define ERROR_MSGNULL   103     // If a message is NULL but it shouldn't be.
-#define ERROR_MSGSIZE   104     // If size is not a valid number
-#define ERROR_MSGDATA   105     // If data is invalid
-#define ERROR_NEGVAL    106     // A negative value is entered but shouldn't have been.
-#define ERROR_TYPENULL  107     // struct type shouldn't have been NULL
-#define ERROR_STRING    108     // An invalid string is being used
-#define ERROR_IDOPEN    109     // ID was opened when it shouldn't have been
+#define ERROR_TYPENULL  103     // If a message is NULL but it shouldn't be.
+#define ERROR_NEGVAL    104     // If size is not a valid number
+#define ERROR_STRING    105     // If data is invalid
+#define ERROR_OPEN      106     // A negative value is entered but shouldn't have been.
+#define ERROR_SIZE      107     // A size parameterr was incorrect
+#define ERROR_DATA      108     // A bad value was entered from data
+
 
 /**
  * Represents an error log that can be passed to different error log functions

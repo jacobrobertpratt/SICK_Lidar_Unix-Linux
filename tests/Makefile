@@ -1,12 +1,12 @@
 CC=gcc
 CFLAGS=-c -Wall
 LDFLAGS=
-SOURCES=test.c errortest.c ../src/util.c
+
+SOURCES=test.c unity.c ../src/message.c ../src/error.c message_test.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=test
-FILES=
 
-all: $(SOURCES) $(EXECUTABLE)
+tests:	$(SOURCES) $(EXECUTABLE)
     
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
@@ -15,4 +15,6 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm $(OBJECTS) $(EXECUTABLE) $(FILES)
+	rm $(OBJECTS) $(EXECUTABLE) $(FILES) $(TESTEXECUTABLE)
+
+	

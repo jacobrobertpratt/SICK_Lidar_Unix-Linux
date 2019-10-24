@@ -5,7 +5,7 @@
 Message * message_alloc(){
     // allocate memory for the Message struct.
     Message * msg = (Message *) malloc(sizeof(Message));
-    if(msg == NULL) {
+    if(!msg) {
         uliderror(errno);
         return NULL;
     }
@@ -25,7 +25,7 @@ int message_reset(Message * msg){
 int message_free(Message * msg) {
     
     if(!msg)
-        return ERROR_MSGNULL;
+        return ERROR_TYPENULL;
     
     // free data (void *)
     if(msg->data){
@@ -51,15 +51,8 @@ int message_free(Message * msg) {
  */
 int message_set_data(Message * msg, void * data, size_t size, const char * data_type) {
     
-    // Check if size is a valid number
-    if(!size) {
-        return ERROR_MSGSIZE;
-    }
-    
-    // If data pointer is null then return error message
-    if(!data) {
-        return ERROR_MSGDATA;
-    }
+    if(!msg || !data)
+        return ERROR_TYPENULL;
     
     // Free destination data if allocated
     if(msg->data) {
@@ -70,7 +63,7 @@ int message_set_data(Message * msg, void * data, size_t size, const char * data_
     // allocate memory with size of size_t size
     msg->data = (uint8_t*) malloc(size);
     if(!msg->data) {
-        return errno; // returns the error number associated with no mem.
+        return errno;
     }
     
     // copy data to destination buffer with size specified.
@@ -89,7 +82,7 @@ int message_set_timestamp(Message * msg, uint64_t timestamp){
     
     // Check if the message struct is NULL -> return error
     if(!msg){
-        return ERROR_MSGNULL;
+        return ERROR_TYPENULL;
     }
     
     if(timestamp < 0)

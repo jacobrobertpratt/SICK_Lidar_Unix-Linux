@@ -19,16 +19,18 @@
  *
  */
 
-
+struct tmp_t {
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+} ;
 
 
 int main(int argc, char * argv[]) {
     
-    Socket * sock = socket_alloc();
-    
-    socket_setType(sock,STREAM_SOCKET);
-    
-    socket_free(sock);
     
     return 0;
 }
