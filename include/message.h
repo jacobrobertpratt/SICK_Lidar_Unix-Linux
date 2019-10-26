@@ -7,7 +7,8 @@
 #define ULID_MESSAGE_H
 
 /* Global headers*/
-
+#include <string.h>
+#include <errno.h>
 
 /* Local header files */
 #include "error.h"

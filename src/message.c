@@ -54,7 +54,10 @@ int message_set_data(Message * msg, void * data, size_t size, const char * data_
     if(!msg || !data)
         return ERROR_TYPENULL;
     
-    // Free destination data if allocated
+    if(!size)
+        return ERROR_SIZE;
+    
+    // Free destination data
     if(msg->data) {
         free(msg->data);
         msg->data = NULL;
@@ -62,17 +65,19 @@ int message_set_data(Message * msg, void * data, size_t size, const char * data_
     
     // allocate memory with size of size_t size
     msg->data = (uint8_t*) malloc(size);
-    if(!msg->data) {
+    if(!msg->data)
         return errno;
-    }
     
     // copy data to destination buffer with size specified.
     memcpy(msg->data, data, size);
     
     /* Sets the data type as a string so that it can be later used
      * to understand what kind of data was set in the message. */
-    if(data_type)
+    if(data_type){
+        if(!msg->data_type)
+            free(msg->data_type);
         msg->data_type = strdup(data_type);
+    }
     
     // Returns zero on success
     return 0;

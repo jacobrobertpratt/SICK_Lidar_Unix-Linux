@@ -3,6 +3,20 @@
 
 #define PREV_MSG_SIZE_BYTES     32
 
+static TestStruct * teststruct_alloc() {
+    TestStruct * tst_struct = (TestStruct*) malloc(sizeof(TestStruct));
+    if(!tst_struct)
+        perror("failed to alloc TestStruct");
+    return tst_struct;
+}
+
+static void teststruct_free(TestStruct * tstStruct) {
+    if(tstStruct->testChar)
+        free(tstStruct->testChar);
+    if(tstStruct)
+        free(tstStruct);
+}
+
 void test_message_alloc() {
     Message * msg = message_alloc();
     
@@ -42,17 +56,38 @@ void test_message_set_data() {
     char * tstStr = strdup("This is a test message");
     int size = strlen(tstStr) + 1;
     
-    // Test Message struct NULL
-    ret = message_set_data(msg,tstStr, size, "char*");
+    // Test Message all NULL
+    ret = message_set_data(NULL, NULL, 0, NULL);
     TEST_ASSERT_TRUE(ERROR_TYPENULL == ret);
     
-    // Test data NULL
+    // Test all NULL, but msg
     msg = message_alloc();
-    ret = message_set_data(msg, NULL, size,  "char*");
+    ret = message_set_data(msg, NULL, 0, NULL);
+    TEST_ASSERT_TRUE(ERROR_TYPENULL == ret);
+    
+    // Test all NULL reset msg struct
+    message_free(msg);
+    msg = message_alloc();
+    ret = message_set_data(msg, NULL, 0, NULL);
     TEST_ASSERT_TRUE(ERROR_TYPENULL == ret);
 
+    // Test data not NULL size = 0
+    TestStruct * tst = teststruct_alloc();
+    ret = message_set_data(msg, tst, 0, NULL);
+    TEST_ASSERT_TRUE(ERROR_SIZE == ret);
+    teststruct_free(tst);
+    
+    // Testing setting data type
     
     
+    
+    free(tst1->testChar);
+    teststruct_free(tst1);
+    
+    
+    
+    
+    message_free(msg);
     free(tstStr);
 }
 
