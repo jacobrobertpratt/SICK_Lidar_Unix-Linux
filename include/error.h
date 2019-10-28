@@ -19,6 +19,7 @@
 #define ERROR_OPEN      106     // A negative value is entered but shouldn't have been.
 #define ERROR_SIZE      107     // A size parameterr was incorrect
 #define ERROR_DATA      108     // A bad value was entered from data
+#define ERROR_TYPEDATA  109     // A bad value was entered from data type structure
 
 
 /**

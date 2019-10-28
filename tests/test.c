@@ -19,11 +19,24 @@ void tearDown(void) {
 }
 
 // not needed when using generate_test_runner.rb
-int main(void) {
+int main(int argc, char * argv[]) {
     UNITY_BEGIN();
     
-    // tests for the message.c file
-    test_unit_message_file();
+    if(argc < 2){
+        test_unit_message_file();
+    }
+    
+    int i;
+    for(i = 0; i < argc; i++){
+        // tests message.c file
+        if(!strcmp("-msg",argv[i]) || !strcmp("--msg",argv[i]) || !strcmp("--message",argv[i]) || !strcmp("--message",argv[i]))
+            test_unit_message_file();
+        
+        // tests error.c file
+        
+        
+        
+    }
     
     return UNITY_END();
 }

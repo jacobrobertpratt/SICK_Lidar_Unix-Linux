@@ -103,7 +103,7 @@ int message_free(Message * msg);
  * @param data_type is a string set by user or NULL.
  * @return integer value of error number, (see uliderror(number) to print)
  */
-int message_set_data(Message * msg, void * data, size_t size, const char * data_type);
+int message_set_data(Message * msg, void * data, int size, const char * data_type);
 
 /**
  * This will set the internal field time_stamp (uint64_t) to the provided timestamp value. If the
@@ -113,9 +113,5 @@ int message_set_data(Message * msg, void * data, size_t size, const char * data_
  * @return 0 on success, error message on failure.
  */
 int message_set_timestamp(Message * msg, uint64_t timestamp);
-
-
-
-
 
 #endif
