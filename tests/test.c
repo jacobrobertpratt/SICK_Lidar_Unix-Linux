@@ -9,6 +9,7 @@
 /* LOCAL HEADERS */
 #include "unity.h"
 #include "message_test.h"
+#include "error_test.h"
 
 void setUp(void) {
     // set stuff up here
@@ -24,16 +25,18 @@ int main(int argc, char * argv[]) {
     
     if(argc < 2){
         test_unit_message_file();
+        test_unit_error_file();
     }
     
     int i;
     for(i = 0; i < argc; i++){
         // tests message.c file
-        if(!strcmp("-msg",argv[i]) || !strcmp("--msg",argv[i]) || !strcmp("--message",argv[i]) || !strcmp("--message",argv[i]))
+        if(!strcmp("-msg",argv[i]) || !strcmp("--msg",argv[i]) || !strcmp("-message",argv[i]) || !strcmp("--message",argv[i]))
             test_unit_message_file();
         
         // tests error.c file
-        
+        if(!strcmp("-err",argv[i]) || !strcmp("--err",argv[i]) || !strcmp("-error",argv[i]) || !strcmp("--error",argv[i]))
+            test_unit_error_file();
         
         
     }

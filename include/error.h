@@ -9,18 +9,18 @@
 
 #include "../include/util.h"
 
-
 /**
  * Error message definitions specific to the ULID library.
  */
-#define ERROR_TYPENULL  103     // If a message is NULL but it shouldn't be.
-#define ERROR_NEGVAL    104     // If size is not a valid number
-#define ERROR_STRING    105     // If data is invalid
-#define ERROR_OPEN      106     // A negative value is entered but shouldn't have been.
-#define ERROR_SIZE      107     // A size parameterr was incorrect
-#define ERROR_DATA      108     // A bad value was entered from data
-#define ERROR_TYPEDATA  109     // A bad value was entered from data type structure
+#define ERROR_TYPENULL  103     //
+#define ERROR_NEGVAL    104     //
+#define ERROR_STRING    105     //
+#define ERROR_OPEN      106     //
+#define ERROR_SIZE      107     //
+#define ERROR_DATA      108     //
+#define ERROR_TYPEDATA  109     //
 
+#define MAX_ERR_NUM     (sizeof(errorArray) / 8) + 102
 
 /**
  * Represents an error log that can be passed to different error log functions

@@ -3,12 +3,12 @@
 
 static char * errorArray[] = {
     "message was null pointer",
-    "size_t is not valid",
-    "data is not valid",
-    "negative values are not valid",
-    "struct type was NULL",
-    "invalid string entered",
-    "ID was previously opened"
+    "negative values are not accepted as inputs",
+    "Incorrect string value entered",
+    "unable to open the given address",
+    "size value is not correct",
+    "data value is not correct",
+    "data type is not correct"
 };
 
 ErrorLog * errorlog_alloc(){
@@ -51,7 +51,8 @@ char * error_getString(int errnum) {
     //printf("sizeof errorArray: %lu\n",sizeof(errorArray));
     
     // Gets the maximum value of the possible errornum
-    int max_errnum = (sizeof(errorArray) / 8) + 102;
+    int max_errnum = MAX_ERR_NUM;
+    
     if(errnum > max_errnum)
         return NULL;
     
