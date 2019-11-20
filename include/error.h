@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "../include/common.h"
 #include "../include/util.h"
 
 /**

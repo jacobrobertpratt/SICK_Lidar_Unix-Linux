@@ -114,4 +114,9 @@ int message_set_data(Message * msg, uint8_t * data, int size, const char * data_
  */
 int message_set_timestamp(Message * msg, uint64_t timestamp);
 
+// Implement a get message size function
+
+// Implement a get data function (returns a copy of the data in a new allocated memory location)
+
+
 #endif

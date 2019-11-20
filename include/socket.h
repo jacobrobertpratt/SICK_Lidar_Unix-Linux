@@ -8,11 +8,8 @@
 
 #include "../include/error.h"
 
-enum SocketType{
-    STREAM_SOCKET,
-    DATAGRAM_SOCKET,
-    RAW_SOCKET
-};
+/* MACROS & DEFINITIONS */
+#define TCP _INCREMENT_     // Type of socket connection
 
 /**
  *
@@ -32,7 +29,10 @@ typedef struct socket_t {
     char ip[16];
     
     /* type of socket */
-    enum SocketType type;
+    int type;
+    
+    /* domain of socket */
+    int domain;
     
 } Socket;
 
@@ -60,7 +60,7 @@ int socket_setPort(Socket * sock, const char * port);
 
 /**
  */
-int socket_setType(Socket * sock, const enum SocketType type);
+int socket_setType(Socket * sock, int type);
 
 /**
  */
@@ -69,6 +69,9 @@ int socket_connect(Socket * sock);
 /**
  */
 int socket_disconnect(Socket * sock);
+
+
+
 
 //int TCPExchangeMessage(TcpSocket * sock, char * sendMsg, char * retMsg);
 

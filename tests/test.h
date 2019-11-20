@@ -52,6 +52,9 @@ void test_unit_error_file(); // Main callable file
 /* SOCKET TESTS */
 #include "../include/socket.h"
 
+void test_socket_alloc();
+
 // TODO
 
+void test_unit_socket_file();
 

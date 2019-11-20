@@ -10,7 +10,7 @@ Socket * socket_alloc() {
     
     sock->sockid = 0;
     sock->port = 0;
-    sock->type = STREAM_SOCKET;
+    sock->type = TCP;
     
     return sock;
 }
@@ -62,7 +62,7 @@ int socket_setPort(Socket * sock, const char * port) {
     return 0;
 }
 
-int socket_setType(Socket * sock, const enum SocketType type) {
+int socket_setType(Socket * sock, int type) {
     
     if(!sock) {
         uliderror(ERROR_STRING);
@@ -74,19 +74,7 @@ int socket_setType(Socket * sock, const enum SocketType type) {
     return 0;
 }
 
-int socket_connect(Socket * sock) {
-    
-    /* Checks if the socket is not allocated */
-    if (!sock) {
-        uliderror(ERROR_TYPENULL);
-        return ERROR_TYPENULL;
-    }
-    
-    /* If socket is already connected throws error
-       and closes previous connection. */
-    if(sock->sockid) {
-        
-    }
+static int socket_connect_tcp(Socket * sock) {
     
     // Create a socket
     sock->sockid = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -112,12 +100,36 @@ int socket_connect(Socket * sock) {
     return 0;
 }
 
+int socket_connect(Socket * sock) {
+    
+    /* Checks if the socket is not allocated */
+    if (!sock) {
+        uliderror(ERROR_TYPENULL);
+        return ERROR_TYPENULL;
+    }
+    
+    /* If socket is already connected throws error
+       and closes previous connection. */
+    if(sock->sockid) {
+        // TODO ...
+    }
+    
+    if(sock->type == TCP)
+        socket_connect_tcp(sock);
+    
+    // Add other connection types of sockets here ... right now we only use TCP
+    
+    return 0;
+}
 
 int socket_disconnect(Socket * sock) {
     if(!sock->sockid)
         close(sock->sockid);
     return 0;
 }
+
+
+
 
 /*
 int TCPExchangeMessage(TcpSocket * sock, char * sendMsg, char * retMsg) {
