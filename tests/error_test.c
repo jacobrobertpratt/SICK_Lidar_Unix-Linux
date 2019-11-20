@@ -1,4 +1,4 @@
-#include "error_test.h"
+#include "test.h"
 
 #define MAX_ERR_ARR_LAST_TESTED  110
 

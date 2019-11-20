@@ -2,14 +2,7 @@
  * Main testing entry point. This class will systymatically run all testing classes that are associated with ULID.
  */
 
-/* STANDARD HEADERS */
-#include <stdio.h>
-#include <stdlib.h>
-
-/* LOCAL HEADERS */
-#include "unity.h"
-#include "message_test.h"
-#include "error_test.h"
+#include "test.h"
 
 void setUp(void) {
     // set stuff up here
@@ -37,8 +30,6 @@ int main(int argc, char * argv[]) {
         // tests error.c file
         if(!strcmp("-err",argv[i]) || !strcmp("--err",argv[i]) || !strcmp("-error",argv[i]) || !strcmp("--error",argv[i]))
             test_unit_error_file();
-        
-        
     }
     
     return UNITY_END();

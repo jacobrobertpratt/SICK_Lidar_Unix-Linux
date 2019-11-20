@@ -1,13 +1,8 @@
 
-#include "message_test.h"
+#include "test.h"
 
 // Represents the size of the Message struct (10/28/2019)
 #define PREV_MSG_SIZE_BYTES     32
-
-struct test_t {
-    int a;
-    char * b;
-};
 
 void test_message_alloc() {
     Message * msg = message_alloc();
@@ -28,94 +23,118 @@ void test_message_alloc() {
 }
 
 void test_message_reset() {
-    int ret;
+    
     Message * msg = message_alloc();
-    struct test_t test;
-    test.a = 5;
-    test.b = strdup("test string");
-    ret = message_set_data(msg,&test,sizeof(struct test_t),"test_struct");
-    TEST_ASSERT_TRUE(0 == ret);
-    TEST_ASSERT_NOT_NULL(msg->data);
-    // At this point a message struct is allocated and data is set
     
-    // If msg is NULL
-    Message * msg2 = NULL;
-    ret = message_reset(msg2);
-    TEST_ASSERT_TRUE(ERROR_TYPENULL == ret);
+    // TODO
     
-    // If msg is not null, then reset
-    ret = message_reset(msg);
-    TEST_ASSERT_TRUE(msg->size == 0);
-    TEST_ASSERT_TRUE(msg->time_stamp == -1);
-    TEST_ASSERT_NULL(msg->data_type);
-    
-    TEST_ASSERT_TRUE(0 == ret);
-    
-    free(test.b);
     message_free(msg);
 }
 
 void test_message_free() {
-    Message * msg = NULL;
-    // Test if error message output
-    TEST_ASSERT_TRUE(ERROR_TYPENULL == message_free(msg));
-    
-    msg = message_alloc();
-    // Test if function completes
-    TEST_ASSERT_TRUE(0 == message_free(msg));
-}
-
-void test_message_set_data() {
-    
     int ret = 0;
-    struct test_t test;
     Message * msg = NULL;
     
-    // Test Message all NULL
-    ret = message_set_data(NULL, NULL, 0, NULL);
+    // Test if error message output
+    ret = message_free(msg);
     TEST_ASSERT_TRUE(ERROR_TYPENULL == ret);
     
-    // Test all NULL but msg
+    // Allocate the message
     msg = message_alloc();
-    ret = message_set_data(msg,NULL,0,NULL);
-    TEST_ASSERT_TRUE(ERROR_TYPEDATA == ret);
-                     
-    // Test all NULL but msg and data, size = 0
-    ret = message_set_data(msg,&test,0,NULL);
-    TEST_ASSERT_TRUE(ERROR_SIZE == ret);
     
-    // test data_type not NULL
-    ret = message_set_data(msg,&test,sizeof(struct test_t),"test");
-    TEST_ASSERT_EQUAL_STRING("test",msg->data_type);
+    // Check if function returns correct result
+    ret = message_free(msg);
+    TEST_ASSERT_TRUE(ret == 0);
+}
+
+void test_message_set_data_works() {
     
-    // Test only data NULL
-    test.a = 5;
-    test.b = strdup("test string 1");
-    ret = message_set_data(msg,&test,sizeof(struct test_t),NULL);
-    TEST_ASSERT_TRUE(0 == ret);
-    struct test_t * test1 = (struct test_t *) msg->data;
-    TEST_ASSERT_TRUE(5 == test1->a);
-    TEST_ASSERT_EQUAL_STRING("test string 1", test1->b);
+    int ret;
+    Message * msg = message_alloc();
     
-    // test change of data
-    struct test_t test2;
-    test2.a = 7;
-    test2.b = strdup("test string 2");
-    ret = message_set_data(msg,&test2,sizeof(struct test_t),NULL);
-    TEST_ASSERT_TRUE(0 == ret);
-    struct test_t * test3 = (struct test_t *) msg->data;
-    TEST_ASSERT_TRUE(7 == test3->a);
-    TEST_ASSERT_EQUAL_STRING("test string 2", test1->b);
+    char * test_str = strdup("test data string");
     
-    free(test.b);
-    free(test2.b);
+    ret = message_set_data(msg,test_str,strlen(test_str),"data type test");
+    
+    TEST_ASSERT_TRUE(ret == 0);
+    TEST_ASSERT_NOT_NULL(msg->data);
+    TEST_ASSERT_EQUAL_STRING (test_str, msg->data);
+    TEST_ASSERT_EQUAL_STRING("data type test",msg->data_type);
+    
+    free(test_str);
+    
+    message_free(msg);
+    
+}
+
+void test_message_set_data_null_msg() {
+    
+    int ret = 0;
+    Message * msg = NULL;
+    char * test_str = strdup("test data string");
+    
+    ret = message_set_data(msg,test_str,strlen(test_str),NULL);
+    TEST_ASSERT_TRUE(ret == ERROR_TYPENULL);
+    
+    free(test_str);
+    
+    message_free(msg);
+}
+
+void test_message_set_data_null_data() {
+    int ret;
+    Message * msg = message_alloc();
+    char * test_str = NULL;
+    
+    ret = message_set_data(msg,test_str,0,NULL);
+    TEST_ASSERT_TRUE(ret == ERROR_TYPEDATA);
+    
+    message_free(msg);
+}
+
+void test_message_set_data_size_zero() {
+    int ret;
+    Message * msg = message_alloc();
+    char * test_str = strdup("test data string");
+    
+    ret = message_set_data(msg,test_str,0,NULL);
+    TEST_ASSERT_TRUE(ret == ERROR_SIZE);
+    
+    free(test_str);
+    
+    message_free(msg);
+}
+
+void test_message_set_data_diff_data() {
+    int ret;
+    Message * msg = message_alloc();
+    
+    char * test_str = strdup("test data string");
+    // Sets the initial data
+    ret = message_set_data(msg,test_str,strlen(test_str),"data type test");
+    // Checks the inital data is correct
+    TEST_ASSERT_TRUE(ret == 0);
+    TEST_ASSERT_NOT_NULL(msg->data);
+    TEST_ASSERT_EQUAL_STRING (test_str, msg->data);
+    TEST_ASSERT_EQUAL_STRING("data type test",msg->data_type);
+    
+    char * test_str_2 = strdup("different test data string");
+    
+    ret = message_set_data(msg,test_str_2,strlen(test_str_2),"data type test");
+    
+    TEST_ASSERT_TRUE(ret == 0);
+    TEST_ASSERT_NOT_NULL(msg->data);
+    TEST_ASSERT_EQUAL_STRING (test_str_2, msg->data);
+    
+    free(test_str);
+    free(test_str_2);
     message_free(msg);
 }
 
 void test_message_set_timestamp() {
+    int ret;
     //TEST_FAIL_MESSAGE("Function and test function not yet implemented.");
     Message * msg = message_alloc();
-    int ret;
     ret = message_set_timestamp(msg,100122);
     TEST_ASSERT_TRUE(100122 == msg->time_stamp);
     TEST_ASSERT_TRUE(ret == 0);
@@ -125,6 +144,10 @@ void test_unit_message_file() {
     RUN_TEST(test_message_alloc);
     RUN_TEST(test_message_reset);
     RUN_TEST(test_message_free);
-    RUN_TEST(test_message_set_data);
+    RUN_TEST(test_message_set_data_works);
+    RUN_TEST(test_message_set_data_null_msg);
+    RUN_TEST(test_message_set_data_null_data);
+    RUN_TEST(test_message_set_data_size_zero);
+    RUN_TEST(test_message_set_data_diff_data);
     RUN_TEST(test_message_set_timestamp);
 }

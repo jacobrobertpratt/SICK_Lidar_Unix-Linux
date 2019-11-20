@@ -61,7 +61,7 @@ int message_free(Message * msg) {
  *  2) Check to see what type of errors could happen with (void *)
  *  3) Need to check and stop copy overflow. ... how?
  */
-int message_set_data(Message * msg, void * data, int size, const char * data_type) {
+int message_set_data(Message * msg, uint8_t * data, int size, const char * data_type) {
     
     // Check message is not NULL
     if(!msg)
