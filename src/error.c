@@ -8,7 +8,8 @@ static char * errorArray[] = {
     "unable to open the given address",
     "size value is not correct",
     "data value is not correct",
-    "data type is not correct"
+    "data type is not correct",
+    "function not yet implemented"
 };
 
 ErrorLog * errorlog_alloc(){

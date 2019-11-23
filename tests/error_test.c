@@ -1,6 +1,6 @@
 #include "test.h"
 
-#define MAX_ERR_ARR_LAST_TESTED  110
+#define MAX_ERR_ARR_LAST_TESTED  111
 
 void test_errorLog_alloc(){
     TEST_IGNORE_MESSAGE("TEST NOT IMPLEMENTED");
@@ -26,6 +26,7 @@ void test_error_getString() {
     TEST_ASSERT_EQUAL_STRING("size value is not correct", error_getString(ERROR_SIZE));
     TEST_ASSERT_EQUAL_STRING("data value is not correct", error_getString(ERROR_DATA));
     TEST_ASSERT_EQUAL_STRING("data type is not correct", error_getString(ERROR_TYPEDATA));
+    TEST_ASSERT_EQUAL_STRING("function not yet implemented", error_getString(ERROR_IMPLEMENTED));
     TEST_ASSERT_NULL_MESSAGE(error_getString(MAX_ERR_ARR_LAST_TESTED),"error_getString function needs to be updated with newest test values. errorArray[] was changed.");
 }
 

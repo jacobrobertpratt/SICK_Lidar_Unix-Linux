@@ -1,3 +1,4 @@
+
 #ifndef _ULID_SOCKET_H_
 #define _ULID_SOCKET_H_
 
@@ -8,8 +9,11 @@
 
 #include "../include/error.h"
 
-/* MACROS & DEFINITIONS */
-#define TCP _INCREMENT_     // Type of socket connection
+enum SOCK_TYPE {
+    TCP  = _INCREMENT_,
+    UDP  = _INCREMENT_,
+    ICMP = _INCREMENT_
+};
 
 /**
  *
@@ -26,13 +30,10 @@ typedef struct socket_t {
     struct sockaddr_in addr;
     
     /* Socket IP address */
-    char ip[16];
+    char * ip;
     
     /* type of socket */
-    int type;
-    
-    /* domain of socket */
-    int domain;
+    enum SOCK_TYPE type;
     
 } Socket;
 
@@ -60,7 +61,7 @@ int socket_setPort(Socket * sock, const char * port);
 
 /**
  */
-int socket_setType(Socket * sock, int type);
+int socket_setType(Socket * sock, enum SOCK_TYPE type);
 
 /**
  */

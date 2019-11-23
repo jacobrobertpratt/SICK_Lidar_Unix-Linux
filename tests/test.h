@@ -52,7 +52,31 @@ void test_unit_error_file(); // Main callable file
 /* SOCKET TESTS */
 #include "../include/socket.h"
 
+void test_socket_free_sock_null();
+
 void test_socket_alloc();
+
+void test_socket_free();
+
+void test_socket_setIP_sock_null();
+
+void test_socket_setIP();
+
+void test_socket_setIP_small_address();
+
+void test_socket_setIP_large_address();
+
+void test_socket_setPort_sock_null();
+
+void test_socket_setPort_small_address();
+
+void test_socket_setPort_large_address();
+
+void test_socket_setType_sock_null();
+
+void test_socket_setType_UDP();
+
+void test_socket_setPort();
 
 // TODO
 

@@ -13,13 +13,14 @@
 /**
  * Error message definitions specific to the ULID library.
  */
-#define ERROR_TYPENULL  103     //
-#define ERROR_NEGVAL    104     //
-#define ERROR_STRING    105     //
-#define ERROR_OPEN      106     //
-#define ERROR_SIZE      107     //
-#define ERROR_DATA      108     //
-#define ERROR_TYPEDATA  109     //
+#define ERROR_TYPENULL      103     //
+#define ERROR_NEGVAL        104     //
+#define ERROR_STRING        105     //
+#define ERROR_OPEN          106     //
+#define ERROR_SIZE          107     //
+#define ERROR_DATA          108     //
+#define ERROR_TYPEDATA      109     //
+#define ERROR_IMPLEMENTED   110     //
 
 #define MAX_ERR_NUM     (sizeof(errorArray) / 8) + 102
 
