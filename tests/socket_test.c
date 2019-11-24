@@ -1,6 +1,9 @@
 
 #include "test.h"
 
+/* A mock server is setup under mock_lidar.c which is compiled
+separatley. This is used internally to test the socket class. */
+
 void test_socket_free_sock_null() {
     int ret = 0;
     Socket * sock = NULL;
@@ -70,23 +73,23 @@ void test_socket_setPort_sock_null() {
 void test_socket_setPort_small_address() {
     int ret = 0;
     Socket * sock = socket_alloc();
-    ret = socket_setPort(sock, "");
-    TEST_ASSERT_TRUE(ret == ERROR_STRING);
+    ret = socket_setPort(sock, -123);
+    TEST_ASSERT_TRUE(ret == ERROR_SIZE);
     socket_free(sock);
 }
 
 void test_socket_setPort_large_address() {
     int ret = 0;
     Socket * sock = socket_alloc();
-    ret = socket_setPort(sock, "12345");
-    TEST_ASSERT_TRUE(ret == ERROR_STRING);
+    ret = socket_setPort(sock, 12345);
+    TEST_ASSERT_TRUE(ret == ERROR_SIZE);
     socket_free(sock);
 }
 
 void test_socket_setPort() {
     int ret = 0;
     Socket * sock = socket_alloc();
-    ret = socket_setPort(sock, "1234");
+    ret = socket_setPort(sock, 1234);
     TEST_ASSERT_TRUE(ret == 0);
     TEST_ASSERT_TRUE(sock->port == 1234);
     socket_free(sock);
@@ -108,6 +111,53 @@ void test_socket_setType_UDP() {
     socket_free(sock);
 }
 
+void test_socket_connect_null_sock() {
+    // TODO
+}
+
+void test_socket_connect_no_port() {
+    // TODO
+}
+
+void test_socket_connect_no_IP() {
+    // TODO
+}
+
+void test_socket_connect() {
+    int ret = 0;
+    Socket * sock = socket_alloc();
+    ret = socket_setIP(sock, "127.0.0.1");
+    ret = socket_setPort(sock, 9999);
+    ret = socket_connect(sock);
+    sleep(1);
+    ret = socket_disconnect(sock);
+    sleep(1);
+    ret = socket_connect(sock);
+    sleep(1);
+    ret = socket_disconnect(sock);
+    socket_free(sock);
+}
+
+void test_socket_connect_alreadyConnected() {
+    // TODO
+}
+
+void test_socket_sendData_null_sock() {
+    // TODO
+}
+
+void test_socket_sendData_not_connected() {
+    // TODO
+}
+
+void test_socket_send_recv_data() {
+    // TODO
+}
+
+void test_socket_recvData_not_connected() {
+    // TODO
+}
+
 void test_unit_socket_file() {
     RUN_TEST(test_socket_free_sock_null);
     RUN_TEST(test_socket_alloc);
@@ -122,4 +172,16 @@ void test_unit_socket_file() {
     RUN_TEST(test_socket_setPort);
     RUN_TEST(test_socket_setType_sock_null);
     RUN_TEST(test_socket_setType_UDP);
+    RUN_TEST(test_socket_connect);
+    RUN_TEST(test_socket_connect_null_sock);
+    RUN_TEST(test_socket_connect_no_port);
+    RUN_TEST(test_socket_connect_no_IP);
+    RUN_TEST(test_socket_connect_alreadyConnected);
+    RUN_TEST(test_socket_sendData_null_sock);
+    RUN_TEST(test_socket_sendData_not_connected);
+    RUN_TEST(test_socket_send_recv_data);
+    RUN_TEST(test_socket_recvData_not_connected);
+//    RUN_TEST();
+//    RUN_TEST();
+//    RUN_TEST();
 }

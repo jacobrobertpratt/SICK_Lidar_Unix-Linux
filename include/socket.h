@@ -57,7 +57,7 @@ int socket_setIP(Socket * sock, const char * address);
 
 /**
  */
-int socket_setPort(Socket * sock, const char * port);
+int socket_setPort(Socket * sock, int port);
 
 /**
  */
@@ -65,14 +65,19 @@ int socket_setType(Socket * sock, enum SOCK_TYPE type);
 
 /**
  */
+int socket_disconnect(Socket * sock);
+
+/**
+ */
 int socket_connect(Socket * sock);
 
 /**
  */
-int socket_disconnect(Socket * sock);
+int socket_sendData(Socket * sock, void * data, size_t size);
 
-
-
+/**
+ */
+int socket_recvData(Socket * sock, void * data, size_t size);
 
 //int TCPExchangeMessage(TcpSocket * sock, char * sendMsg, char * retMsg);
 

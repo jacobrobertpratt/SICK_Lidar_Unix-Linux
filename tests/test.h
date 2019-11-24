@@ -52,6 +52,9 @@ void test_unit_error_file(); // Main callable file
 /* SOCKET TESTS */
 #include "../include/socket.h"
 
+/* A mock server is setup under mock_lidar.c which is compiled
+    separatley. This is used internally to test the socket class. */
+
 void test_socket_free_sock_null();
 
 void test_socket_alloc();
@@ -72,11 +75,29 @@ void test_socket_setPort_small_address();
 
 void test_socket_setPort_large_address();
 
+void test_socket_setPort();
+
 void test_socket_setType_sock_null();
 
 void test_socket_setType_UDP();
 
-void test_socket_setPort();
+void test_socket_connect_null_sock();
+
+void test_socket_connect_no_port();
+
+void test_socket_connect_no_IP();
+
+void test_socket_connect();
+
+void test_socket_connect_alreadyConnected();
+
+void test_socket_sendData_null_sock();
+
+void test_socket_sendData_not_connected();
+
+void test_socket_send_recv_data();
+
+void test_socket_recvData_not_connected();
 
 // TODO
 

@@ -2,6 +2,7 @@
 #include "../include/socket.h"
 
 Socket * socket_alloc() {
+    
     Socket * sock = (Socket *) malloc(sizeof(Socket));
     if(!sock) {
         uliderror(errno);
@@ -55,7 +56,7 @@ int socket_setIP(Socket * sock, const char * address)
     return 0;
 }
 
-int socket_setPort(Socket * sock, const char * port) {
+int socket_setPort(Socket * sock, int port) {
     
     /* Checks if the socket is not allocated */
     if(!sock) {
@@ -64,13 +65,12 @@ int socket_setPort(Socket * sock, const char * port) {
     }
     
     /* Checks if valid port number */
-    if(strlen(port) > 4 || strlen(port) == 0) {
-        uliderror(ERROR_STRING);
-        return ERROR_STRING;
+    if(port > 9999 || port <= 0) {
+        uliderror(ERROR_SIZE);
+        return ERROR_SIZE;
     }
     
-    int port_num = atoi(port);
-    sock->port = port_num;
+    sock->port = port;
     
     return 0;
 }
@@ -120,60 +120,20 @@ static int socket_connect_UDP(Socket * sock) {
     // remove once this function is implemented
     uliderror(ERROR_IMPLEMENTED);
     
-    /*
-    // Create a socket
-    sock->sockid = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if(sock->sockid < 0){
-        uliderror(errno);
-        return errno;
-    }
-    
-    // Clear the sockaddr_in struct
-    memset(&sock->addr, 0, sizeof(sock->addr));
-    
-    // Set up the structure to connect
-    sock->addr.sin_family = AF_INET;
-    sock->addr.sin_port = htons(sock->port);
-    sock->addr.sin_addr.s_addr = inet_addr(sock->ip);
-    
-    // Connect socket to the Lidar
-    if(connect(sock->sockid, (struct sockaddr *)(&sock->addr), sizeof(sock->addr)) < 0) {
-        uliderror(errno);
-        return errno;
-    }
-    */
-    
     return 0;
 }
 
 static int socket_connect_ICMP(Socket * sock) {
     
-    /*
-    // Create a socket
-    sock->sockid = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if(sock->sockid < 0){
-        uliderror(errno);
-        return errno;
-    }
-    
-    // Clear the sockaddr_in struct
-    memset(&sock->addr, 0, sizeof(sock->addr));
-    
-    // Set up the structure to connect
-    sock->addr.sin_family = AF_INET;
-    sock->addr.sin_port = htons(sock->port);
-    sock->addr.sin_addr.s_addr = inet_addr(sock->ip);
-    
-    // Connect socket to the Lidar
-    if(connect(sock->sockid, (struct sockaddr *)(&sock->addr), sizeof(sock->addr)) < 0) {
-        uliderror(errno);
-        return errno;
-    }
-    */
-    
     // remove once this function is implemented
     uliderror(ERROR_IMPLEMENTED);
     
+    return 0;
+}
+
+int socket_disconnect(Socket * sock) {
+    if(!sock->sockid)
+        close(sock->sockid);
     return 0;
 }
 
@@ -196,7 +156,8 @@ int socket_connect(Socket * sock) {
     /* If socket is already connected throws error
        and closes previous connection. */
     if(sock->sockid) {
-        // TODO ...
+        // TODO ... send uliderror
+        socket_disconnect(sock);
     }
     
     /* Call the relevant connect method specific to connection type
@@ -222,12 +183,6 @@ int socket_connect(Socket * sock) {
         }
     }
     
-    return 0;
-}
-
-int socket_disconnect(Socket * sock) {
-    if(!sock->sockid)
-        close(sock->sockid);
     return 0;
 }
 

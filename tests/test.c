@@ -1,6 +1,7 @@
 /**
  * Main testing entry point. This class will systymatically run all testing classes that are associated with ULID.
  */
+#include <unistd.h>
 
 #include "test.h"
 
