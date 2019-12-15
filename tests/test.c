@@ -51,6 +51,7 @@ int main(int argc, char * argv[]) {
         test_unit_message_file();
         test_unit_error_file();
         test_unit_socket_file();
+        test_unit_list_file();
     }
     
     int i;
@@ -66,6 +67,10 @@ int main(int argc, char * argv[]) {
         // tests socket.c file
         if(!strcmp("-sock",argv[i]) || !strcmp("--sock",argv[i]) || !strcmp("-socket",argv[i]) || !strcmp("--socket",argv[i]))
             test_unit_socket_file();
+        
+        if(!strcmp("-list",argv[i]) || !strcmp("--list",argv[i]))
+            test_unit_list_file();
+        
     }
     
     UNITY_END();
