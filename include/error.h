@@ -94,7 +94,7 @@ int error_print(int errnum, const char * file, int line);
  * The general format will be:
  * [<function name> @ <line number> ] Error: <error message here>
  */
-#define uliderror(a) error_print(a, __FILE__, __LINE__)
+#define uliderror(a) error_print(a, &(strrchr(__FILE__,'/')[1]), __LINE__)
 
 
 

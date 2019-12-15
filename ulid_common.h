@@ -19,6 +19,7 @@
 /****************** COMMON STRUCTS ******************/
 
 
+
 /*  TcpSocket:
  *  Structure that holds a socket ID number, socket port number, sockaddr_in structure,
  *  and and IP address which is held in a 16-byte char array. Generally, a generic
@@ -66,6 +67,7 @@ typedef enum userlevel_t {
     CLIENT,
     SERVICE
 } UserLevel;
+
 
 
 
