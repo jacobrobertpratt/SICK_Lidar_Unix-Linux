@@ -156,7 +156,7 @@ int socket_connect(Socket * sock) {
     /* If socket is already connected throws error
        and closes previous connection. */
     if(sock->sockid) {
-        // TODO ... send uliderror
+        // TODO: Send ulid error message
         socket_disconnect(sock);
     }
     
@@ -164,22 +164,25 @@ int socket_connect(Socket * sock) {
         connection standard is TCP. */
     if(sock->type == TCP) {
         ret = socket_connect_TCP(sock);
-        if(!ret) {
-            // TODO ... return error number.
+        if(ret) {
+            // TODO: specialized error message for TCP.
+            return ret;
         }
     }
     
     if(sock->type == UDP) {
         ret = socket_connect_UDP(sock);
-        if(!ret) {
-            // TODO ... return error number.
+        if(ret) {
+            // TODO: specialized error message for UDP.
+            return ret;
         }
     }
     
     if(sock->type == ICMP) {
         ret = socket_connect_ICMP(sock);
-        if(!ret) {
-            // TODO ... return error number.
+        if(ret) {
+            // TODO: specialized error message for ICMP.
+            return ret;
         }
     }
     

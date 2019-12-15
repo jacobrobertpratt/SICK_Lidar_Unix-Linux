@@ -1,20 +1,50 @@
 /**
  * Main testing entry point. This class will systymatically run all testing classes that are associated with ULID.
  */
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <signal.h>
 
 #include "test.h"
 
-void setUp(void) {
-    // set stuff up here
+/* Starts the mock_lidar process that mimics */
+int startMockLidar(void) {
+    pid_t pid;
+    
+    // fork and start mock lidar process ...
+    pid = fork();
+    if(pid == 0) {
+        printf("Starting mock lidar process ... ");
+        execvp("./mock_lidar", 0);
+        printf("ERROR: failed to initialize lidar with code -> %s\n",strerror(errno));
+        exit(1);
+    }
+    sleep(1);
+    return pid;
 }
 
-void tearDown(void) {
-    // clean stuff up here
+void endMockLidar(int pid) {
+    int status;
+    
+    if(kill(pid,SIGKILL) < 0)
+        printf("ERROR: can't destory mock_lidar process with code --> %s\n",strerror(errno));
+    
+    while(pid != waitpid(pid, &status, 0))
+        ;
 }
+
+void setUp(){}
+
+void tearDown(){}
 
 // not needed when using generate_test_runner.rb
 int main(int argc, char * argv[]) {
+    
+    int pid = startMockLidar();
+    
     UNITY_BEGIN();
     
     if(argc < 2){
@@ -38,5 +68,9 @@ int main(int argc, char * argv[]) {
             test_unit_socket_file();
     }
     
-    return UNITY_END();
+    UNITY_END();
+    
+    endMockLidar(pid);
+    
+    return 0;
 }

@@ -25,7 +25,6 @@ ErrorLog * errorlog_alloc(){
     log->filename = NULL;
     
     return log;
-    
 }
 
 int errorlog_free(ErrorLog * log) {
@@ -42,7 +41,6 @@ int errorlog_free(ErrorLog * log) {
     free(log);
     
     return 0;
-    
 }
 
 char * error_getString(int errnum) {

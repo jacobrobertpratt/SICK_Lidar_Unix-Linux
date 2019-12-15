@@ -66,7 +66,7 @@ void test_socket_setIP_large_address() {
 void test_socket_setPort_sock_null() {
     int ret = 0;
     Socket * sock = NULL;
-    ret = socket_setPort(sock, "1234");
+    ret = socket_setPort(sock, 1234);
     TEST_ASSERT_TRUE(ret == ERROR_TYPENULL);
 }
 
@@ -129,12 +129,9 @@ void test_socket_connect() {
     ret = socket_setIP(sock, "127.0.0.1");
     ret = socket_setPort(sock, 9999);
     ret = socket_connect(sock);
-    sleep(1);
+    TEST_ASSERT_TRUE(ret == 0);
     ret = socket_disconnect(sock);
-    sleep(1);
-    ret = socket_connect(sock);
-    sleep(1);
-    ret = socket_disconnect(sock);
+    TEST_ASSERT_TRUE(ret == 0);
     socket_free(sock);
 }
 
@@ -181,7 +178,6 @@ void test_unit_socket_file() {
     RUN_TEST(test_socket_sendData_not_connected);
     RUN_TEST(test_socket_send_recv_data);
     RUN_TEST(test_socket_recvData_not_connected);
-//    RUN_TEST();
 //    RUN_TEST();
 //    RUN_TEST();
 }

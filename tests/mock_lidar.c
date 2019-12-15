@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
 #include <string.h>
+#include <errno.h>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -53,7 +53,7 @@ int main( int argc, char *argv[] ) {
             clientSock = accept(serverSock, (struct sockaddr *) &serverStorage, &addr_size);
             
             if(clientSock < 0) {
-                perror("accept call failed");
+                printf("ERROR: except client socket failed with call --> %s", strerror(errno));
                 exit(1);
             }
             
@@ -62,8 +62,6 @@ int main( int argc, char *argv[] ) {
             if((client_pid = fork()) == 0) {
                 
                 close(serverSock);
-                
-                printf("client socket recieved ...\n");
                 
                 fpurge(stdout);
                 fpurge(stdin);

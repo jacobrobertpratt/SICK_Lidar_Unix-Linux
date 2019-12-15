@@ -27,8 +27,6 @@ int message_reset(Message * msg){
     if(msg->data_type)
         free(msg->data_type);
         
-    msg->data_type = NULL;
-    
     // Possible improvement to add a callback to destroy data field.
     
     return 0;
@@ -45,12 +43,6 @@ int message_free(Message * msg) {
         msg->data = NULL;
     }
     
-    // free data_type (char *)
-    if(msg->data_type) {
-        free(msg->data_type);
-        msg->data_type = NULL;
-    }
-    
     free(msg);
     
     return 0;
@@ -61,7 +53,7 @@ int message_free(Message * msg) {
  *  2) Check to see what type of errors could happen with (void *)
  *  3) Need to check and stop copy overflow. ... how?
  */
-int message_set_data(Message * msg, uint8_t * data, int size, const char * data_type) {
+int message_set_data(Message * msg, char * data, int size) {
     
     // Check message is not NULL
     if(!msg)
@@ -81,13 +73,8 @@ int message_set_data(Message * msg, uint8_t * data, int size, const char * data_
         msg->data = NULL;
     }
     
-    /* Sets the data type as a string so that it can be later used
-     * to understand what kind of data was set in the message. */
-    if(data_type)
-        msg->data_type = strdup(data_type);
-    
     // allocate memory with size of size_t size
-    msg->data = (uint8_t*) malloc(size);
+    msg->data = (char*) malloc(size);
     if(!msg->data)
         return errno;
     
