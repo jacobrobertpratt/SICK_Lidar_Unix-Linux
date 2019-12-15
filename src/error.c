@@ -12,37 +12,6 @@ static char * errorArray[] = {
     "function not yet implemented"
 };
 
-ErrorLog * errorlog_alloc(){
-    
-    // Allocate main structure memory
-    ErrorLog * log = (ErrorLog *) malloc(sizeof(ErrorLog));
-    if(!log) {
-        uliderror(errno);
-        return NULL;
-    }
-    
-    // Set all variables to initial values
-    log->filename = NULL;
-    
-    return log;
-}
-
-int errorlog_free(ErrorLog * log) {
-    
-    if(!log)
-        return 1; // improvment -> Set global error
-    
-    // free filename if set
-    if(log->filename) {
-        free(log->filename);
-        log->filename = NULL;
-    }
-    
-    free(log);
-    
-    return 0;
-}
-
 char * error_getString(int errnum) {
     
     char * retStr = NULL;
