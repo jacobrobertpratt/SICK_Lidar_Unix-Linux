@@ -45,15 +45,16 @@ int main(int argc, char * argv[]) {
     
     int pid = startMockLidar();
     
-    UNITY_BEGIN();
+    // Create list of pointer objects to be added during execution
     
     if(argc < 2){
         test_unit_message_file();
         test_unit_error_file();
         test_unit_socket_file();
-        test_unit_list_file();
+        test_unit_qnode();
     }
     
+    // Build function pointer array
     int i;
     for(i = 0; i < argc; i++){
         // tests message.c file
@@ -68,9 +69,16 @@ int main(int argc, char * argv[]) {
         if(!strcmp("-sock",argv[i]) || !strcmp("--sock",argv[i]) || !strcmp("-socket",argv[i]) || !strcmp("--socket",argv[i]))
             test_unit_socket_file();
         
-        if(!strcmp("-list",argv[i]) || !strcmp("--list",argv[i]))
-            test_unit_list_file();
+        if(!strcmp("-qnode",argv[i]) || !strcmp("--qnode",argv[i]))
+            test_unit_qnode();
         
+    }
+    
+    UNITY_BEGIN();
+    
+    // Loop through test pointers with callbacks
+    for(i = 0; i < 5; i++) {
+        // call array of function pointers
     }
     
     UNITY_END();

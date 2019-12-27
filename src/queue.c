@@ -1,4 +1,5 @@
 #include "../include/queue.h"
+#include "../include/message.h"
 
 static struct  qnode_t * qnode_alloc(void * data, void (*dealloc_cb)()) {
     
@@ -9,7 +10,7 @@ static struct  qnode_t * qnode_alloc(void * data, void (*dealloc_cb)()) {
     return node;
 }
 
-static void qnode_free(struct qnode_t * node){
+static void qnode_free(struct qnode_t * node) {
     // test node
     
     // test callback

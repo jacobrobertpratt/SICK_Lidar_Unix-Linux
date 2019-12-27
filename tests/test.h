@@ -100,11 +100,14 @@ void test_socket_recvData_not_connected();
 
 void test_unit_socket_file();
 
-/* LIST TESTS */
-#include "../include/list.h"
+/* QNODE TEST */
 
-// TODO: 
+#include "../include/qnode.h"
 
-void test_unit_list_file();
+void test_qnode_alloc_dataNUll();
+
+void test_qnode_alloc_Message();
+
+void test_unit_qnode();
 
 

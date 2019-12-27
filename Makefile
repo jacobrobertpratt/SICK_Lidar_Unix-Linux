@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-c -Wall
 LDFLAGS=
 
-SOURCES=ulid.c src/error.c src/util.c src/message.c src/socket.c src/list.c src/queue.c
+SOURCES=ulid.c src/error.c src/util.c src/message.c src/socket.c src/qnode.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=ulid
 
@@ -17,8 +17,8 @@ $(EXECUTABLE): $(OBJECTS)
 clean:
 	rm $(OBJECTS) $(EXECUTABLE) $(FILES) $(TESTEXECUTABLE)
 
-test: 
+test:
 	cd tests/ && $(MAKE)
 
-cleantest:
+cleantests:
 	cd tests/ && $(MAKE) clean
