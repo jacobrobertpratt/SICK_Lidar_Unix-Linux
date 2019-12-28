@@ -1,5 +1,5 @@
-#ifndef _ULID_NODE_H_
-#define _ULID_NODE_H_
+#ifndef _ULID_QNODE_H_
+#define _ULID_QNODE_H_
 
 #include <stdlib.h>
 
@@ -16,23 +16,21 @@
 struct qnode_t;
 
 /* Represents a queue used interanally */
-struct qnode_t {
+typedef struct qnode_t {
     void * data;
     struct qnode_t * next;
-    void (*dealloc_node_cb);
-};
+}QNode;
 
 /* Allocates a node data type to be added this queue */
-struct qnode_t * qnode_alloc(void * data);
+QNode * qnode_alloc(void);
 
 /* Deallocates a node struct. */
-void qnode_free(struct qnode_t * node);
+int qnode_free(QNode ** node);
+
+/* Sets the data referernce for the node, else it's null. */
+int qnode_setData(QNode * node, void * data);
 
 /* Connections two nodes. */
-int qnode_connect(struct qnode_t * curr, struct qnode_t * next);
+int qnode_connect(QNode * curr, QNode * next);
 
-/* Sets the callback for the node data type to destroy the */
-int qnode_deallocCallback(void (*dealloc_node_cb)());
-
-
-#endif /* _ULID_NODE_H_ */
+#endif /* _ULID_QNODE_H_ */

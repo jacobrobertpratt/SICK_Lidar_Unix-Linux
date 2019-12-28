@@ -2,9 +2,9 @@ CC=gcc
 CFLAGS=-c -Wall
 LDFLAGS=
 
-SOURCES=test.c unity.c ../src/message.c ../src/error.c ../src/socket.c ../src/qnode.c message_test.c error_test.c socket_test.c qnode_test.c
+SOURCES=test.c unity.c ../src/message.c ../src/error.c ../src/socket.c ../src/qnode.c ../src/fifo.c message_test.c error_test.c socket_test.c qnode_test.c fifo_test.c
 MOCKSRC=mock_lidar.c
-OBJECTS=$(SOURCES:.c=.o) 
+OBJECTS=$(SOURCES:.c=.o)
 MOCKOBJ=$(MOCKSRC:.c=.o)
 EXECUTABLE=test
 MOCKEXE=mock_lidar

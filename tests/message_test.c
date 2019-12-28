@@ -19,32 +19,34 @@ void test_message_alloc() {
     TEST_ASSERT_TRUE(msg->size == 0);
     TEST_ASSERT_TRUE(msg->time_stamp == -1);
     
-    message_free(msg);
+    message_free(&msg);
 }
 
 void test_message_reset() {
     
     Message * msg = message_alloc();
     
-    // TODO
+    // TODO:
     
-    message_free(msg);
+    message_free(&msg);
 }
 
 void test_message_free() {
-    int ret = 0;
+    
     Message * msg = NULL;
     
     // Test if error message output
-    ret = message_free(msg);
-    TEST_ASSERT_TRUE(ERROR_TYPENULL == ret);
+    message_free(&msg);
+    TEST_ASSERT_NULL(msg);
     
     // Allocate the message
     msg = message_alloc();
+    TEST_ASSERT_NOT_NULL(msg);
     
     // Check if function returns correct result
-    ret = message_free(msg);
-    TEST_ASSERT_TRUE(ret == 0);
+    message_free(&msg);
+    TEST_ASSERT_NULL(msg);
+    
 }
 
 void test_message_set_data_works() {
@@ -62,7 +64,7 @@ void test_message_set_data_works() {
     
     free(test_str);
     
-    message_free(msg);
+    message_free(&msg);
     
 }
 
@@ -77,7 +79,7 @@ void test_message_set_data_null_msg() {
     
     free(test_str);
     
-    message_free(msg);
+    message_free(&msg);
 }
 
 void test_message_set_data_null_data() {
@@ -88,7 +90,7 @@ void test_message_set_data_null_data() {
     ret = message_set_data(msg,test_str,0);
     TEST_ASSERT_TRUE(ret == ERROR_TYPEDATA);
     
-    message_free(msg);
+    message_free(&msg);
 }
 
 void test_message_set_data_size_zero() {
@@ -101,7 +103,7 @@ void test_message_set_data_size_zero() {
     
     free(test_str);
     
-    message_free(msg);
+    message_free(&msg);
 }
 
 void test_message_set_data_diff_data() {
@@ -126,7 +128,7 @@ void test_message_set_data_diff_data() {
     
     free(test_str);
     free(test_str_2);
-    message_free(msg);
+    message_free(&msg);
 }
 
 void test_message_set_timestamp() {
@@ -136,6 +138,7 @@ void test_message_set_timestamp() {
     ret = message_set_timestamp(msg,100122);
     TEST_ASSERT_TRUE(100122 == msg->time_stamp);
     TEST_ASSERT_TRUE(ret == 0);
+    message_free(&msg);
 }
 
 void test_unit_message_file() {

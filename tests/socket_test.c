@@ -178,6 +178,4 @@ void test_unit_socket_file() {
     RUN_TEST(test_socket_sendData_not_connected);
     RUN_TEST(test_socket_send_recv_data);
     RUN_TEST(test_socket_recvData_not_connected);
-//    RUN_TEST();
-//    RUN_TEST();
 }

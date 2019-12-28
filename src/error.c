@@ -2,14 +2,16 @@
 #include "../include/error.h"
 
 static char * errorArray[] = {
-    "message was null pointer",
+    "input data type was null pointer",
     "negative values are not accepted as inputs",
-    "Incorrect string value entered",
+    "incorrect string value entered",
     "unable to open the given address",
     "size value is not correct",
     "data value is not correct",
     "data type is not correct",
-    "function not yet implemented"
+    "function not yet implemented",
+    "cannot free could lose data memory reference",
+    "attempting to replace already allocated data without freeing the origional data"
 };
 
 char * error_getString(int errnum) {

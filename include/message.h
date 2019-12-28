@@ -60,9 +60,9 @@ int message_reset(Message * msg);
  * Deallocates a message which has been allocated by allocate_message(). If the input message is
  * NULL, will return appropriate error message.
  * @param message * Message structure.
- * @return error message number.
+ * @return void
  */
-int message_free(Message * msg);
+int message_free(Message ** msg);
 
 /**
  * Function will take an already allocated Message structure and set the whatever is passed

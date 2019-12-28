@@ -21,6 +21,8 @@
 #define ERROR_DATA          108     //
 #define ERROR_TYPEDATA      109     //
 #define ERROR_IMPLEMENTED   110     //
+#define ERROR_MEMREF        111     //
+#define ERROR_REPDATA       112     //
 
 #define MAX_ERR_NUM     (sizeof(errorArray) / 8) + 102
 

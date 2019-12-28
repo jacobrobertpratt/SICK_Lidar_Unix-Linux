@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ULID_ERROR_COUNT    110     // The number of local error numbers that we have
+#define ULID_ERROR_COUNT    112     // The number of local error numbers that we have
 
 
 /* MACROS */

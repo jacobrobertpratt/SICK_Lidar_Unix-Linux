@@ -1,21 +1,62 @@
 #include "../include/qnode.h"
 
-struct qnode_t * qnode_alloc(void * data) {
+QNode * qnode_alloc() {
     
-    if(!data) {
-        uliderror(ERROR_TYPENULL);
+    struct qnode_t * node = malloc(sizeof(QNode));
+    if(!node){
+        uliderror(errno);
         return NULL;
     }
     
-    return NULL;
-}
-
-void qnode_free(struct qnode_t * node) {
+    node->data = NULL;
     
-    return;
+    node->next = NULL;
+    
+    return node;
 }
 
-int qnode_connect(struct qnode_t * curr, struct qnode_t * next) {
+int qnode_free(QNode ** node) {
+    
+    // Node cannot be null
+    if(!(*node))
+        return ERROR_TYPENULL;
+    
+    /* Catch for possibly already allocated next pointer
+        and data pointer. */
+    if((*node)->data || (*node)->next)
+        return ERROR_MEMREF;
+    
+    free(*node);
+    *node = NULL;
+    
+    return 0;
+}
+
+int qnode_setData(QNode * node, void * data) {
+    
+    // Check if either is null
+    if(!data || !node)
+        return ERROR_TYPENULL;
+    
+    // Check if data is already set
+    if(node->data)
+        return ERROR_REPDATA;
+    
+    node->data = data;
+    
+    return 0;
+}
+
+int qnode_connect(QNode * curr, QNode * next) {
+    
+    if(!curr || !next)
+        return ERROR_TYPENULL;
+    
+    // Check if next node already set
+    if(curr->next)
+        return ERROR_REPDATA;
+    
+    curr->next = next;
     
     return 0;
 }
