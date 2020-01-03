@@ -67,8 +67,6 @@ void test_unit_socket_file();
 
 void test_qnode_free_NULL();
 void test_qnode_alloc();
-void test_qnode_free_not_null_data();
-void test_qnode_free_not_null_next_ref();
 void test_qnode_free();
 void test_qnode_setData_null_data();
 void test_qnode_setData_null_node();
@@ -83,5 +81,22 @@ void test_unit_qnode();
 
 #include "../include/fifo.h"
 
-
+void test_fifo_alloc_general();
+void test_fifo_setMaxSize_queue_null();
+void test_fifo_setMaxSize_100();
+void test_fifo_setMaxSize_0();
+void test_fifo_setMaxSize_net_10();
+void test_fifo_getSize_queue_null();
+void test_fifo_getSize_init();
+void test_fifo_free_queue_null();
+void test_fifo_free_init();
+void test_fifo_push_queue_null();
+void test_fifo_push_data_null();
+void test_fifo_reset_queue_null();
+void test_fifo_pop_queue_null();
+void test_fifo_dalloc_callback_queue_null();
+void test_fifo_dalloc_callback_func_null();
+void test_fifo_setType_queue_null();
+void test_fifo_setType_string_null();
+void test_fifo_push_one_message();
 void test_unit_fifo();

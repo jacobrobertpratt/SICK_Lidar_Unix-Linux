@@ -1,10 +1,6 @@
 #include <time.h>
 
-#include "./include/error.h"
-#include "./include/util.h"
-#include "./include/message.h"
-#include "./include/socket.h"
-#include "ulid_common.h"
+#include "fifo.h"
 
 // 1) Initialize list to set shared memory loation, config file, lidar name ... etc.
 
@@ -19,17 +15,9 @@
  *
  */
 
-struct tmp_t {
-    int a;
-    int b;
-    int c;
-    int d;
-    int e;
-    int f;
-} ;
-
 
 int main(int argc, char * argv[]) {
+    
     
     
     return 0;

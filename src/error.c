@@ -11,7 +11,8 @@ static char * errorArray[] = {
     "data type is not correct",
     "function not yet implemented",
     "cannot free could lose data memory reference",
-    "attempting to replace already allocated data without freeing the origional data"
+    "attempting to replace already allocated data without freeing the origional data",
+    "limit for data input has been reached"
 };
 
 char * error_getString(int errnum) {

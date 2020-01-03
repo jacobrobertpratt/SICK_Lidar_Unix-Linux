@@ -62,7 +62,7 @@ int message_reset(Message * msg);
  * @param message * Message structure.
  * @return void
  */
-int message_free(Message ** msg);
+int message_free(Message * msg);
 
 /**
  * Function will take an already allocated Message structure and set the whatever is passed

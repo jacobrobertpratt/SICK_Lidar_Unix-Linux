@@ -4,7 +4,7 @@
 void test_qnode_free_NULL() {
     int ret;
     QNode * node = NULL;
-    ret = qnode_free(&node);
+    ret = qnode_free(node);
     TEST_ASSERT_NULL(node);
     TEST_ASSERT_EQUAL_INT(ERROR_TYPENULL, ret);
 }
@@ -18,33 +18,11 @@ void test_qnode_alloc() {
     free(node);
 }
 
-void test_qnode_free_not_null_data() {
-    int ret = 0;
-    QNode * node = qnode_alloc();
-    node->data = strdup("testasfadfad");
-    ret = qnode_free(&node);
-    TEST_ASSERT_EQUAL_INT(ERROR_MEMREF, ret);
-    free(node->data);
-    free(node);
-}
-
-void test_qnode_free_not_null_next_ref() {
-    int ret = 0;
-    QNode * node1 = qnode_alloc();
-    QNode * node2 = qnode_alloc();
-    node1->next = node2;
-    ret = qnode_free(&node1);
-    TEST_ASSERT_EQUAL_INT(ERROR_MEMREF, ret);
-    free(node1);
-    free(node2);
-}
-
 void test_qnode_free() {
     int ret = 0;
     QNode * node = qnode_alloc();
-    ret = qnode_free(&node);
+    ret = qnode_free(node);
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_NULL(node);
 }
 
 void test_qnode_setData_null_data() {
@@ -52,7 +30,7 @@ void test_qnode_setData_null_data() {
     QNode * node = qnode_alloc();
     ret = qnode_setData(node, NULL);
     TEST_ASSERT_EQUAL_INT(ERROR_TYPENULL, ret);
-    qnode_free(&node);
+    qnode_free(node);
 }
 
 void test_qnode_setData_null_node() {
@@ -70,12 +48,11 @@ void test_qnode_setData_node_data_set() {
     node->data = msg1;
     ret = qnode_setData(node,msg2);
     TEST_ASSERT_EQUAL_INT(ERROR_REPDATA, ret);
-    ret = message_free(&msg1);
-    ret = message_free(&msg2);
+    ret = message_free(msg1);
+    ret = message_free(msg2);
     node->data = NULL; // Must set pointer to null before freeing node
-    ret = qnode_free(&node);
+    ret = qnode_free(node);
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_NULL(node);
 }
 
 void test_qnode_setData() {
@@ -86,13 +63,11 @@ void test_qnode_setData() {
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_NOT_NULL(node->data);
     TEST_ASSERT_EQUAL_MEMORY(node->data, msg, sizeof(*msg));
-    ret = message_free(&msg);
+    ret = message_free(msg);
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_NULL(msg);
     node->data = NULL;
-    ret = qnode_free(&node);
+    ret = qnode_free(node);
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_NULL(node);
 }
 
 void test_qnode_connect_curr_null(){
@@ -101,9 +76,8 @@ void test_qnode_connect_curr_null(){
     QNode * node2 = qnode_alloc();
     ret = qnode_connect(node1, node2);
     TEST_ASSERT_EQUAL_INT(ERROR_TYPENULL, ret);
-    ret = qnode_free(&node2);
+    ret = qnode_free(node2);
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_NULL(node2);
 }
 
 void test_qnode_connect_next_null(){
@@ -112,9 +86,8 @@ void test_qnode_connect_next_null(){
     QNode * node2 = NULL;
     ret = qnode_connect(node1, node2);
     TEST_ASSERT_EQUAL_INT(ERROR_TYPENULL, ret);
-    ret = qnode_free(&node1);
+    ret = qnode_free(node1);
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_NULL(node1);
 }
 
 void test_qnode_connect_next_set() {
@@ -126,16 +99,12 @@ void test_qnode_connect_next_set() {
     TEST_ASSERT_EQUAL_MEMORY(node1->next,node2,sizeof(*node2));
     ret = qnode_connect(node1,node3);
     TEST_ASSERT_EQUAL_INT(ERROR_REPDATA, ret);
-    ret = qnode_free(&node2);
+    ret = qnode_free(node2);
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_NULL(node2);
-    node1->next = NULL;
-    ret = qnode_free(&node1);
+    ret = qnode_free(node1);
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_NULL(node1);
-    ret = qnode_free(&node3);
+    ret = qnode_free(node3);
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_NULL(node3);
 }
 
 void test_qnode_connect() {
@@ -148,20 +117,16 @@ void test_qnode_connect() {
     TEST_ASSERT_NOT_NULL(node1->next);
     TEST_ASSERT_EQUAL_MEMORY(node1->next,node2,sizeof(*node2));
     
-    ret = qnode_free(&node2);
+    ret = qnode_free(node2);
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_NULL(node2);
     node1->next = NULL;
-    ret = qnode_free(&node1);
+    ret = qnode_free(node1);
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_NULL(node1);
 }
 
 void test_unit_qnode() {
     RUN_TEST(test_qnode_free_NULL);
     RUN_TEST(test_qnode_alloc);
-    RUN_TEST(test_qnode_free_not_null_data);
-    RUN_TEST(test_qnode_free_not_null_next_ref);
     RUN_TEST(test_qnode_free);
     RUN_TEST(test_qnode_setData_null_data);
     RUN_TEST(test_qnode_setData_null_node);

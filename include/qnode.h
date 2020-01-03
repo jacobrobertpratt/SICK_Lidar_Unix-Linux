@@ -25,10 +25,13 @@ typedef struct qnode_t {
 QNode * qnode_alloc(void);
 
 /* Deallocates a node struct. */
-int qnode_free(QNode ** node);
+int qnode_free(QNode * node);
 
 /* Sets the data referernce for the node, else it's null. */
 int qnode_setData(QNode * node, void * data);
+
+/* Returns the data provided to the node. */
+void * qnode_getData(QNode * node);
 
 /* Connections two nodes. */
 int qnode_connect(QNode * curr, QNode * next);

@@ -19,7 +19,7 @@ void test_message_alloc() {
     TEST_ASSERT_TRUE(msg->size == 0);
     TEST_ASSERT_TRUE(msg->time_stamp == -1);
     
-    message_free(&msg);
+    message_free(msg);
 }
 
 void test_message_reset() {
@@ -28,7 +28,7 @@ void test_message_reset() {
     
     // TODO:
     
-    message_free(&msg);
+    message_free(msg);
 }
 
 void test_message_free() {
@@ -36,7 +36,7 @@ void test_message_free() {
     Message * msg = NULL;
     
     // Test if error message output
-    message_free(&msg);
+    message_free(msg);
     TEST_ASSERT_NULL(msg);
     
     // Allocate the message
@@ -44,8 +44,7 @@ void test_message_free() {
     TEST_ASSERT_NOT_NULL(msg);
     
     // Check if function returns correct result
-    message_free(&msg);
-    TEST_ASSERT_NULL(msg);
+    message_free(msg);
     
 }
 
@@ -64,7 +63,7 @@ void test_message_set_data_works() {
     
     free(test_str);
     
-    message_free(&msg);
+    message_free(msg);
     
 }
 
@@ -79,7 +78,7 @@ void test_message_set_data_null_msg() {
     
     free(test_str);
     
-    message_free(&msg);
+    message_free(msg);
 }
 
 void test_message_set_data_null_data() {
@@ -90,7 +89,7 @@ void test_message_set_data_null_data() {
     ret = message_set_data(msg,test_str,0);
     TEST_ASSERT_TRUE(ret == ERROR_TYPEDATA);
     
-    message_free(&msg);
+    message_free(msg);
 }
 
 void test_message_set_data_size_zero() {
@@ -103,7 +102,7 @@ void test_message_set_data_size_zero() {
     
     free(test_str);
     
-    message_free(&msg);
+    message_free(msg);
 }
 
 void test_message_set_data_diff_data() {
@@ -128,7 +127,7 @@ void test_message_set_data_diff_data() {
     
     free(test_str);
     free(test_str_2);
-    message_free(&msg);
+    message_free(msg);
 }
 
 void test_message_set_timestamp() {
@@ -138,7 +137,7 @@ void test_message_set_timestamp() {
     ret = message_set_timestamp(msg,100122);
     TEST_ASSERT_TRUE(100122 == msg->time_stamp);
     TEST_ASSERT_TRUE(ret == 0);
-    message_free(&msg);
+    message_free(msg);
 }
 
 void test_unit_message_file() {

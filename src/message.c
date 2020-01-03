@@ -32,17 +32,17 @@ int message_reset(Message * msg){
     return 0;
 }
 
-int message_free(Message ** msg) {
+int message_free(Message * msg) {
     
-    if(!(*msg))
+    if(!msg)
         return ERROR_TYPENULL;
-    // free data (void *)
-    if((*msg)->data){
-        free((*msg)->data);
-        (*msg)->data = NULL;
+    
+    if(msg->data){
+        free(msg->data);
     }
-    free(*msg);
-    *msg = NULL;
+    
+    free(msg);
+    
     return 0;
 }
 

@@ -23,6 +23,7 @@
 #define ERROR_IMPLEMENTED   110     //
 #define ERROR_MEMREF        111     //
 #define ERROR_REPDATA       112     //
+#define ERROR_LIMIT         113     //
 
 #define MAX_ERR_NUM     (sizeof(errorArray) / 8) + 102
 

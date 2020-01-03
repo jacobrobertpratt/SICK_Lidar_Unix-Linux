@@ -15,19 +15,16 @@ QNode * qnode_alloc() {
     return node;
 }
 
-int qnode_free(QNode ** node) {
+int qnode_free(QNode * node) {
     
     // Node cannot be null
-    if(!(*node))
+    if(!node)
         return ERROR_TYPENULL;
     
-    /* Catch for possibly already allocated next pointer
-        and data pointer. */
-    if((*node)->data || (*node)->next)
-        return ERROR_MEMREF;
+    if(!(node)->next)
+        node->next = NULL;
     
-    free(*node);
-    *node = NULL;
+    free(node);
     
     return 0;
 }
@@ -45,6 +42,10 @@ int qnode_setData(QNode * node, void * data) {
     node->data = data;
     
     return 0;
+}
+
+void * qnode_getData(QNode * node) {
+    return NULL;
 }
 
 int qnode_connect(QNode * curr, QNode * next) {
