@@ -18,8 +18,6 @@
 
 /****************** COMMON STRUCTS ******************/
 
-
-
 /*  TcpSocket:
  *  Structure that holds a socket ID number, socket port number, sockaddr_in structure,
  *  and and IP address which is held in a 16-byte char array. Generally, a generic
@@ -30,9 +28,6 @@ typedef struct tcpSocket_t {
     char ip[16];
 } TcpSocket;
 
-
-
-
 /*  Device:
  *  Structure the represents all types of the devices that are compatable
  *  with the ULID program. */
@@ -40,9 +35,6 @@ typedef enum device_t {
     TIM551,
     LMS511
 } Device;
-
-
-
 
 /*  Callbacks
  *  The callback struct is a set of generic functions that can be called
@@ -56,9 +48,6 @@ typedef struct callbacks_t {
     //int (*startMeasurments)(struct lidar_t * lidar);
 } Callbacks;
 
-
-
-
 /*  User Level Enumorator
  *  This is used to log in and specify the userlevel of the SOPAS device.
  *  Not a direct association with a device it will need to be specified. */
@@ -67,9 +56,6 @@ typedef enum userlevel_t {
     CLIENT,
     SERVICE
 } UserLevel;
-
-
-
 
 /*  Lidar general
  *  This is a general implementation of a lidar device with generic callback
@@ -90,7 +76,6 @@ typedef struct lidar_t {
     //Callbacks callbacks;
     
 } Lidar;
-
 
 /* ***************** MACROS ***************** */
 

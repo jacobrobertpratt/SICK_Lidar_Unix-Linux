@@ -9,3 +9,13 @@ IF YOU WANT TO CONTRIBUTE TO THIS PROJECT REACH OUT TO ...
 
 
 /****************************************************************************/
+
+Structure Code Reference:
+
+error_t		0x0000
+fifo_t		0x0001
+message_t	0x0002
+qnode_t		0x0003
+socket_t	0x0004
+
+

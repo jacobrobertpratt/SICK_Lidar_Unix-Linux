@@ -11,7 +11,8 @@
 #include <time.h>
 
 #include "common.h"
-/**
+/** CLASS DEFINITION:
+ *
  * Creates a directory at the given directory location specifiec locations with the given
  * name specified. If the directory is set to NULL, a directory will be made at the current
  * wording directory. If the file name is NULL then the function will return an error. This
@@ -20,7 +21,7 @@
  * from the current working directory.
  *
  *  This also works like a terrminal in that you can specify going forward or backward
- *  in the current working directory. As in if you type ".." into the directory name, it will make
+ *  in the current working directory. As if you type ".." into the directory name, it will make
  *  the file in the previous directory.
  * @param directory is a (const char *)
  * @param dirname name of new directory

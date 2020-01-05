@@ -25,6 +25,9 @@ int qnode_free(QNode * node) {
     if(node->struct_code != QNODE_STRUCT_CODE)
         return ERROR_STRUCTCODE;
     
+    if(node->data)
+        return ERROR_DATA;
+    
     if(!(node)->next)
         node->next = NULL;
     
@@ -50,7 +53,15 @@ int qnode_setData(QNode * node, void * data) {
 
 void * qnode_getData(QNode * node) {
     
-    return NULL;
+    void * ret = NULL;
+    
+    if(!node)
+        return ERROR_TYPENULL;
+    
+    if(node->data)
+        ret = node->data;
+    
+    return ret;
 }
 
 int qnode_connect(QNode * curr, QNode * next) {
