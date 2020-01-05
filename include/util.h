@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <time.h>
 
+#include "common.h"
 /**
  * Creates a directory at the given directory location specifiec locations with the given
  * name specified. If the directory is set to NULL, a directory will be made at the current

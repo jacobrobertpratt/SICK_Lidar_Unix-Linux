@@ -6,17 +6,16 @@
 #ifndef ULID_MESSAGE_H
 #define ULID_MESSAGE_H
 
-/* Global headers*/
-#include <string.h>
-#include <errno.h>
-
 /* Local header files */
+#include "common.h"
 #include "error.h"
 
 /**
  *  A message class that defines what a message is and functions that are associated
  *  with updating the message class.
  */
+
+#define MESSAGE_STRUCT_CODE 0x0002
 
 /**
  * The messge_t struct defines labels, data, and general information about a message
@@ -38,6 +37,9 @@ typedef struct message_t {
     /* The time stamp of the message */
     uint64_t time_stamp;
     
+    /* Call sign of this structure for deallocations purposes. */
+    int struct_code;
+    
 } Message;
 
 /**
@@ -57,7 +59,7 @@ Message * message_alloc();
 int message_reset(Message * msg);
 
 /**
- * Deallocates a message which has been allocated by allocate_message(). If the input message is
+ * Deallocates a message which has been allocated by message_alloc(). If the input message is
  * NULL, will return appropriate error message.
  * @param message * Message structure.
  * @return void

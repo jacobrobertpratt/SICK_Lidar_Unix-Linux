@@ -14,11 +14,11 @@ $(EXECUTABLE): $(OBJECTS)
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
 
-clean:
+clean:	cleantests
 	rm $(OBJECTS) $(EXECUTABLE) $(FILES) $(TESTEXECUTABLE)
 
-test:
-	cd tests/ && $(MAKE)
+tests:
+	cd testing/ && $(MAKE)
 
 cleantests:
-	cd tests/ && $(MAKE) clean
+	cd testing/ && $(MAKE) clean

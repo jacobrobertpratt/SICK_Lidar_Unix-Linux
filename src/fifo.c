@@ -19,33 +19,55 @@ Fifo * fifo_alloc() {
     queue->size = 0;
     
     // Set queue type
-    memset(queue->type, 0, 5);
+    memset(queue->type, 0, sizeof(queue->type));
     
-    queue->dealloc_cb = NULL;
+    // Sets the unique fifo structure code
+    queue->struct_code = FIFO_STRUCT_CODE;
     
     return queue;
 }
 
-int fifo_free(Fifo * queue) {
+int fifo_free(Fifo * queue, int (*dealloc_cb)(void *)) {
     
+    // Queue must not be NULL
     if(!queue) {
         uliderror(ERROR_TYPENULL);
         return ERROR_TYPENULL;
     }
     
-    // If dealloc_cb is not null free data
+    // Make sure the structure is the correct structure
+    if(queue->struct_code != FIFO_STRUCT_CODE) {
+        uliderror(ERROR_STRUCTCODE);
+        return ERROR_STRUCTCODE;
+    }
+    
+    // must have callback to free data type
+    if(!dealloc_cb && queue->head) {
+        uliderror(ERROR_TYPENULL);
+        return ERROR_TYPENULL;
+    }
+    
+    // run through queue and remove nodes
+    while(queue->head && queue->tail) {
+        if(dealloc_cb(fifo_pop(queue))) {
+            uliderror(ERROR_STRUCTCODE);
+            return ERROR_STRUCTCODE;
+        }
+    }
+    
+    // Size should be zero at this point
+    if(fifo_getSize(queue)){
+        uliderror(ERROR_SIZE);
+        return ERROR_SIZE;
+    }
+    
+    // Both head and tail must be null before we release the reference
+    if(queue->head || queue->tail) {
+        uliderror(ERROR_MEMREF);
+        return ERROR_MEMREF;
+    }
     
     free(queue);
-    
-    return 0;
-}
-
-int fifo_reset(Fifo * queue) {
-    
-    if(!queue) {
-        uliderror(ERROR_TYPENULL);
-        return ERROR_TYPENULL;
-    }
     
     return 0;
 }
@@ -73,6 +95,8 @@ int fifo_push(Fifo * queue, void * data) {
         uliderror(ERROR_REPDATA);
         return ERROR_REPDATA;
     }
+    
+    // NOTE: node->next = NULL; from qnode_alloc() func.
         
     // if queue has no elements
     if(queue->size == 0) {
@@ -81,7 +105,7 @@ int fifo_push(Fifo * queue, void * data) {
     }
     
     // if queue has more than 1 element
-    if(queue->size > 0 && queue->size < queue->max) {
+    if(queue->size > 0 && (queue->size < queue->max)) {
         if(qnode_connect(queue->tail, node)) {
             uliderror(ERROR_REPDATA);
             return ERROR_REPDATA;
@@ -98,6 +122,7 @@ int fifo_push(Fifo * queue, void * data) {
 
 void * fifo_pop(Fifo * queue) {
     
+    QNode * temp = NULL;
     void * ret = NULL;
     
     if(!queue) {
@@ -119,8 +144,8 @@ void * fifo_pop(Fifo * queue) {
         queue->tail = NULL;
     }
     
-    if(queue->size >= 2) {
-        QNode * temp = queue->head;
+    if(queue->size > 1) {
+        temp = queue->head;
         queue->head = queue->head->next;
         qnode_free(temp);
     }
@@ -129,16 +154,6 @@ void * fifo_pop(Fifo * queue) {
         queue->size--;
     
     return ret;
-}
-
-void * fifo_peek(Fifo * queue) {
-    
-    if(!queue) {
-        uliderror(ERROR_TYPENULL);
-        return NULL;
-    }
-    
-    return NULL;
 }
 
 int fifo_getSize(Fifo * queue) {
@@ -158,7 +173,6 @@ int fifo_getSize(Fifo * queue) {
 int fifo_setMaxSize(Fifo * queue, int size) {
     
     if(!queue) {
-        uliderror(ERROR_TYPENULL);
         return ERROR_TYPENULL;
     }
     
@@ -170,22 +184,15 @@ int fifo_setMaxSize(Fifo * queue, int size) {
     return 0;
 }
 
-int fifo_setDealloc_Callback(Fifo * queue, void (*dealloc_cb)()) {
-    
-    if(!queue || !dealloc_cb){
-        uliderror(ERROR_TYPENULL);
-        return ERROR_TYPENULL;
-    }
-    
-    return 0;
-}
-
 int fifo_setType(Fifo * queue, const char * type) {
     
     if(!queue || !type) {
         uliderror(ERROR_TYPENULL);
         return ERROR_TYPENULL;
     }
+    
+    // strncpy(char * dst, const char * src, size_t len);
+    strncpy(queue->type,type, sizeof(queue->type));
     
     return 0;
 }

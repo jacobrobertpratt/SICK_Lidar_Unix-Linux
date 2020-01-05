@@ -1,7 +1,10 @@
 #include <time.h>
 
+#include "include/common.h"
 #include "include/qnode.h"
 #include "include/fifo.h"
+#include "include/message.h"
+#include "include/error.h"
 
 // 1) Initialize list to set shared memory loation, config file, lidar name ... etc.
 
@@ -18,6 +21,9 @@
 
 
 int main(int argc, char * argv[]) {
+    
+    printf("%s\n",error_getString(115));
+    
     
     return 0;
 }

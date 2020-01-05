@@ -17,6 +17,8 @@ Socket * socket_alloc() {
         
     sock->type = TCP;
     
+    sock->struct_code = SOCKET_STRUCT_CODE;
+    
     return sock;
 }
 
@@ -25,6 +27,11 @@ int socket_free(Socket * sock) {
     if(!sock) {
         uliderror(ERROR_TYPENULL);
         return ERROR_TYPENULL;
+    }
+    
+    if(sock->struct_code != SOCKET_STRUCT_CODE) {
+        uliderror(ERROR_STRUCTCODE);
+        return ERROR_STRUCTCODE;
     }
     
     // must check to ensure socket is closed

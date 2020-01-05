@@ -10,6 +10,9 @@ QNode * qnode_alloc() {
     node->data = NULL;
     node->next = NULL;
     
+    /* Sets the unique structure code for a QNode */
+    node->struct_code = QNODE_STRUCT_CODE;
+    
     return node;
 }
 
@@ -18,6 +21,9 @@ int qnode_free(QNode * node) {
     // Node cannot be null
     if(!node)
         return ERROR_TYPENULL;
+    
+    if(node->struct_code != QNODE_STRUCT_CODE)
+        return ERROR_STRUCTCODE;
     
     if(!(node)->next)
         node->next = NULL;

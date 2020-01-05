@@ -2,7 +2,7 @@
 #include "test.h"
 
 // Represents the size of the Message struct (10/28/2019)
-#define PREV_MSG_SIZE_BYTES     32
+#define PREV_MSG_SIZE_BYTES     40
 
 void test_message_alloc() {
     Message * msg = message_alloc();
@@ -18,17 +18,14 @@ void test_message_alloc() {
     TEST_ASSERT_NULL(msg->data_type);
     TEST_ASSERT_TRUE(msg->size == 0);
     TEST_ASSERT_TRUE(msg->time_stamp == -1);
+    TEST_ASSERT_TRUE(msg->struct_code == MESSAGE_STRUCT_CODE);
     
     message_free(msg);
 }
 
 void test_message_reset() {
     
-    Message * msg = message_alloc();
     
-    // TODO:
-    
-    message_free(msg);
 }
 
 void test_message_free() {
@@ -74,7 +71,7 @@ void test_message_set_data_null_msg() {
     char * test_str = strdup("test data string");
     
     ret = message_setData(msg,test_str,strlen(test_str));
-    TEST_ASSERT_TRUE(ret == ERROR_TYPENULL);
+    TEST_ASSERT_EQUAL_INT(ERROR_TYPENULL, ret);
     
     free(test_str);
     

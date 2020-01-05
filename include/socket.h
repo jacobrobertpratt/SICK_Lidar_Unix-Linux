@@ -7,12 +7,15 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#include "../include/error.h"
+#include "common.h"
+#include "error.h"
+
+#define SOCKET_STRUCT_CODE 0x0004
 
 enum SOCK_TYPE {
-    TCP  = _INCREMENT_,
-    UDP  = _INCREMENT_,
-    ICMP = _INCREMENT_
+    TCP  = 1,
+    UDP  = 2,
+    ICMP = 3
 };
 
 /**
@@ -34,6 +37,9 @@ typedef struct socket_t {
     
     /* type of socket */
     enum SOCK_TYPE type;
+    
+    /* Call sign of this structure for deallocations purposes. */
+    int struct_code;
     
 } Socket;
 

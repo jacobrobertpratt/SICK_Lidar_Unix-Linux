@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 
+#include "common.h"
 #include "error.h"
 
 /**
@@ -12,13 +13,21 @@
  * Implementation of a  generic queue node to be used in a fifo queue
  */
 
+#define QNODE_STRUCT_CODE 0x0003
+
 /* Initial definition of queue node */
 struct qnode_t;
 
 /* Represents a queue used interanally */
 typedef struct qnode_t {
+    
     void * data;
+    
     struct qnode_t * next;
+    
+    /* Call sign of this structure for deallocations purposes. */
+    int struct_code;
+    
 }QNode;
 
 /* Allocates a node data type to be added this queue */

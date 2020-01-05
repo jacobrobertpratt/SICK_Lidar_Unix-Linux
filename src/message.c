@@ -8,18 +8,22 @@ Message * message_alloc(){
         return NULL;
     }
     
-    msg->data = NULL;       // void * of data
-    msg->data_type = NULL;  // type of data as string
-    msg->size = 0;          // 32-bit integer
-    msg->time_stamp = -1;   // 64-bit integer
+    msg->data = NULL;                       // void * of data
+    msg->data_type = NULL;                  // type of data as string
+    msg->size = 0;                          // 32-bit integer
+    msg->time_stamp = -1;                   // 64-bit integer
+    msg->struct_code = MESSAGE_STRUCT_CODE; // Integer that defines the type of this struct, is unique
     
     return msg;
 }
 
-int message_reset(Message * msg){
+int message_reset(Message * msg) {
     
     if(!msg)
         return ERROR_TYPENULL;
+    
+    if(msg->struct_code != MESSAGE_STRUCT_CODE)
+        return ERROR_STRUCTCODE;
     
     msg->time_stamp = -1;
     msg->size = 0;
@@ -36,6 +40,9 @@ int message_free(Message * msg) {
     
     if(!msg)
         return ERROR_TYPENULL;
+    
+    if(msg->struct_code != MESSAGE_STRUCT_CODE)
+        return ERROR_STRUCTCODE;
     
     if(msg->data){
         free(msg->data);

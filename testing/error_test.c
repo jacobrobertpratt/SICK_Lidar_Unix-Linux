@@ -1,6 +1,8 @@
 #include "test.h"
 
-#define MAX_ERR_ARR_LAST_TESTED  112
+/* update this value once you've updated test_error_getString function
+    with the new string values. */
+#define MAX_ERR_ARR_LAST_TESTED  114
 
 void test_errorLog_alloc(){
     TEST_IGNORE_MESSAGE("TEST NOT IMPLEMENTED");
@@ -29,7 +31,9 @@ void test_error_getString() {
     TEST_ASSERT_EQUAL_STRING("function not yet implemented", error_getString(ERROR_IMPLEMENTED));
     TEST_ASSERT_EQUAL_STRING("cannot free could lose data memory reference", error_getString(ERROR_MEMREF));
     TEST_ASSERT_EQUAL_STRING("attempting to replace already allocated data without freeing the origional data", error_getString(ERROR_REPDATA));
-    TEST_ASSERT_NULL_MESSAGE(error_getString(MAX_ERR_ARR_LAST_TESTED),"error_getString function needs to be updated with newest test values. errorArray[] was changed.");
+    TEST_ASSERT_EQUAL_STRING("limit for data input has been reached", error_getString(ERROR_LIMIT));
+    TEST_ASSERT_EQUAL_STRING("incorrect structure being passed to function", error_getString(ERROR_STRUCTCODE));
+    TEST_ASSERT_NULL_MESSAGE(error_getString(MAX_ERR_ARR_LAST_TESTED + 1),"error_getString function needs to be updated with newest test values. errorArray[] was changed.");
 }
 
 void test_error_print(){

@@ -2,13 +2,8 @@
 #ifndef _ULID_ERROR_H_
 #define _ULID_ERROR_H_
 
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-
-#include "../include/common.h"
-#include "../include/util.h"
+#include "common.h"
+#include "util.h"
 
 /**
  * Error message definitions specific to the ULID library.
@@ -24,16 +19,21 @@
 #define ERROR_MEMREF        111     //
 #define ERROR_REPDATA       112     //
 #define ERROR_LIMIT         113     //
+#define ERROR_STRUCTCODE    114     //
 
 #define MAX_ERR_NUM     (sizeof(errorArray) / 8) + 102
+#define ERROR_STRUCT_CODE   0x0000
 
 /**
  * Represents an error log that can be passed to different error log functions
  * either to open or log something.
  */
-struct ulid_error_t {
+typedef struct ulid_error_t {
     
-};
+    /* Call sign of this structure for deallocations purposes. */
+    int struct_code;
+    
+} Error;
 
 /**
  * Gives the pointer to a already defined string value representing the error.
