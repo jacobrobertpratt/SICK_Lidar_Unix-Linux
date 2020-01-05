@@ -31,7 +31,7 @@ typedef struct message_t {
     /* Pointer to the information in the message */
     char * data;
     
-    /* Set by user in Message_set(). So that we can later
+    /* Set by user in Message_setType(). So that we can later
      * tell what type of data has been set in the message. */
     char * data_type;
     
@@ -103,7 +103,7 @@ int message_free(Message * msg);
  * @param data_type is a string set by user or NULL.
  * @return integer value of error number, (see uliderror(number) to print)
  */
-int message_set_data(Message * msg, char * data, int size);
+int message_setData(Message * msg, char * data, int size);
 
 /**
  * This will set the internal field time_stamp (uint64_t) to the provided timestamp value. If the
@@ -112,7 +112,7 @@ int message_set_data(Message * msg, char * data, int size);
  * @param timestamp uint64_t representing the time of the message
  * @return 0 on success, error message on failure.
  */
-int message_set_timestamp(Message * msg, uint64_t timestamp);
+int message_setTimestamp(Message * msg, uint64_t timestamp);
 
 // Implement a get message size function
 

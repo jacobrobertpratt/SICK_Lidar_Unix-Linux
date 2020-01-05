@@ -80,29 +80,24 @@ int fifo_push(Fifo * queue, void * data) {
         queue->tail = node;
     }
     
-    // if queue has 1 element
-    if(queue->size == 1) {
-        queue->tail = node;
-        if(qnode_connect(queue->head, queue->tail)) {
+    // if queue has more than 1 element
+    if(queue->size > 0 && queue->size < queue->max) {
+        if(qnode_connect(queue->tail, node)) {
             uliderror(ERROR_REPDATA);
             return ERROR_REPDATA;
         }
+        queue->tail = node;
     }
     
-    // if queue has more than 1 element
-    if(queue->size >= 2) {
-        
-        
-    }
-    
-    queue->size++;
+    // Increment size if it's less than max
+    if(queue->size < queue->max)
+        queue->size++;
     
     return 0;
 }
 
 void * fifo_pop(Fifo * queue) {
     
-    QNode * temp = NULL;
     void * ret = NULL;
     
     if(!queue) {
@@ -117,10 +112,6 @@ void * fifo_pop(Fifo * queue) {
     
     if(queue->head->data)
         ret = queue->head->data;
-    else {
-        uliderror(ERROR_DATA);
-        return NULL;
-    }
     
     if(queue->size == 1) {
         qnode_free(queue->head);
@@ -129,10 +120,13 @@ void * fifo_pop(Fifo * queue) {
     }
     
     if(queue->size >= 2) {
-        
+        QNode * temp = queue->head;
+        queue->head = queue->head->next;
+        qnode_free(temp);
     }
     
-    queue->size--;
+    if(queue->size > 0)
+        queue->size--;
     
     return ret;
 }

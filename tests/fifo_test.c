@@ -102,7 +102,7 @@ void test_fifo_dalloc_callback_func_null() {
 }
 
 void test_fifo_setType_queue_null() {
-    int ret = fifo_setType(NULL,"asdf");
+    int ret = fifo_setType(NULL, "asdf");
     TEST_ASSERT_EQUAL_INT(ERROR_TYPENULL,ret);
 }
 
@@ -157,7 +157,62 @@ void test_fifo_push_two_message() {
 }
 
 void test_fifo_pop_two_message() {
-    
+    Fifo * queue = fifo_alloc();
+    Message * msg1 = message_alloc();
+    Message * msg2 = message_alloc();
+    fifo_push(queue, msg1);
+    fifo_push(queue, msg2);
+    Message * ret1 = fifo_pop(queue);
+    TEST_ASSERT_NOT_NULL(ret1);
+    TEST_ASSERT_EQUAL_MEMORY(ret1,msg1,sizeof(*msg1));
+    TEST_ASSERT_EQUAL_INT(1,fifo_getSize(queue));
+    Message * ret2 = fifo_pop(queue);
+    TEST_ASSERT_NOT_NULL(ret2);
+    TEST_ASSERT_EQUAL_MEMORY(ret2,msg2,sizeof(*msg1));
+    TEST_ASSERT_EQUAL_INT(0,fifo_getSize(queue));
+    message_free(msg1);
+    message_free(msg2);
+    fifo_free(queue);
+}
+
+void test_fifo_push_pop_5_message() {
+    Fifo * queue = fifo_alloc();
+    Message * msg1 = message_alloc();
+    message_setData(msg1,"test1",sizeof("test1"));
+    Message * msg2 = message_alloc();
+    message_setData(msg2,"test2test2",sizeof("test2test2"));
+    Message * msg3 = message_alloc();
+    message_setData(msg3,"test3 123",sizeof("test3 123"));
+    Message * msg4 = message_alloc();
+    message_setData(msg4,"asdfadsf",sizeof("asdfadsf"));
+    Message * msg5 = message_alloc();
+    message_setData(msg5,"12341234",sizeof("12341234"));
+    fifo_push(queue, msg1);
+    fifo_push(queue, msg2);
+    fifo_push(queue, msg3);
+    fifo_push(queue, msg4);
+    fifo_push(queue, msg5);
+    Message * ret = fifo_pop(queue);
+    TEST_ASSERT_EQUAL_MEMORY(ret,msg1,sizeof(*msg1));
+    TEST_ASSERT_EQUAL_STRING("test1",ret->data);
+    message_free(ret);
+    ret = fifo_pop(queue);
+    TEST_ASSERT_EQUAL_MEMORY(ret,msg2,sizeof(*msg2));
+    TEST_ASSERT_EQUAL_STRING("test2test2",ret->data);
+    message_free(ret);
+    ret = fifo_pop(queue);
+    TEST_ASSERT_EQUAL_MEMORY(ret,msg3,sizeof(*msg3));
+    TEST_ASSERT_EQUAL_STRING("test3 123",ret->data);
+    message_free(ret);
+    ret = fifo_pop(queue);
+    TEST_ASSERT_EQUAL_MEMORY(ret,msg4,sizeof(*msg4));
+    TEST_ASSERT_EQUAL_STRING("asdfadsf",ret->data);
+    message_free(ret);
+    ret = fifo_pop(queue);
+    TEST_ASSERT_EQUAL_MEMORY(ret,msg5,sizeof(*msg5));
+    TEST_ASSERT_EQUAL_STRING("12341234",ret->data);
+    message_free(ret);
+    fifo_free(queue);
 }
 
 void test_unit_fifo() {
@@ -182,5 +237,6 @@ void test_unit_fifo() {
     RUN_TEST(test_fifo_pop_one_message);
     RUN_TEST(test_fifo_push_two_message);
     RUN_TEST(test_fifo_pop_two_message);
+    RUN_TEST(test_fifo_push_pop_5_message);
 }
 

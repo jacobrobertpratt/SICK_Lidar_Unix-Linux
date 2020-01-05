@@ -55,7 +55,7 @@ void test_message_set_data_works() {
     
     char * test_str = strdup("test data string");
     
-    ret = message_set_data(msg,test_str,strlen(test_str));
+    ret = message_setData(msg,test_str,strlen(test_str));
     
     TEST_ASSERT_TRUE(ret == 0);
     TEST_ASSERT_NOT_NULL(msg->data);
@@ -73,7 +73,7 @@ void test_message_set_data_null_msg() {
     Message * msg = NULL;
     char * test_str = strdup("test data string");
     
-    ret = message_set_data(msg,test_str,strlen(test_str));
+    ret = message_setData(msg,test_str,strlen(test_str));
     TEST_ASSERT_TRUE(ret == ERROR_TYPENULL);
     
     free(test_str);
@@ -86,7 +86,7 @@ void test_message_set_data_null_data() {
     Message * msg = message_alloc();
     char * test_str = NULL;
     
-    ret = message_set_data(msg,test_str,0);
+    ret = message_setData(msg,test_str,0);
     TEST_ASSERT_TRUE(ret == ERROR_TYPEDATA);
     
     message_free(msg);
@@ -97,7 +97,7 @@ void test_message_set_data_size_zero() {
     Message * msg = message_alloc();
     char * test_str = strdup("test data string");
     
-    ret = message_set_data(msg,test_str,0);
+    ret = message_setData(msg,test_str,0);
     TEST_ASSERT_TRUE(ret == ERROR_SIZE);
     
     free(test_str);
@@ -111,7 +111,7 @@ void test_message_set_data_diff_data() {
     
     char * test_str = strdup("test data string");
     // Sets the initial data
-    ret = message_set_data(msg,test_str,strlen(test_str));
+    ret = message_setData(msg,test_str,strlen(test_str));
     // Checks the inital data is correct
     TEST_ASSERT_TRUE(ret == 0);
     TEST_ASSERT_NOT_NULL(msg->data);
@@ -119,7 +119,7 @@ void test_message_set_data_diff_data() {
     
     char * test_str_2 = strdup("different test data string");
     
-    ret = message_set_data(msg,test_str_2,strlen(test_str_2));
+    ret = message_setData(msg,test_str_2,strlen(test_str_2));
     
     TEST_ASSERT_TRUE(ret == 0);
     TEST_ASSERT_NOT_NULL(msg->data);
@@ -134,7 +134,7 @@ void test_message_set_timestamp() {
     int ret;
     //TEST_FAIL_MESSAGE("Function and test function not yet implemented.");
     Message * msg = message_alloc();
-    ret = message_set_timestamp(msg,100122);
+    ret = message_setTimestamp(msg,100122);
     TEST_ASSERT_TRUE(100122 == msg->time_stamp);
     TEST_ASSERT_TRUE(ret == 0);
     message_free(msg);

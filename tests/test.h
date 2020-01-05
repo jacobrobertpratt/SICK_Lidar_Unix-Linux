@@ -102,4 +102,5 @@ void test_fifo_push_one_message();
 void test_fifo_pop_one_message();
 void test_fifo_push_two_message();
 void test_fifo_pop_two_message();
+void test_fifo_push_pop_5_message();
 void test_unit_fifo();

@@ -51,7 +51,7 @@ int message_free(Message * msg) {
  *  2) Check to see what type of errors could happen with (void *)
  *  3) Need to check and stop copy overflow. ... how?
  */
-int message_set_data(Message * msg, char * data, int size) {
+int message_setData(Message * msg, char * data, int size) {
     
     // Check message is not NULL
     if(!msg)
@@ -83,7 +83,7 @@ int message_set_data(Message * msg, char * data, int size) {
     return 0;
 }
 
-int message_set_timestamp(Message * msg, uint64_t timestamp){
+int message_setTimestamp(Message * msg, uint64_t timestamp){
     
     // Check if the message struct is NULL -> return error
     if(!msg){
