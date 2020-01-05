@@ -30,7 +30,7 @@
  */
 typedef struct ulid_error_t {
     
-    /* Call sign of this structure for deallocations purposes. */
+    /* Call sign of this structure for identification purposes */
     int struct_code;
     
 } Error;
