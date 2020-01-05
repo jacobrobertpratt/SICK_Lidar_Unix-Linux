@@ -1,6 +1,7 @@
 #include <time.h>
 
-#include "fifo.h"
+#include "include/qnode.h"
+#include "include/fifo.h"
 
 // 1) Initialize list to set shared memory loation, config file, lidar name ... etc.
 
@@ -17,8 +18,6 @@
 
 
 int main(int argc, char * argv[]) {
-    
-    
     
     return 0;
 }

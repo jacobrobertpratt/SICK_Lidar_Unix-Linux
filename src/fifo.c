@@ -33,6 +33,8 @@ int fifo_free(Fifo * queue) {
         return ERROR_TYPENULL;
     }
     
+    // If dealloc_cb is not null free data
+    
     free(queue);
     
     return 0;
@@ -50,13 +52,13 @@ int fifo_reset(Fifo * queue) {
 
 int fifo_push(Fifo * queue, void * data) {
     
-    QNode * node;
+    QNode * node; // Node to be added to queue
+    int ret = 0; // return value for functions
     
     if(!queue || !data) {
         uliderror(ERROR_TYPENULL);
         return ERROR_TYPENULL;
     }
-    
     
     // Create new node
     node = qnode_alloc();
@@ -66,8 +68,32 @@ int fifo_push(Fifo * queue, void * data) {
     }
     
     // Set nodes data
+    ret = qnode_setData(node, data);
+    if(ret == ERROR_REPDATA) {
+        uliderror(ERROR_REPDATA);
+        return ERROR_REPDATA;
+    }
+        
+    // if queue has no elements
+    if(queue->size == 0) {
+        queue->head = node;
+        queue->tail = node;
+    }
     
-    // add node to queue
+    // if queue has 1 element
+    if(queue->size == 1) {
+        queue->tail = node;
+        if(qnode_connect(queue->head, queue->tail)) {
+            uliderror(ERROR_REPDATA);
+            return ERROR_REPDATA;
+        }
+    }
+    
+    // if queue has more than 1 element
+    if(queue->size >= 2) {
+        
+        
+    }
     
     queue->size++;
     
@@ -76,12 +102,39 @@ int fifo_push(Fifo * queue, void * data) {
 
 void * fifo_pop(Fifo * queue) {
     
+    QNode * temp = NULL;
+    void * ret = NULL;
+    
     if(!queue) {
         uliderror(ERROR_TYPENULL);
         return NULL;
     }
     
-    return NULL;
+    if(queue->size == 0) {
+        uliderror(ERROR_SIZE);
+        return NULL;
+    }
+    
+    if(queue->head->data)
+        ret = queue->head->data;
+    else {
+        uliderror(ERROR_DATA);
+        return NULL;
+    }
+    
+    if(queue->size == 1) {
+        qnode_free(queue->head);
+        queue->head = NULL;
+        queue->tail = NULL;
+    }
+    
+    if(queue->size >= 2) {
+        
+    }
+    
+    queue->size--;
+    
+    return ret;
 }
 
 void * fifo_peek(Fifo * queue) {

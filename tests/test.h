@@ -99,4 +99,7 @@ void test_fifo_dalloc_callback_func_null();
 void test_fifo_setType_queue_null();
 void test_fifo_setType_string_null();
 void test_fifo_push_one_message();
+void test_fifo_pop_one_message();
+void test_fifo_push_two_message();
+void test_fifo_pop_two_message();
 void test_unit_fifo();

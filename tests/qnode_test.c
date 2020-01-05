@@ -136,4 +136,5 @@ void test_unit_qnode() {
     RUN_TEST(test_qnode_connect_next_null);
     RUN_TEST(test_qnode_connect_next_set);
     RUN_TEST(test_qnode_connect);
+    
 }

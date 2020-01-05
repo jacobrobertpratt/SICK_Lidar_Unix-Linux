@@ -4,12 +4,10 @@ QNode * qnode_alloc() {
     
     struct qnode_t * node = malloc(sizeof(QNode));
     if(!node){
-        uliderror(errno);
         return NULL;
     }
     
     node->data = NULL;
-    
     node->next = NULL;
     
     return node;
@@ -45,6 +43,7 @@ int qnode_setData(QNode * node, void * data) {
 }
 
 void * qnode_getData(QNode * node) {
+    
     return NULL;
 }
 

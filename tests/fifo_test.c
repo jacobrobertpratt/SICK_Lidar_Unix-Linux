@@ -108,7 +108,7 @@ void test_fifo_setType_queue_null() {
 
 void test_fifo_setType_string_null() {
     Fifo * queue = fifo_alloc();
-    int ret = fifo_setType(queue,NULL);
+    int ret = fifo_setType(queue, NULL);
     TEST_ASSERT_EQUAL_INT(ERROR_TYPENULL,ret);
     free(queue);
 }
@@ -117,15 +117,48 @@ void test_fifo_push_one_message() {
     Fifo * queue = fifo_alloc();
     Message * msg = message_alloc();
     int ret = fifo_push(queue, msg);
-    TEST_ASSERT_EQUAL_INT(0,ret);
-    //TEST_ASSERT_EQUAL_PTR
-    //TEST_ASSERT_EQUAL_MEMORY
-    TEST_ASSERT_EQUAL_INT(1,queue->size);
+    TEST_ASSERT_EQUAL_INT(0, ret);
+    TEST_ASSERT_EQUAL_INT(1, queue->size);
+    TEST_ASSERT_EQUAL_MEMORY(queue->head->data,msg,sizeof(*msg));
+    TEST_ASSERT_EQUAL_MEMORY(queue->tail->data,msg,sizeof(*msg));
     message_free(msg);
     fifo_free(queue);
 }
 
+void test_fifo_pop_one_message() {
+    Fifo * queue = fifo_alloc();
+    Message * msg = message_alloc();
+    fifo_push(queue, msg);
+    TEST_ASSERT_EQUAL_INT(1, fifo_getSize(queue));
+    Message * retmsg = fifo_pop(queue);
+    TEST_ASSERT_EQUAL_MEMORY(msg,retmsg,sizeof(*msg));
+    TEST_ASSERT_EQUAL_INT(0, fifo_getSize(queue));
+    TEST_ASSERT_NULL(queue->head);
+    TEST_ASSERT_NULL(queue->tail);
+    message_free(retmsg);
+    fifo_free(queue);
+}
 
+void test_fifo_push_two_message() {
+    Fifo * queue = fifo_alloc();
+    Message * msg1 = message_alloc();
+    Message * msg2 = message_alloc();
+    int ret = fifo_push(queue, msg1);
+    TEST_ASSERT_EQUAL_INT(0, ret);
+    TEST_ASSERT_EQUAL_INT(1, queue->size);
+    ret = fifo_push(queue, msg2);
+    TEST_ASSERT_EQUAL_INT(0, ret);
+    TEST_ASSERT_EQUAL_INT(2, queue->size);
+    TEST_ASSERT_EQUAL_MEMORY(queue->head->data,msg1,sizeof(*msg1));
+    TEST_ASSERT_EQUAL_MEMORY(queue->tail->data,msg2,sizeof(*msg2));
+    message_free(msg1);
+    message_free(msg2);
+    fifo_free(queue);
+}
+
+void test_fifo_pop_two_message() {
+    
+}
 
 void test_unit_fifo() {
     RUN_TEST(test_fifo_alloc_general);
@@ -146,5 +179,8 @@ void test_unit_fifo() {
     RUN_TEST(test_fifo_setType_queue_null);
     RUN_TEST(test_fifo_setType_string_null);
     RUN_TEST(test_fifo_push_one_message);
+    RUN_TEST(test_fifo_pop_one_message);
+    RUN_TEST(test_fifo_push_two_message);
+    RUN_TEST(test_fifo_pop_two_message);
 }
 
