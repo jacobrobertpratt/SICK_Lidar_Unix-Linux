@@ -1,17 +1,11 @@
 #include "ulid_sopas_comm.h"
 
 
-const char * CommandArr[4] = {
-  "sRN","sWN","sMN","sEN"
+static const char * CommandArr[10] = {
+  "sRN","sWN","sMN","sEN","sRA","sWA","sAN","sEA","sSN","sFA"
 };
 
-
-const char * RetCommandArr[6] = {
-    "sRA","sWA","sAN","sEA","sSN","sFA"
-};
-
-
-const char * SubjectArr[41] = {
+static const char * SubjectArr[41] = {
     "SetAccessMode",
     "mLMPsetscancfg",
     "LMPscancfg",

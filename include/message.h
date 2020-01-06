@@ -1,8 +1,3 @@
-
-/**
- * Write intro here ... GNU liscense ... etc.
- */
-
 #ifndef ULID_MESSAGE_H
 #define ULID_MESSAGE_H
 

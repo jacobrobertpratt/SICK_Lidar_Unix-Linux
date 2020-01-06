@@ -102,3 +102,15 @@ void test_fifo_push_two_message();
 void test_fifo_pop_two_message();
 void test_fifo_push_pop_5_message();
 void test_unit_fifo();
+
+/* LIDAR TESTS */
+
+#include "../include/lidar.h"
+
+void test_unit_lidar();
+
+/* SOPAS TESTS */
+
+#include "../include/sopas.h"
+
+void test_unit_sopas();

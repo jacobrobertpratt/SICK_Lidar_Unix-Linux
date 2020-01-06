@@ -56,7 +56,7 @@ void * qnode_getData(QNode * node) {
     void * ret = NULL;
     
     if(!node)
-        return ERROR_TYPENULL;
+        return NULL;
     
     if(node->data)
         ret = node->data;

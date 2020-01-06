@@ -69,6 +69,8 @@ int main(int argc, char * argv[]) {
     bool socket_test_enabled = false;
     bool qnode_test_enabled = false;
     bool fifo_test_enabled = false;
+    bool lidar_test_enabled = false;
+    bool sopas_test_enabled = false;
     
     if(argc < 2){
         all_tests_enabled = true;
@@ -84,6 +86,10 @@ int main(int argc, char * argv[]) {
                 qnode_test_enabled = true;
             if(!strcmp("-fifo",argv[i]) || !strcmp("--fifo",argv[i]))
                 fifo_test_enabled = true;
+            if(!strcmp("-lidar",argv[i]) || !strcmp("--lidar",argv[i]))
+                lidar_test_enabled = true;
+            if(!strcmp("-sopas",argv[i]) || !strcmp("--sopas",argv[i]))
+                sopas_test_enabled = true;
         }
     }
     
@@ -99,6 +105,8 @@ int main(int argc, char * argv[]) {
         test_unit_socket_file();
         test_unit_qnode();
         test_unit_fifo();
+        test_unit_lidar();
+        test_unit_sopas();
     } else {
         if(message_test_enabled)
             test_unit_message_file();
@@ -110,6 +118,10 @@ int main(int argc, char * argv[]) {
             test_unit_qnode();
         if(fifo_test_enabled)
             test_unit_fifo();
+        if(lidar_test_enabled)
+            test_unit_lidar();
+        if(sopas_test_enabled)
+            test_unit_sopas();
     }
     
     UNITY_END();
