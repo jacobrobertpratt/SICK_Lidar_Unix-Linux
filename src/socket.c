@@ -19,6 +19,8 @@ Socket * socket_alloc() {
     
     sock->struct_code = SOCKET_STRUCT_CODE;
     
+    sock->connected = false;
+    
     return sock;
 }
 
@@ -34,9 +36,9 @@ int socket_free(Socket * sock) {
         return ERROR_STRUCTCODE;
     }
     
-    // must check to ensure socket is closed
-    if(sock->sockid)
-        close(sock->sockid);
+    // close and disconnect the socket
+    if(sock->connected)
+        socket_disconnect(sock);
     
     // Clear the buffer of ip if it's allocated
     if(sock->ip)
@@ -54,8 +56,8 @@ int socket_setIP(Socket * sock, const char * address)
         return ERROR_TYPENULL;
     
     if(strlen(address) > 15 || strlen(address) < 7) {
-        uliderror(ERROR_STRING);
-        return ERROR_STRING;
+        uliderror(ERROR_SOCKIP);
+        return ERROR_SOCKIP;
     }
     
     sock->ip = strdup(address);
@@ -73,8 +75,8 @@ int socket_setPort(Socket * sock, int port) {
     
     /* Checks if valid port number */
     if(port > 9999 || port <= 0) {
-        uliderror(ERROR_SIZE);
-        return ERROR_SIZE;
+        uliderror(ERROR_SOCKPORT);
+        return ERROR_SOCKPORT;
     }
     
     sock->port = port;
@@ -122,25 +124,28 @@ static int socket_connect_TCP(Socket * sock) {
     return 0;
 }
 
+// NOT YET IMPLEMENTED
 static int socket_connect_UDP(Socket * sock) {
-    
     // remove once this function is implemented
     uliderror(ERROR_IMPLEMENTED);
-    
-    return 0;
+    return ERROR_IMPLEMENTED;
 }
 
+
+// NOT YET IMPLEMENTED
 static int socket_connect_ICMP(Socket * sock) {
-    
     // remove once this function is implemented
     uliderror(ERROR_IMPLEMENTED);
-    
-    return 0;
+    return ERROR_IMPLEMENTED;
 }
 
 int socket_disconnect(Socket * sock) {
+    
     if(!sock->sockid)
         close(sock->sockid);
+    
+    sock->connected = false;
+    
     return 0;
 }
 
@@ -155,42 +160,102 @@ int socket_connect(Socket * sock) {
     }
     
     /* Check if ip address is set. */
-    
+    if(!strlen(sock->ip)) {
+        uliderror(ERROR_SOCKIP);
+        return ERROR_SOCKIP;
+    }
     
     /* Check if the port number is set. */
+    if(sock->port <= 0) {
+        uliderror(ERROR_SOCKPORT);
+        return ERROR_SOCKPORT;
+    }
     
-    
-    /* If socket is already connected throws error
-       and closes previous connection. */
+    // If socket is already connected closes previous connection.
     if(sock->sockid) {
-        // TODO: Send ulid error message
         socket_disconnect(sock);
     }
     
-    /* Call the relevant connect method specific to connection type
-        connection standard is TCP. */
+    // Call to connect with TCP
     if(sock->type == TCP) {
         ret = socket_connect_TCP(sock);
         if(ret) {
-            // TODO: specialized error message for TCP.
+            uliderror(ret);
             return ret;
         }
     }
     
+    // Connect UDP --> not yet implemented
     if(sock->type == UDP) {
         ret = socket_connect_UDP(sock);
         if(ret) {
-            // TODO: specialized error message for UDP.
+            uliderror(ret);
             return ret;
         }
     }
     
+    // Connect with whatever this is --> not yet implemented
     if(sock->type == ICMP) {
         ret = socket_connect_ICMP(sock);
         if(ret) {
-            // TODO: specialized error message for ICMP.
+            uliderror(ret);
             return ret;
         }
+    }
+    
+    sock->connected = true;
+    
+    return 0;
+}
+
+int socket_exchange(Socket * sock, char * msg, char ** ret) {
+    
+    char buff[RET_BUFF_SIZE];
+    
+    if(!sock || !msg) {
+        uliderror(ERROR_TYPENULL);
+        return ERROR_TYPENULL;
+    }
+    
+    // check if there is a connection
+    if(!sock->connected) {
+        uliderror(ERROR_SOCKCONNECT);
+        return ERROR_SOCKCONNECT;
+    }
+    
+    // Delete the previous message
+    if(*ret)
+        free(*ret);
+    *ret = NULL;
+    
+    // Send message
+    if(send(sock->sockid, msg, strlen(msg), 0) < 0){
+        uliderror(errno);
+        return errno;
+    }
+    
+    // Get back message and build
+    int len = 0, total = 0;
+    while(1) {
+        len = recv(sock->sockid, buff, RET_BUFF_SIZE, 0);
+        if(len < 0) {
+            if(*ret)
+                free(*ret);
+            uliderror(errno);
+            return errno;
+        }
+        total += len;
+        *ret = (char*) realloc(*ret, total + 1);
+        if(!*ret) {
+            if(*ret)
+                free(*ret);
+            uliderror(errno);
+            return errno;
+        }
+        
+        strncat(*ret,buff,len);
+        if(len < RET_BUFF_SIZE)
+            break;
     }
     
     return 0;

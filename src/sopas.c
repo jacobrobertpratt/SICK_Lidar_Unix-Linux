@@ -104,13 +104,33 @@ int sopas_free(Sopas * sopas) {
 
 int sopas_login(Sopas * sopas) {
     
+    int ret = 0; // function error messages
+    char * retMsg = NULL;
+    
+    if(!sopas) {
+        uliderror(ERROR_TYPENULL);
+        return ERROR_TYPENULL;
+    }
+    
     // Create String for login
-    char str[32];
-    sprintf(str,"\2%s %s %s %s\3",comArr[METHOD],subArr[LOGIN],levelArr[sopas->level],pwArr[sopas->level]);
+    char outMsg[32];
+    sprintf(outMsg,"\2%s %s %s %s\3",comArr[METHOD],subArr[LOGIN],levelArr[sopas->level],pwArr[sopas->level]);
     printf("str: %s\n",str);
     
     // Send/recv message to lidar
+    if(!sopas->sock->connected) {
+        uliderror(ERROR_SOCKCONNECT);
+        return ERROR_SOCKCONNECT;
+    }
     
+    // Implement exchange method for socket
+    ret = socket_exchange(sopas->sock, outMsg, &retMsg);
+    if(ret) {
+        uliderror(ERROR_SOCKMSG);
+        if(retMsg)
+            free(retMsg);
+        return ERROR_SOCKMSG;
+    }
     
     // Check return message
     

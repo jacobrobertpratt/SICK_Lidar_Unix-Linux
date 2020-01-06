@@ -13,7 +13,11 @@ static char * errorArray[] = {
     "cannot free could lose data memory reference",
     "attempting to replace already allocated data without freeing the origional data",
     "limit for data input has been reached",
-    "incorrect structure being passed to function"
+    "incorrect structure being passed to function",
+    "socket is not connected",
+    "socket IP address is not set or is incorrect",
+    "socket Port number is not set or is incorrect",
+    "socket failed to exchange message"
 };
 
 char * error_getString(int errnum) {

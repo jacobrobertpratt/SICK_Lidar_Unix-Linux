@@ -14,7 +14,9 @@
  The socket class represents a socket connection. A socket structure must be allocated to start a socket connection. The given device's IP address, socket type, and port number must be known prior to starting a connection. Similarly, information can be passed back and forth between the device through the sendData and recvData functions. The communication protocols for the give device must be known in advance.
  */
 
-#define SOCKET_STRUCT_CODE 0x0004
+#define SOCKET_STRUCT_CODE  0x0004
+#define RET_BUFF_SIZE       1024
+
 
 enum SOCK_TYPE {
     TCP  = 1,
@@ -44,6 +46,9 @@ typedef struct socket_t {
     
     /* Call sign of this structure for deallocations purposes. */
     int struct_code;
+    
+    // boolean is socket is connected or not
+    bool connected;
     
 } Socket;
 
@@ -107,6 +112,11 @@ int socket_disconnect(Socket * sock);
  *      ERROR_TYPENULL if the Socket pointer is NULL
  */
 int socket_connect(Socket * sock);
+
+
+// returns 0 on success or error number on failure.
+int socket_exchange(Socket * sock, char * msg, char ** size);
+
 
 /**
  * This function is under construction and not available. Nothin will happen, 0 will be returned.

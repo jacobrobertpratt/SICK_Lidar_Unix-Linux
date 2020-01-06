@@ -20,6 +20,10 @@
 #define ERROR_REPDATA       112     //
 #define ERROR_LIMIT         113     //
 #define ERROR_STRUCTCODE    114     //
+#define ERROR_SOCKCONNECT   115     //
+#define ERROR_SOCKIP        116     //
+#define ERROR_SOCKPORT      117     //
+#define ERROR_SOCKMSG       118     //
 
 #define MAX_ERR_NUM     (sizeof(errorArray) / 8) + 102
 #define ERROR_STRUCT_CODE   0x0000

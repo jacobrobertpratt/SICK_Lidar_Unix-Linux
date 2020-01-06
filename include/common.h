@@ -7,9 +7,14 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <stdbool.h>
+
+/* LOCAL INCLUDES */
 
 /** CLASS DEFINITION:
  * This class is a place holder for compiling common headers and useful function or structurres relevent to the whole project.
  */
+
+
 
 #endif
