@@ -18,6 +18,7 @@ message_t	0x0002
 qnode_t		0x0003
 socket_t	0x0004
 lidar_t		0x0005
+sopas_t		0x0006
 
 
 

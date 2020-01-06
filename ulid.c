@@ -19,11 +19,11 @@
 
 int main(int argc, char * argv[]) {
     
-    Lidar * lidar = lidar_alloc();
+    Sopas * sopas = sopas_alloc();
     
-    sopas_login(lidar);
+    sopas_login(sopas);
     
-    lidar_free(lidar);
+    sopas_free(sopas);
     
     return 0;
 }

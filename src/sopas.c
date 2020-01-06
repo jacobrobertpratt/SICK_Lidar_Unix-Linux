@@ -59,12 +59,54 @@ static char * pwArr[3] = {
     "81BE23AA"
 };
 
+Sopas * sopas_alloc() {
+    
+    Sopas * sopas = (Sopas *) malloc(sizeof(Sopas));
+    if(!sopas) {
+        uliderror(errno);
+        return NULL;
+    }
+    
+    // Set the struct code
+    sopas->struct_code = SOPAS_STRUCT_CODE;
+    
+    // User level --> init to zero
+    sopas->level = 0;
+    
+    // Zero out password buffer
+    memset(sopas->password,0,9);
+    
+    // Allocate Socket structure
+    sopas->sock = socket_alloc();
+        
+    return sopas;
+}
 
-int sopas_login(Lidar * lidar) {
+int sopas_free(Sopas * sopas) {
+    
+    if(!sopas) {
+        uliderror(ERROR_TYPENULL);
+        return ERROR_TYPENULL;
+    }
+    
+    if(sopas->struct_code != SOPAS_STRUCT_CODE) {
+        uliderror(ERROR_STRUCTCODE);
+        return ERROR_STRUCTCODE;
+    }
+    
+    if(sopas->sock)
+        socket_free(sopas->sock);
+    
+    free(sopas);
+    
+    return 0;
+}
+
+int sopas_login(Sopas * sopas) {
     
     // Create String for login
     char str[32];
-    sprintf(str,"\2%s %s %s %s\3",comArr[METHOD],subArr[LOGIN],levelArr[lidar->level],pwArr[lidar->level]);
+    sprintf(str,"\2%s %s %s %s\3",comArr[METHOD],subArr[LOGIN],levelArr[sopas->level],pwArr[sopas->level]);
     printf("str: %s\n",str);
     
     // Send/recv message to lidar

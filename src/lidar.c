@@ -13,14 +13,8 @@ Lidar * lidar_alloc() {
     // Assign the call-sign of this structure
     lidar->struct_code = LIDAR_STRUCT_CODE;
     
-    // User level --> init to zero
-    lidar->level = 0;
-    
-    // Zero out password buffer
-    memset(lidar->password,0,sizeof(lidar->password));
-    
-    // Allocate Socket structure
-    lidar->sock = socket_alloc();
+    // Could stay NULL depending on the lidar used.
+    lidar->sopas = sopas_alloc();
     
     return lidar;
 }
@@ -37,8 +31,8 @@ int lidar_free(Lidar * lidar) {
         return ERROR_STRUCTCODE;
     }
     
-    if(lidar->sock)
-        socket_free(lidar->sock);
+    if(lidar->sopas)
+        sopas_free(lidar->sopas);
     
     free(lidar);
     

@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "error.h"
-#include "socket.h"
+#include "sopas.h"
 
 #define LIDAR_STRUCT_CODE 0x0005
 
@@ -12,13 +12,8 @@ typedef struct lidar_t {
     // Call sign of this structure for deallocations purposes.
     int struct_code;
     
-    // User level
-    uint8_t level;
-    
-    // password
-    char password[20];
-    
-    Socket * sock;
+    // If lidar is sopas we use sopas stuct for information
+    Sopas * sopas;
     
 } Lidar;
 
