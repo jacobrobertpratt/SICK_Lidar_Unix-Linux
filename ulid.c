@@ -3,6 +3,7 @@
 #include "include/sopas.h"
 #include "include/socket.h"
 #include "include/error.h"
+#include "include/util.h"
 
 int main(int argc, char * argv[]) {
     
@@ -20,6 +21,13 @@ int main(int argc, char * argv[]) {
     int ret = socket_exchange(sock, str, &retmsg);
     if(ret)
         uliderror(ret);
+
+    int cnt = countTokens(retmsg,' ');
+    printf("cnt: %d\n", cnt);
+    
+    char * arr[cnt];
+    
+    printf("size arr: %d\n", sizeof(arr));
     
     if(retmsg)
         free(retmsg);

@@ -115,7 +115,6 @@ int sopas_login(Sopas * sopas) {
     // Create String for login
     char outMsg[32];
     sprintf(outMsg,"\2%s %s %s %s\3",comArr[METHOD],subArr[LOGIN],levelArr[sopas->level],pwArr[sopas->level]);
-    printf("str: %s\n",str);
     
     // Send/recv message to lidar
     if(!sopas->sock->connected) {

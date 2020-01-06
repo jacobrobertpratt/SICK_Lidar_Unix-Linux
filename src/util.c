@@ -67,3 +67,20 @@ int getYYYYMMDDString(char * string) {
     return 0;
 }
 */
+
+int countTokens(char * str, char chr) {
+    
+    if(!str)
+        return -1;
+    
+    int i, cnt = 0;
+    if(str) {
+        for(i = 0; i < strlen(str); i++)
+            if(str[i] == chr)
+                cnt++;
+    }
+    
+    cnt++;
+    
+    return cnt;
+}

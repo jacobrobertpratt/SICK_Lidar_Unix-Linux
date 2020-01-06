@@ -260,25 +260,3 @@ int socket_exchange(Socket * sock, char * msg, char ** ret) {
     
     return 0;
 }
-
-/*
-int TCPExchangeMessage(TcpSocket * sock, char * sendMsg, char * retMsg) {
-    
-    // Need to check the strlen of the message not sizeof
-    
-    // Send the message to the Lidar device
-    if(send(sock->sockid, sendMsg, strlen(sendMsg), 0) < 0){
-        printf("ERROR: send message failed --> %s   at    %d\n", __FUNCTION__, __LINE__);
-        return 1;
-    }
-    
-    // need to free the message char * here and then resize depending on ... this is the problem.
-    
-    if(recv(sock->sockid, retMsg, strlen(retMsg), 0) < 0) {
-        printf("ERROR: recv message failed --> %s   at    %d\n", __FUNCTION__, __LINE__);
-        return 1;
-    }
-    
-    
-    return 0;
-}*/

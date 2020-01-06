@@ -34,4 +34,8 @@ int createDir(const char * directory, const char * dirname);
  */
 int getYYYYMMDDString(char * string);
 
+int countTokens(char * str, char chr);
+
+
+
 #endif

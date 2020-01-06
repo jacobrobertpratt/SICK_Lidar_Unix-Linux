@@ -114,20 +114,9 @@ int socket_disconnect(Socket * sock);
 int socket_connect(Socket * sock);
 
 
-// returns 0 on success or error number on failure.
+// returns 0 on success or error number on failure. --> need to build tests for
 int socket_exchange(Socket * sock, char * msg, char ** size);
 
 
-/**
- * This function is under construction and not available. Nothin will happen, 0 will be returned.
- */
-//int socket_sendData(Socket * sock, void * data, size_t size);
-
-/**
- * This function is under construction and not available. Nothin will happen, 0 will be returned.
- */
-//int socket_recvData(Socket * sock, void * data, size_t size);
-
-//int TCPExchangeMessage(TcpSocket * sock, char * sendMsg, char * retMsg);
 
 #endif
