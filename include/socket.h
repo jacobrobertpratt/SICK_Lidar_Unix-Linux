@@ -114,7 +114,7 @@ int socket_disconnect(Socket * sock);
 int socket_connect(Socket * sock);
 
 
-// returns 0 on success or error number on failure. --> need to build tests for
+// returns 0 on success or error number on failure. --> need to build tests
 int socket_exchange(Socket * sock, char * msg, char ** size);
 
 

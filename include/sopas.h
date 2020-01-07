@@ -40,13 +40,16 @@ typedef struct sopas_t {
     
 } Sopas;
 
+
+//
 Sopas * sopas_alloc();
+
 
 //
 int sopas_free(Sopas * sopas);
 
 
 //
-int sopas_scanOne(Sopas * sopas);
+int sopas_scanOnce(Sopas * sopas);
 
 #endif

@@ -11,31 +11,29 @@
 #include <time.h>
 
 #include "common.h"
+
 /** CLASS DEFINITION:
- *
- * Creates a directory at the given directory location specifiec locations with the given
- * name specified. If the directory is set to NULL, a directory will be made at the current
- * wording directory. If the file name is NULL then the function will return an error. This
- * functions checks to see if the file directory and name already exists. If they already
- * exists it returns 0. The directory name can either take a root directory or a shorter string
- * from the current working directory.
- *
- *  This also works like a terrminal in that you can specify going forward or backward
- *  in the current working directory. As if you type ".." into the directory name, it will make
- *  the file in the previous directory.
- * @param directory is a (const char *)
- * @param dirname name of new directory
- * @return 0 on success, 1 on failure
+ * This class is a combination of random functions that have been useful in the building of this API. All these functions geneal implementations and are not subject to any specific class purposes, although they are found more common in some classes than in others.
  */
-int createDir(const char * directory, const char * dirname);
 
 /**
- * Get date and time as a string
+ * Given a non-null string. This function will return the value of the number of character values plus one. This provides the total number of tokens used. The resulting number will be a positive integer. If the string value entered is NULL -1 will be returned. This is used to in multiple instances to decode the return messages from a lidar device.
+ * @param str char * string value (null terminated)
+ * @param chr character value wanting to count
+ * @return integer number of tokens
  */
-int getYYYYMMDDString(char * string);
-
 int countTokens(char * str, char chr);
 
+/**
+ * Passing a string value and null set array of character pointers will fill the array with the tokenized character values. This function does not copy values, but just reassigns their pointers. The tokens that are passed are in string format, and should be listed all values that should not be included in the array (ex. " \2\3" is a valid entry). The count, is the number of tokens for the array, and ultimitly the size of the array. The string entered and tokens entered must not be of zero length or NULL values. The count must be greater than 0. The arr must be initialized to NULL.
+ * @param str string pointer
+ * @param arr[] NULL set character pointer
+ * @param tokens constant string of delimiters
+ * @param count integer size of array
+ * @return 0 on success or ulid error number
+ *      ERROR_TYPENULL if the string entered is not allocated
+ *      ERROR_SIZE size of tokens and count must be greater than trivial
+ */
 int stringToTokenArray(char * str, char * arr[], const char * tokens, int count);
 
 

@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-c -Wall
 LDFLAGS=
 
-SOURCES=test.c unity.c ../src/message.c ../src/error.c ../src/socket.c ../src/qnode.c ../src/fifo.c ../src/lidar.c ../src/sopas.c message_test.c error_test.c socket_test.c qnode_test.c fifo_test.c lidar_test.c sopas_test.c
+SOURCES=test.c unity.c ../src/message.c ../src/error.c ../src/socket.c ../src/qnode.c ../src/fifo.c ../src/lidar.c ../src/sopas.c ../src/telegram.c ../src/util.c message_test.c error_test.c socket_test.c qnode_test.c fifo_test.c lidar_test.c sopas_test.c util_test.c telegram_test.c
 MOCKSRC=mock_lidar.c
 OBJECTS=$(SOURCES:.c=.o)
 MOCKOBJ=$(MOCKSRC:.c=.o)

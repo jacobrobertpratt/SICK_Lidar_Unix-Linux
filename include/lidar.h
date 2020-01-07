@@ -12,7 +12,7 @@ typedef struct lidar_t {
     // Call sign of this structure for deallocations purposes.
     int struct_code;
     
-    // If lidar is sopas we use sopas stuct for information
+    // If lidar is sopas we use sopas struct for information
     Sopas * sopas;
     
 } Lidar;

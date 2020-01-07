@@ -114,3 +114,26 @@ void test_unit_lidar();
 #include "../include/sopas.h"
 
 void test_unit_sopas();
+
+/* UTIL TESTS */
+
+#include "../include/util.h"
+
+void test_util_countTokens_NULL_str();
+void test_util_countTokens_str_no_tokens();
+void test_util_countTokens_str_two_tokens();
+void test_util_countTokens_str_a_lot_of_tokens();
+void test_util_stringToTokenArray_str_null();
+void test_util_stringToTokenArray_token_null();
+void test_util_stringToTokenArray_count_0();
+void test_util_stringToTokenArray_one_str_token();
+void test_util_stringToTokenArray_count_less_str_tokens();
+void test_util_stringToTokenArray_count_equal_str_tokens();
+void test_util_stringToTokenArray_token_zero_len();
+void test_unit_util();
+
+/* TELEGRAM TESTS */
+
+#include "../include/telegram.h"
+
+void test_unit_telegram();

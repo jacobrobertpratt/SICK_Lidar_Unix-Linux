@@ -21,11 +21,11 @@ static const char * subArr[41] = {
     "LCMstate",
     "LMDscandatacfg",
     "LMPoutputRange",
-    "LMDscandata",      // Scan the data can be used with sRN (for one), or sEN (for two).
+    "LMDscandata",      // Get raw scan information (ang & dist)
     "LSPsetdatetime",
     "STlms",
     "mEEwriteall",
-    "Run",
+    "Run",              // used for logout or start the machine
     "LFPparticle",
     "LFPmeanfilter",
     "LFPnto1filter",
@@ -58,6 +58,7 @@ static const char * subArr[41] = {
     "LMCstopmeas"
 };
 
+/*
 static const char * levelArr[3] = {
     "02","03","04"
 };
@@ -67,7 +68,7 @@ static char * pwArr[3] = {
     "F4724744",
     "81BE23AA"
 };
-
+*/
 
 Sopas * sopas_alloc() {
     
@@ -114,7 +115,7 @@ int sopas_free(Sopas * sopas) {
 }
 
 
-int sopas_scanOne(Sopas * sopas) {
+int sopas_scanOnce(Sopas * sopas) {
     
     int ret = 0, i, j; // function error messages and loop vars
     
@@ -133,7 +134,6 @@ int sopas_scanOne(Sopas * sopas) {
     // Build message to send to lidar
     char str[18];
     sprintf(str,"\2%s %s\3",comArr[READ],subArr[SCAN]);
-    printf("scanOne in str: %s\n", str);
     
     // Implement exchange method for socket
     char * retMsg = NULL;
@@ -146,7 +146,7 @@ int sopas_scanOne(Sopas * sopas) {
     }
     
     // Build char * arr[] for tokens
-    int count = countTokens(retMsg, ' ');
+    int count = countTokens(retMsg,' ');
     char * arr[count];
     ret = stringToTokenArray(retMsg, arr, " \2\3", count);
     if(ret) {
@@ -172,10 +172,11 @@ int sopas_scanOne(Sopas * sopas) {
     // arr[10] --> Time of transmission in μs (SAVE)
     // arr[11] & arr[12] --> Status of digital inputs
     // arr[13] & arr[14] --> Status of digital outputs
+    
     // arr[16] --> scan frequency
     // arr[17] --> measurment frequency
     // arr[19] --> output channels
-    // arr[20] --> DIST1 contect of output channel
+    // arr[20] --> DIST1 context of output channel
     // arr[21] --> scale factor (SAVE) 1x or 2x
     // arr[22] --> scale factor offset
     // arr[23] --> start angle (SAVE)
@@ -184,18 +185,21 @@ int sopas_scanOne(Sopas * sopas) {
     // arr[26] --> start of data
     
     uint16_t datasize = strtol(arr[25],NULL,16);
-    printf("data: %d\n",datasize);
+    
     
     uint32_t startangle = strtol(arr[23],NULL,16);
-    printf("startangle: %d\n",startangle);
+    
     
     uint16_t angstep = strtol(arr[24],NULL,16);
-    printf("angstep: %d\n", angstep);
+    
     
     for(j = 0, i = 26; j < datasize; i++, j++) {
         uint32_t ang = (j * angstep) + startangle;
         printf("[%d,%ld]\n", ang, strtol(arr[i],NULL,16));
     }
+    
+    if(retMsg)
+        free(retMsg);
     
     return 0;
 }

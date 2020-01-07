@@ -71,6 +71,8 @@ int main(int argc, char * argv[]) {
     bool fifo_test_enabled = false;
     bool lidar_test_enabled = false;
     bool sopas_test_enabled = false;
+    bool util_test_enabled = false;
+    bool telegram_test_enabled = false;
     
     if(argc < 2){
         all_tests_enabled = true;
@@ -90,6 +92,10 @@ int main(int argc, char * argv[]) {
                 lidar_test_enabled = true;
             if(!strcmp("-sopas",argv[i]) || !strcmp("--sopas",argv[i]))
                 sopas_test_enabled = true;
+            if(!strcmp("-util",argv[i]) || !strcmp("--util",argv[i]))
+                util_test_enabled = true;
+            if(!strcmp("-tele",argv[i]) || !strcmp("--tele",argv[i]) || !strcmp("-telegram",argv[i]) || !strcmp("--telegram",argv[i]))
+                telegram_test_enabled = true;
         }
     }
     
@@ -107,6 +113,8 @@ int main(int argc, char * argv[]) {
         test_unit_fifo();
         test_unit_lidar();
         test_unit_sopas();
+        test_unit_util();
+        test_unit_telegram();
     } else {
         if(message_test_enabled)
             test_unit_message_file();
@@ -122,6 +130,10 @@ int main(int argc, char * argv[]) {
             test_unit_lidar();
         if(sopas_test_enabled)
             test_unit_sopas();
+        if(util_test_enabled)
+            test_unit_util();
+        if(telegram_test_enabled)
+            test_unit_telegram();
     }
     
     UNITY_END();
