@@ -11,6 +11,7 @@
 #include <time.h>
 
 #include "common.h"
+#include "error.h"
 
 /** CLASS DEFINITION:
  * This class is a combination of random functions that have been useful in the building of this API. All these functions geneal implementations and are not subject to any specific class purposes, although they are found more common in some classes than in others.

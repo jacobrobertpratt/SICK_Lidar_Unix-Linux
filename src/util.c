@@ -1,6 +1,5 @@
 
 #include "../include/util.h"
-#include "../include/error.h"
 
 int countTokens(char * str, char chr) {
     

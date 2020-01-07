@@ -1,14 +1,21 @@
-/****************************************************************************/
-README YET TO BE MADE
+/****************************************************************************************/
+OPEN C-BASED LIDAR LIBRARY (yet to get formal name) 
 
-IF YOU WANT TO CONTRIBUTE TO THIS PROJECT REACH OUT TO ...
+Many advanced LIDAR applications today require fast computations when dealing with LIDAR information processing. This library aims to standardize common tools used to interface and manipulate information with LIDAR devices. Through the progress of this applications development, emphasis will be placed on making general classes capable of interfacing with as many LIDARS as possible. The idea is that when a new LIDAR device will be integrated into the application it only needs to specify that LIDAR's specific/unique calls.
 
+NOTE: 
 
+This is still a work in progress and although testing is being done along the way, will suffer from faults here and there. It is the users responsibility to report bugs so that they can be fixed. If they have created a better solution, it is encoraged that they share so as to improve the code base. 
 
+Author: Jacob Robert Pratt
+Date: January 7th, 2020
+Email: isuandme@gmail.com
 
+/****************************************************************************************/
 
+Structures:
 
-/****************************************************************************/
+All structures have a unique reference code. This allows checking when passed to functions that utilize (void *). If the structure is being removed, then it needs to match the correct structure reference. Similarly, this can be used when multiple structs can be passed to the same function but requirer different functionality. Small overhead to ensure run-time compliance.  
 
 Structure Code Reference:
 
@@ -19,6 +26,4 @@ qnode_t		0x0003
 socket_t	0x0004
 lidar_t		0x0005
 sopas_t		0x0006
-
-
 

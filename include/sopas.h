@@ -5,6 +5,13 @@
 #include "error.h"
 #include "socket.h"
 
+/** CLASS DEFINITION:
+ * This class represents a SOPAS style telegram lidar device, which is a product of the SICK corporation. It consists of a sopas_t structure, allocations, deallocations, and calls to the many different capabilities that SOPAS devices offer. For each lidar device a telegram is sent to the device and then returned with information. Please refer to the SOPAS Telegram Listing documentation for more information.
+ *
+ * @Author Jacob Robert Pratt
+ * @Date Jan 7th, 2020
+ */
+
 #define SOPAS_STRUCT_CODE 0x0006
 
 typedef enum command_t {
