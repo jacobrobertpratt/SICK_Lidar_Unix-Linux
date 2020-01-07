@@ -10,6 +10,8 @@
  * @Date January 7th 2020
  */
 
+#define TELEGRAM_STRUCT_CODE 0x0007
+
 /** DISTUNIT:
  * Represents the unit value of length given to each data point. This is used in the telegram structurer below to bring world dimensions from the telegram. If one device gives readings in (mm) and the other in (feet), we then have a bases to compare the two measurments.
  */
@@ -24,9 +26,12 @@ typedef enum dist_unit_t {
 } DistUnit;
 
 /** TELEGRAM:
- * A telegrram structure represent the information passed back to our system from a LIDAR device.
+ * A telegrram structure represent the information passed back to our system from a LIDAR device. 
  */
 typedef struct telegram_t {
+    
+    // Call sign of this structure for deallocations purposes.
+    int struct_code;
     
     // Device number associated with this this telegram
     uint8_t devicenumber;
