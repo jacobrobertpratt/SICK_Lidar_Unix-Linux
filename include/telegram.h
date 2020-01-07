@@ -5,12 +5,13 @@
 #include "error.h"
 
 /** CLASS DEFINITION:
+ *A telegrram structure represent the information passed back to our system from a LIDAR device. It holds all the pertinent information relevant to a measurment. This can then be stored in a buffer or passed to a display class to output the information. This can also be used as information to a logic class. This is a generic structure and has a high possibility to change (to a more general or unique format) as more LIDAR devices are added. A reference to this structure is generally passed to those functions that return LIDAR measurments.
  * @Author Jacob R Pratt
  * @Date January 7th 2020
  */
 
-/**
- * DistUnit represents the unit value of length given to each data point. This is used in the telegram structurer below to bring world dimensions from the telegram. If one device gives readings in (mm) and the other in (feet), we then have a bases to compare the two measurments.
+/** DISTUNIT:
+ * Represents the unit value of length given to each data point. This is used in the telegram structurer below to bring world dimensions from the telegram. If one device gives readings in (mm) and the other in (feet), we then have a bases to compare the two measurments.
  */
 typedef enum dist_unit_t {
     MILLIMETER,
@@ -23,7 +24,7 @@ typedef enum dist_unit_t {
 } DistUnit;
 
 /** TELEGRAM:
- * A telegrram structure represent the information passed back to our system from a LIDAR device. It holds all the pertinent information relevant to a measurment. This can then be stored in a buffer or passed to a display class to output the information. This can also be used as information to a logic class. This is a generic structure and has a high possibility to change (to a more general or unique format) as more LIDAR devices are added. A reference to this structure is generally passed to those functions that return LIDAR measurments.
+ * A telegrram structure represent the information passed back to our system from a LIDAR device.
  */
 typedef struct telegram_t {
     

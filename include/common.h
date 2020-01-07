@@ -25,7 +25,7 @@
 typedef struct uint8_fraction_t {
     uint8_t num;
     uint8_t den;
-} uint16_frac;
+} uint8_frac;
 
 typedef struct uint16_fraction_t {
     uint16_t num;
@@ -40,12 +40,12 @@ typedef struct uint32_fraction_t {
 typedef struct uint64_fraction_t {
     uint64_t num;
     uint64_t den;
-} uint32_frac;
+} uint64_frac;
 
 typedef struct int8_fraction_t {
     int8_t num;
     int8_t den;
-} int16_frac;
+} int8_frac;
 
 typedef struct int16_fraction_t {
     int16_t num;
@@ -60,6 +60,6 @@ typedef struct int32_fraction_t {
 typedef struct int64_fraction_t {
     int64_t num;
     int64_t den;
-} int32_frac;
+} int64_frac;
 
 #endif
