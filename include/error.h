@@ -24,6 +24,7 @@
 #define ERROR_SOCKIP        116     //
 #define ERROR_SOCKPORT      117     //
 #define ERROR_SOCKMSG       118     //
+#define ERROR_RETMSG        119     //
 
 #define MAX_ERR_NUM     (sizeof(errorArray) / 8) + 102
 #define ERROR_STRUCT_CODE   0x0000

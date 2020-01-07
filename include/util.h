@@ -36,6 +36,7 @@ int getYYYYMMDDString(char * string);
 
 int countTokens(char * str, char chr);
 
+int stringToTokenArray(char * str, char * arr[], const char * tokens, int count);
 
 
 #endif

@@ -17,7 +17,8 @@ static char * errorArray[] = {
     "socket is not connected",
     "socket IP address is not set or is incorrect",
     "socket Port number is not set or is incorrect",
-    "socket failed to exchange message"
+    "socket failed to exchange message",
+    "lidar device returned incorrect message"
 };
 
 char * error_getString(int errnum) {

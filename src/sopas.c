@@ -2,17 +2,26 @@
 #include "../include/sopas.h"
 
 static const char * comArr[10] = {
-  "sRN","sWN","sMN","sEN","sRA","sWA","sAN","sEA","sSN","sFA"
+    "sRN",
+    "sWN",
+    "sMN",
+    "sEN",
+    "sRA",
+    "sWA",
+    "sAN",
+    "sEA",
+    "sSN",
+    "sFA"
 };
 
 static const char * subArr[41] = {
-    "SetAccessMode",        // used for login
+    "SetAccessMode",    // used for login
     "mLMPsetscancfg",
     "LMPscancfg",
     "LCMstate",
     "LMDscandatacfg",
     "LMPoutputRange",
-    "LMDscandata",
+    "LMDscandata",      // Scan the data can be used with sRN (for one), or sEN (for two).
     "LSPsetdatetime",
     "STlms",
     "mEEwriteall",
@@ -59,6 +68,7 @@ static char * pwArr[3] = {
     "81BE23AA"
 };
 
+
 Sopas * sopas_alloc() {
     
     Sopas * sopas = (Sopas *) malloc(sizeof(Sopas));
@@ -82,6 +92,7 @@ Sopas * sopas_alloc() {
     return sopas;
 }
 
+
 int sopas_free(Sopas * sopas) {
     
     if(!sopas) {
@@ -102,19 +113,16 @@ int sopas_free(Sopas * sopas) {
     return 0;
 }
 
-int sopas_login(Sopas * sopas) {
+
+int sopas_scanOne(Sopas * sopas) {
     
-    int ret = 0; // function error messages
-    char * retMsg = NULL;
+    int ret = 0, i, j; // function error messages and loop vars
     
+    // sopas cannot be NULL
     if(!sopas) {
         uliderror(ERROR_TYPENULL);
         return ERROR_TYPENULL;
     }
-    
-    // Create String for login
-    char outMsg[32];
-    sprintf(outMsg,"\2%s %s %s %s\3",comArr[METHOD],subArr[LOGIN],levelArr[sopas->level],pwArr[sopas->level]);
     
     // Send/recv message to lidar
     if(!sopas->sock->connected) {
@@ -122,8 +130,14 @@ int sopas_login(Sopas * sopas) {
         return ERROR_SOCKCONNECT;
     }
     
+    // Build message to send to lidar
+    char str[18];
+    sprintf(str,"\2%s %s\3",comArr[READ],subArr[SCAN]);
+    printf("scanOne in str: %s\n", str);
+    
     // Implement exchange method for socket
-    ret = socket_exchange(sopas->sock, outMsg, &retMsg);
+    char * retMsg = NULL;
+    ret = socket_exchange(sopas->sock, str, &retMsg);
     if(ret) {
         uliderror(ERROR_SOCKMSG);
         if(retMsg)
@@ -131,11 +145,57 @@ int sopas_login(Sopas * sopas) {
         return ERROR_SOCKMSG;
     }
     
-    // Check return message
+    // Build char * arr[] for tokens
+    int count = countTokens(retMsg, ' ');
+    char * arr[count];
+    ret = stringToTokenArray(retMsg, arr, " \2\3", count);
+    if(ret) {
+        // TODO:
+        return -1;
+    }
     
+    // Check if return message is correct
+    if(strcmp(arr[0],comArr[RETREAD]) || strcmp(arr[1], subArr[SCAN])) {
+        uliderror(ERROR_RETMSG);
+        return ERROR_RETMSG;
+    }
     
-    // Update lidar
+    // TODO: build a telegram struct or update the message class
     
+    // arr[2] --> version #
+    // arr[3] --> device # (SAVE)
+    // arr[4] --> serial number (SAVE)
+    // arr[5] & arr[6] --> Device status 0 0 means okay
+    // arr[7] --> telegram counter
+    // arr[8] --> scan counter
+    // arr[9] --> Time since start up in μs
+    // arr[10] --> Time of transmission in μs (SAVE)
+    // arr[11] & arr[12] --> Status of digital inputs
+    // arr[13] & arr[14] --> Status of digital outputs
+    // arr[16] --> scan frequency
+    // arr[17] --> measurment frequency
+    // arr[19] --> output channels
+    // arr[20] --> DIST1 contect of output channel
+    // arr[21] --> scale factor (SAVE) 1x or 2x
+    // arr[22] --> scale factor offset
+    // arr[23] --> start angle (SAVE)
+    // arr[24] --> Size of single angular step (Output format in degree: 1/10000°) (SAVE)
+    // arr[25] --> amount of data (Defines the number of items on measured output) (SAVE)
+    // arr[26] --> start of data
+    
+    uint16_t datasize = strtol(arr[25],NULL,16);
+    printf("data: %d\n",datasize);
+    
+    uint32_t startangle = strtol(arr[23],NULL,16);
+    printf("startangle: %d\n",startangle);
+    
+    uint16_t angstep = strtol(arr[24],NULL,16);
+    printf("angstep: %d\n", angstep);
+    
+    for(j = 0, i = 26; j < datasize; i++, j++) {
+        uint32_t ang = (j * angstep) + startangle;
+        printf("[%d,%ld]\n", ang, strtol(arr[i],NULL,16));
+    }
     
     return 0;
 }

@@ -84,3 +84,15 @@ int countTokens(char * str, char chr) {
     
     return cnt;
 }
+
+int stringToTokenArray(char * str, char * arr[], const char * tokens, int count) {
+    
+    char **ap;
+    
+    for (ap = arr; (*ap = strsep(&str, tokens)) != NULL;)
+            if (**ap != '\0')
+                    if (++ap >= &arr[count])
+                            break;
+    
+    return 0;
+}

@@ -21,7 +21,7 @@ typedef enum command_t {
 } Command;
 
 typedef enum subject_t {
-    LOGIN
+    SCAN = 6
 } Subject;
 
 typedef struct sopas_t {
@@ -42,13 +42,11 @@ typedef struct sopas_t {
 
 Sopas * sopas_alloc();
 
+//
 int sopas_free(Sopas * sopas);
 
-/* Login
- - used by all devices the same.
- */
-int sopas_login(Sopas * sopas);
 
-// Logout
+//
+int sopas_scanOne(Sopas * sopas);
 
 #endif

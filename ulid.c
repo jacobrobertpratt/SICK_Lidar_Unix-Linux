@@ -7,6 +7,17 @@
 
 int main(int argc, char * argv[]) {
     
+    Sopas * sopas = sopas_alloc();
+    
+    socket_setIP(sopas->sock,"192.168.0.2");
+    socket_setPort(sopas->sock,2112);
+    socket_connect(sopas->sock);
+    
+    sopas_scanOne(sopas);
+    
+    sopas_free(sopas);
+    
+    /*
     Socket * sock = socket_alloc();
     
     socket_setIP(sock,"192.168.0.2");
@@ -21,6 +32,8 @@ int main(int argc, char * argv[]) {
     int ret = socket_exchange(sock, str, &retmsg);
     if(ret)
         uliderror(ret);
+    
+    printf("%s\n", retmsg);
 
     int cnt = countTokens(retmsg,' ');
     printf("cnt: %d\n", cnt);
@@ -33,6 +46,7 @@ int main(int argc, char * argv[]) {
         free(retmsg);
     
     socket_free(sock);
+     */
     
     return 0;
 }
