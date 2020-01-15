@@ -1,12 +1,11 @@
 
 BUG REPORT: 
 
-1) stringToTokenArray function in file util.c doesn't work correctly if the array that is passed has a different size that the count ... can we remove the int count parameter? This needs more testing and updates.(Jan 7th, 2020)
+1) StringToTokenArray function in file util.c doesn't work correctly if the array that is passed has a different size that the count ... can we remove the int count parameter? This needs more testing and updates.(Jan 7th, 2020)
 
-2) the dealloc_cb in fifo_free(... , ....) function needs to be more robust. Throws warning on building tests, will throw when used later. (Jan 7th, 2020)
+2) The dealloc_cb in fifo_free(... , ....) function needs to be more robust. Throws warning on building tests, will throw when used later. (Jan 7th, 2020)
 
-
-
+3) 
 
 
 
