@@ -85,7 +85,7 @@ Sopas * sopas_alloc() {
     sopas->level = 0;
     
     // Zero out password buffer
-    memset(sopas->password,0,9);
+    memset(sopas->password, 0, 9);
     
     // Allocate Socket structure
     sopas->sock = socket_alloc();
@@ -115,9 +115,10 @@ int sopas_free(Sopas * sopas) {
 }
 
 
-int sopas_scanOnce(Sopas * sopas) {
+int sopas_scanOnce(Sopas * sopas, Telegram * tele) {
     
     int ret = 0, i, j; // function error messages and loop vars
+    time_t time_stamp;
     
     // sopas cannot be NULL
     if(!sopas) {
@@ -145,6 +146,9 @@ int sopas_scanOnce(Sopas * sopas) {
         return ERROR_SOCKMSG;
     }
     
+    time(&time_stamp);
+    tele->sys_timestamp = time_stamp;
+    
     // Build char * arr[] for tokens
     int count = countTokens(retMsg,' ');
     char * arr[count];
@@ -163,39 +167,71 @@ int sopas_scanOnce(Sopas * sopas) {
     // TODO: build a telegram struct or update the message class
     
     // arr[2] --> version #
-    // arr[3] --> device # (SAVE)
     // arr[4] --> serial number (SAVE)
     // arr[5] & arr[6] --> Device status 0 0 means okay
     // arr[7] --> telegram counter
     // arr[8] --> scan counter
     // arr[9] --> Time since start up in μs
-    // arr[10] --> Time of transmission in μs (SAVE)
     // arr[11] & arr[12] --> Status of digital inputs
     // arr[13] & arr[14] --> Status of digital outputs
     
-    // arr[16] --> scan frequency
-    // arr[17] --> measurment frequency
+    // arr[3] --> device # (SAVE)
+    tele->device_number = strtol(arr[3], NULL, 16);
+    DEBUG("device number", tele->device_number);
+    
+
+    // arr[10] --> Time of transmission in μs (SAVE)
+    tele->device_timestamp = strtol(arr[10], NULL, 16);
+    DEBUG("device_timestamp", tele->device_timestamp);
+    
+    // arr[16] --> scan frequency (1/100 Hz)
+    tele->scan_freq.num = strtol(arr[16], NULL, 16);
+    DEBUG("scan_freq.num", tele->scan_freq.num);
+    
+    tele->scan_freq.den = 100; // sopas specific
+    DEBUG("scan_freq.den", tele->scan_freq.den);
+    
+    // arr[17] --> measurment frequency (time between two shots)
+    
     // arr[19] --> output channels
+    tele->channel = strtol(arr[19], NULL, 16);
+    DEBUG("channel", tele->channel);
+    
     // arr[20] --> DIST1 context of output channel
+    
     // arr[21] --> scale factor (SAVE) 1x or 2x
-    // arr[22] --> scale factor offset
+    tele->scale_factor = strtol(arr[21], NULL, 16);
+    DEBUG("scale_factor", tele->scale_factor);
+    
+    // arr[22] --> scale factor offset ?????
+    
     // arr[23] --> start angle (SAVE)
+    tele->start_angle.num = strtol(arr[23], NULL, 16);
+    DEBUG("start_angle.num", tele->start_angle.num);
+    tele->start_angle.den = 10000; // sopas secific
+    DEBUG("start_angle.den", tele->start_angle.den);
+    
     // arr[24] --> Size of single angular step (Output format in degree: 1/10000°) (SAVE)
+    tele->angular_step.num = strtol(arr[24], NULL, 16);
+    DEBUG("angular_step.num", tele->angular_step.num);
+    tele->angular_step.den = 10000; // sopas specific
+    DEBUG("angular_step.den", tele->angular_step.den);
+    
     // arr[25] --> amount of data (Defines the number of items on measured output) (SAVE)
-    // arr[26] --> start of data
+    tele->data_count = strtol(arr[25], NULL, 16);
+    DEBUG("data_count",tele->data_count);
     
-    uint16_t datasize = strtol(arr[25],NULL,16);
+    // allocate data array
+    tele->data = (uint32_t*) malloc(tele->data_count * sizeof(uint32_t));
+    if(!(tele->data)) {
+        uliderror(errno);
+        return errno;
+    }
     
-    
-    uint32_t startangle = strtol(arr[23],NULL,16);
-    
-    
-    uint16_t angstep = strtol(arr[24],NULL,16);
-    
-    
-    for(j = 0, i = 26; j < datasize; i++, j++) {
-        uint32_t ang = (j * angstep) + startangle;
-        printf("[%d,%ld]\n", ang, strtol(arr[i],NULL,16));
+    // load data into array
+    for(j = 0, i = 26; j < tele->data_count; i++, j++) {
+        //printf("[%d,%ld]\n", ang, strtol(arr[i], NULL, 16));
+        tele->data[j] = strtol(arr[i], NULL, 16);
     }
     
     if(retMsg)
