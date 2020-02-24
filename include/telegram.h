@@ -14,7 +14,7 @@
  */
 
 #define TELEGRAM_STRUCT_CODE 0x0007
-#define DEBUG(a,b) printf("[telegram @ %d]: DEBUG: %s -> %d\n", __LINE__, a, b)
+#define DEBUG(a,b) //printf("[telegram @ %d]: DEBUG: %s -> %d\n", __LINE__, a, b)
 
 /** DISTUNIT:
  * Represents the unit value of length given to each data point. This is used in the telegram structurer below to bring world dimensions from the telegram. If one device gives readings in (mm) and the other in (feet), we then have a bases to compare the two measurments.
