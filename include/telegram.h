@@ -79,7 +79,7 @@ typedef struct telegram_t {
     
 } Telegram;
 
-//
+/* Allocates a tellegram struct setting all the initial parameters to 0, and the pointers to NULL. */
 Telegram * telegram_alloc();
 
 //

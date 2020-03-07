@@ -178,7 +178,6 @@ int sopas_scanOnce(Sopas * sopas, Telegram * tele) {
     // arr[3] --> device # (SAVE)
     tele->device_number = strtol(arr[3], NULL, 16);
     DEBUG("device number", tele->device_number);
-    
 
     // arr[10] --> Time of transmission in μs (SAVE)
     tele->device_timestamp = strtol(arr[10], NULL, 16);
