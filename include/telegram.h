@@ -14,7 +14,6 @@
  */
 
 #define TELEGRAM_STRUCT_CODE 0x0007
-#define DEBUG(a,b) //printf("[telegram @ %d]: DEBUG: %s -> %d\n", __LINE__, a, b)
 
 /** DISTUNIT:
  * Represents the unit value of length given to each data point. This is used in the telegram structurer below to bring world dimensions from the telegram. If one device gives readings in (mm) and the other in (feet), we then have a bases to compare the two measurments.
@@ -79,11 +78,21 @@ typedef struct telegram_t {
     
 } Telegram;
 
-/* Allocates a tellegram struct setting all the initial parameters to 0, and the pointers to NULL. */
+/* Allocates a Telegram structure and initializes the values to 0, except
+    the scale factor and anglular step factors, which are initialized to
+    one.
+    @param void
+    @return Telegram structure, or NULL on failure.*/
 Telegram * telegram_alloc();
 
-//
-int telegram_free(Telegram * tele);
+/* Frees a Telegram structure. The telegram structure must be a
+ * double pointer reference. All values internal parameters
+ * are set to freed and the telegram structure is set to NULL.
+ * @param Telegram ** structure
+ * @return 0 on success or error number on failure.
+ *   ERROR_TYPENULL if the queue node is NULL
+ */
+int telegram_free(Telegram ** tele);
 
 
 

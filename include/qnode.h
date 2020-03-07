@@ -44,7 +44,7 @@ QNode * qnode_alloc(void);
  *  this function returns an error warning that the data type must be freed. It will automatically
  *  set the next pointer to NULL.
  *  @param QNode pointer
- *  @return 0 on success or error numbe on failure.
+ *  @return 0 on success or error number on failure.
  *      ERROR_TYPENULL if the queue node is NULL
  *      ERROR_STRUCTCODE is the node is not a qnode
  *      ERROR_DATA if the data is not null and needs to be freed.

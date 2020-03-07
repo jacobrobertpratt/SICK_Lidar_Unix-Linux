@@ -136,4 +136,8 @@ void test_unit_util();
 
 #include "../include/telegram.h"
 
+void test_telegram_free_null();
+void test_telegram_alloc();
+
+
 void test_unit_telegram();

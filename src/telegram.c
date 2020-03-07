@@ -31,16 +31,17 @@ Telegram * telegram_alloc() {
     return tele;
 }
 
-int telegram_free(Telegram * tele) {
+int telegram_free(Telegram ** tele) {
     
-    if(!tele) {
+    if(!(*tele)) {
         return ERROR_TYPENULL;
     }
     
-    if(tele->data)
-        free(tele->data);
+    if((*tele)->data)
+        free((*tele)->data);
     
-    free(tele);
+    free(*tele);
+    *tele = NULL;
     
     return 0;
 }

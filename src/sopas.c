@@ -1,6 +1,8 @@
 
 #include "../include/sopas.h"
 
+#define DEBUG(a,b) printf("[telegram @ %d]: DEBUG: %s -> %d\n", __LINE__, a, b)
+
 static const char * comArr[10] = {
     "sRN",
     "sWN",
