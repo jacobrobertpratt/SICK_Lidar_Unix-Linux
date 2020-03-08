@@ -7,6 +7,7 @@
 
 #define LIDAR_STRUCT_CODE 0x0005
 
+/* */
 typedef struct lidar_t {
     
     // Call sign of this structure for deallocations purposes.
@@ -17,8 +18,10 @@ typedef struct lidar_t {
     
 } Lidar;
 
+/* */
 Lidar * lidar_alloc();
 
+/* */
 int lidar_free(Lidar * lidar);
 
 #endif /* ULID_LIDAR_H */

@@ -39,8 +39,4 @@ void test_unit_sopas() {
     RUN_TEST(test_sopas_alloc);
     RUN_TEST(test_sopas_scanOnce_null_parameters);
     //RUN_TEST();
-    //RUN_TEST();
-    //RUN_TEST();
-    //RUN_TEST();
-    //RUN_TEST();
 }

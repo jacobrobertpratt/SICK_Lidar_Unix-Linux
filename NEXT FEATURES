@@ -1,11 +1,15 @@
 NEXT FEATURES:
 
-1) Add more functionality to the sopas class so that we can access other functions. 
+Get image from TIM551 and copy that into the mock liar
 
-2) Compile and build FFmpeg
+Setup lidar for testing with TIM551 response image
 
-3) Build a frame class that builds frames for videos/streams
+Finish testing "scanOnce" functionality
 
-4) Output DGRAM stream to VLC with FFmpeg build library to do so. 
+Add more functionality to the sopas class so that we can access other functions. 
 
-5)  
+Compile and build FFmpeg
+
+Build a frame class that builds frames for videos/streams
+
+Output DGRAM stream to VLC with FFmpeg build library to do so. 

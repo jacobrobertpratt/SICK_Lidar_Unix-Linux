@@ -12,6 +12,8 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 
+// Create an exact response image from the TIM551 lidar
+
 
 int main( int argc, char *argv[] ) {
     

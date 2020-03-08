@@ -7,7 +7,8 @@
 #include "include/telegram.h"
 
 int main(int argc, char * argv[]) {
-    /*
+    
+    /* GENERAL STRUCTURE OF PROGRAM
     Sopas * sopas = sopas_alloc();
     
     socket_setIP(sopas->sock, "192.168.0.2");
@@ -26,13 +27,6 @@ int main(int argc, char * argv[]) {
     
     sopas_free(sopas);
      */
-    
-    Telegram * tele = telegram_alloc();
-    
-    printf("tele size: %lu\n", sizeof(*tele));
-    
-    telegram_free(&tele);
-     
     
     return 0;
 }
