@@ -26,7 +26,7 @@ int startMockLidar(void) {
         memset(path,0,100);
         strcat(path,"./mock_lidar");
     } else {
-        printf("\n\n ERROR: incorrect path to start mock_lidar ... enter SICK_Lidar_Unix_Linux or tests directory.");
+        printf("\n\n ERROR: incorrect path to start mock_lidar ... enter SICK_Lidar_Unix_Linux or tests directory.\n");
         exit(1);
     }
     
@@ -36,7 +36,7 @@ int startMockLidar(void) {
         printf("Starting mock lidar process ... \n");
         execvp(path, 0);
         printf("ERROR: failed to initialize lidar with code -> %s\n", strerror(errno));
-        printf("\n MUST BE IN TEST FOLDER TO RUN TESTS \n\n");
+        printf("\n MUST BE IN TEST FOLDER TO RUN TESTS WHICH REQUIRE MOCK LIDAR\n\n");
         exit(1);
     }
     
@@ -99,7 +99,7 @@ int main(int argc, char * argv[]) {
         }
     }
     
-    if(socket_test_enabled || all_tests_enabled)
+    if(socket_test_enabled || all_tests_enabled || sopas_test_enabled)
         pid = startMockLidar();
     
     /* Starting Unity tests */
@@ -138,7 +138,7 @@ int main(int argc, char * argv[]) {
     
     UNITY_END();
     
-    if(socket_test_enabled || all_tests_enabled)
+    if(socket_test_enabled || all_tests_enabled || sopas_test_enabled)
         endMockLidar(pid);
     
     return 0;

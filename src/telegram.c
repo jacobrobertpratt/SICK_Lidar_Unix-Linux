@@ -1,7 +1,6 @@
 
 #include "../include/telegram.h"
 
-
 Telegram * telegram_alloc() {
     
     Telegram * tele = (Telegram*) malloc(sizeof(Telegram));

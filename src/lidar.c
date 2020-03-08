@@ -32,7 +32,7 @@ int lidar_free(Lidar * lidar) {
     }
     
     if(lidar->sopas)
-        sopas_free(lidar->sopas);
+        sopas_free(&(lidar->sopas));
     
     free(lidar);
     

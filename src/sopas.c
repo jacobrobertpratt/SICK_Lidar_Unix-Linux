@@ -96,26 +96,26 @@ Sopas * sopas_alloc() {
 }
 
 
-int sopas_free(Sopas * sopas) {
+int sopas_free(Sopas ** sopas) {
     
-    if(!sopas) {
+    if(!(*sopas)) {
         uliderror(ERROR_TYPENULL);
         return ERROR_TYPENULL;
     }
     
-    if(sopas->struct_code != SOPAS_STRUCT_CODE) {
+    if((*sopas)->struct_code != SOPAS_STRUCT_CODE) {
         uliderror(ERROR_STRUCTCODE);
         return ERROR_STRUCTCODE;
     }
     
-    if(sopas->sock)
-        socket_free(sopas->sock);
+    if((*sopas)->sock)
+        socket_free((*sopas)->sock);
     
-    free(sopas);
+    free(*sopas);
+    *sopas = NULL;
     
     return 0;
 }
-
 
 int sopas_scanOnce(Sopas * sopas, Telegram * tele) {
     

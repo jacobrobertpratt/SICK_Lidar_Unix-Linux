@@ -113,6 +113,9 @@ void test_unit_lidar();
 
 #include "../include/sopas.h"
 
+void test_sopas_free_null();
+void test_sopas_alloc();
+void test_sopas_scanOnce_null_parameters();
 void test_unit_sopas();
 
 /* UTIL TESTS */
@@ -138,6 +141,4 @@ void test_unit_util();
 
 void test_telegram_free_null();
 void test_telegram_alloc();
-
-
 void test_unit_telegram();

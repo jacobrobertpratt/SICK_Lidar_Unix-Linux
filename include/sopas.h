@@ -15,6 +15,7 @@
 
 #define SOPAS_STRUCT_CODE 0x0006
 
+/* */
 typedef enum command_t {
     READ,
     WRITE,
@@ -28,10 +29,12 @@ typedef enum command_t {
     ERROR
 } Command;
 
+/* */
 typedef enum subject_t {
     SCAN = 6
 } Subject;
 
+/* */
 typedef struct sopas_t {
     
     // Call sign of this structure for deallocations purposes.
@@ -49,15 +52,15 @@ typedef struct sopas_t {
 } Sopas;
 
 
-//
+/* */
 Sopas * sopas_alloc();
 
 
-//
-int sopas_free(Sopas * sopas);
+/* */
+int sopas_free(Sopas ** sopas);
 
 
-//
+/* */
 int sopas_scanOnce(Sopas * sopas, Telegram * tele);
 
 #endif
