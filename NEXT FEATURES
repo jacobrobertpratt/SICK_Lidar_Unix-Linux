@@ -1,0 +1,11 @@
+NEXT FEATURES:
+
+1) Add more functionality to the sopas class so that we can access other functions. 
+
+2) Compile and build FFmpeg
+
+3) Build a frame class that builds frames for videos/streams
+
+4) Output DGRAM stream to VLC with FFmpeg build library to do so. 
+
+5)  

@@ -19,10 +19,11 @@ int startMockLidar(void) {
     // Sets the path to the mock_lidar.exe file.
     char path[100];
     getcwd(path,100);
+    printf("current working directory: %s\n",path);
     if(!strcmp("SICK_Lidar_Unix-Linux",&(strrchr(path,'/')[1]))) {
         memset(path,0,100);
-        strcat(path,"./tests/mock_lidar");
-    } else if(!strcmp("tests",&(strrchr(path,'/')[1]))) {
+        strcat(path,"./testing/mock_lidar");
+    } else if(!strcmp("testing",&(strrchr(path,'/')[1]))) {
         memset(path,0,100);
         strcat(path,"./mock_lidar");
     } else {
