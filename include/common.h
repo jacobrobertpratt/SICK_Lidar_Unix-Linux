@@ -18,6 +18,14 @@
  * @Date January 7th, 2020
  */
 
+
+/* Common messages that cen be used to print to the terminal. They are mostly used in testing
+    and building the software, but can be used if you desire to output messages to the terminal.*/
+#define ERRMSG(a) printf("[%s@%d] ERROR: %s\n",&(strrchr(__FILE__,'/')[1]),__LINE__,a);
+#define WRNMSG(a) printf("[%s@%d] WARNING: %s\n",&(strrchr(__FILE__,'/')[1]),__LINE__,a);
+#define TSTMSG(a) printf("[%s@%d] %s\n",&(strrchr(__FILE__,'/')[1]),__LINE__,a);
+
+
 /**
  * The  XXXX_fraction_t structures represent a more accurate version of a floating point number. Since floating point numbers can lose values as they are passed around and manipulated, we use a fraction representation to maintain dependency. This idea is taken from the open sourrce FFMpeg library, I suggest you look through it as it's very cool.
  */

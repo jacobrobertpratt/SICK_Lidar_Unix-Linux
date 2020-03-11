@@ -50,8 +50,7 @@ int socket_free(Socket * sock) {
     return 0;
 }
 
-int socket_setIP(Socket * sock, const char * address)
-{
+int socket_setIP(Socket * sock, const char * address) {
     if(!sock)
         return ERROR_TYPENULL;
     

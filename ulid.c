@@ -8,7 +8,7 @@
 
 int main(int argc, char * argv[]) {
     
-    /* GENERAL STRUCTURE OF PROGRAM
+    // GENERAL STRUCTURE OF PROGRAM
     Sopas * sopas = sopas_alloc();
     
     socket_setIP(sopas->sock, "192.168.0.2");
@@ -18,15 +18,11 @@ int main(int argc, char * argv[]) {
     Telegram * tele = telegram_alloc();
     
     sopas_scanOnce(sopas, tele);
-    int i;
-    for(i = 0; i < tele->data_count; i++) {
-        printf("%d) %u\n", i, tele->data[i]);
-    }
     
     telegram_free(&tele);
     
-    sopas_free(sopas);
-     */
+    sopas_free(&sopas);
+     
     
     return 0;
 }

@@ -25,8 +25,6 @@ char * error_getString(int errnum) {
     
     char * retStr = NULL;
     
-    //printf("sizeof errorArray: %lu\n",sizeof(errorArray));
-    
     // Gets the maximum value of the possible errornum
     int max_errnum = MAX_ERR_NUM;
     
@@ -49,8 +47,8 @@ int error_print(int errnum, const char * file, int line) {
     int ret = 0;
     err_str = error_getString(errnum);
     if(!err_str)
-        printf("[%s @ %d] Error: invalide error code: - \n", file, line);
+        printf("[%s@%d] Error: invalide error code: - \n", file, line);
     else
-        printf("[%s @ %d] Error: %s: %d\n",file,line,err_str,errnum);
+        printf("[%s@%d] Error: %s: %d\n",file,line,err_str,errnum);
     return ret;
 }

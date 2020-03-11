@@ -1,8 +1,6 @@
 
 #include "../include/sopas.h"
 
-#define DEBUG(a,b) printf("[telegram @ %d]: DEBUG: %s -> %d\n", __LINE__, a, b)
-
 static const char * comArr[10] = {
     "sRN",
     "sWN",
@@ -166,8 +164,6 @@ int sopas_scanOnce(Sopas * sopas, Telegram * tele) {
         return ERROR_RETMSG;
     }
     
-    // TODO: build a telegram struct or update the message class
-    
     // arr[2] --> version #
     // arr[4] --> serial number (SAVE)
     // arr[5] & arr[6] --> Device status 0 0 means okay
@@ -179,48 +175,37 @@ int sopas_scanOnce(Sopas * sopas, Telegram * tele) {
     
     // arr[3] --> device # (SAVE)
     tele->device_number = strtol(arr[3], NULL, 16);
-    DEBUG("device number", tele->device_number);
 
     // arr[10] --> Time of transmission in μs (SAVE)
     tele->device_timestamp = strtol(arr[10], NULL, 16);
-    DEBUG("device_timestamp", tele->device_timestamp);
     
     // arr[16] --> scan frequency (1/100 Hz)
     tele->scan_freq.num = strtol(arr[16], NULL, 16);
-    DEBUG("scan_freq.num", tele->scan_freq.num);
     
     tele->scan_freq.den = 100; // sopas specific
-    DEBUG("scan_freq.den", tele->scan_freq.den);
     
     // arr[17] --> measurment frequency (time between two shots)
     
     // arr[19] --> output channels
     tele->channel = strtol(arr[19], NULL, 16);
-    DEBUG("channel", tele->channel);
     
     // arr[20] --> DIST1 context of output channel
     
     // arr[21] --> scale factor (SAVE) 1x or 2x
     tele->scale_factor = strtol(arr[21], NULL, 16);
-    DEBUG("scale_factor", tele->scale_factor);
     
     // arr[22] --> scale factor offset ?????
     
     // arr[23] --> start angle (SAVE)
     tele->start_angle.num = strtol(arr[23], NULL, 16);
-    DEBUG("start_angle.num", tele->start_angle.num);
     tele->start_angle.den = 10000; // sopas secific
-    DEBUG("start_angle.den", tele->start_angle.den);
     
     // arr[24] --> Size of single angular step (Output format in degree: 1/10000°) (SAVE)
     tele->angular_step.num = strtol(arr[24], NULL, 16);
-    DEBUG("angular_step.num", tele->angular_step.num);
     tele->angular_step.den = 10000; // sopas specific
-    DEBUG("angular_step.den", tele->angular_step.den);
     
     // arr[25] --> amount of data (Defines the number of items on measured output) (SAVE)
     tele->data_count = strtol(arr[25], NULL, 16);
-    DEBUG("data_count",tele->data_count);
     
     // allocate data array
     tele->data = (uint32_t*) malloc(tele->data_count * sizeof(uint32_t));

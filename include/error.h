@@ -34,10 +34,8 @@
  * either to open or log something.
  */
 typedef struct ulid_error_t {
-    
     /* Call sign of this structure for identification purposes */
     int struct_code;
-    
 } Error;
 
 /**

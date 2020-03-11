@@ -11,6 +11,7 @@
 #include <limits.h>
 
 #include "test.h"
+#include "../include/common.h"
 
 /* Starts the mock_lidar process that mimics */
 int startMockLidar(void) {
@@ -19,7 +20,7 @@ int startMockLidar(void) {
     // Sets the path to the mock_lidar.exe file.
     char path[100];
     getcwd(path,100);
-    printf("current working directory: %s\n",path);
+    printf("\ncurrent working directory: %s\n",path);
     if(!strcmp("SICK_Lidar_Unix-Linux",&(strrchr(path,'/')[1]))) {
         memset(path,0,100);
         strcat(path,"./testing/mock_lidar");
@@ -34,10 +35,11 @@ int startMockLidar(void) {
     // fork and start mock lidar process ...
     pid = fork();
     if(pid == 0) {
-        printf("Starting mock lidar process ... \n");
+        printf("Starting mock lidar ... \n");
         execvp(path, 0);
+        // If here in the code, the execvp failed.
         printf("ERROR: failed to initialize lidar with code -> %s\n", strerror(errno));
-        printf("\n MUST BE IN TEST FOLDER TO RUN TESTS WHICH REQUIRE MOCK LIDAR\n\n");
+        ERRMSG("\n MUST BE IN TEST FOLDER TO RUN TESTS WHICH REQUIRE MOCK LIDAR\n\n");
         exit(1);
     }
     
