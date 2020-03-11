@@ -30,14 +30,17 @@ void test_sopas_scanOnce_null_parameters() {
 }
 
 void test_sopas_scanOnce_mock_lidar() {
-        // GENERAL STRUCTURE OF PROGRAM
+    
+    // GENERAL STRUCTURE OF PROGRAM
     Sopas * sopas = sopas_alloc();
+    Telegram * tele = telegram_alloc();
     
     socket_setIP(sopas->sock, "127.0.0.1"); // local IP address
     socket_setPort(sopas->sock, 9999); // test port number matches with Mock Lidar
     socket_connect(sopas->sock);
     
-    Telegram * tele = telegram_alloc();
+    if(sopas->sock->connected)
+        TEST_MESSAGE("socket connected");
     
     sopas_scanOnce(sopas, tele);
     
