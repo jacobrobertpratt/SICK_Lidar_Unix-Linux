@@ -5,8 +5,7 @@ BUG REPORT:
 
 2) The dealloc_cb in fifo_free(... , ....) function needs to be more robust. Throws warning on building tests, will throw when used later. (Jan 7th, 2020)
 
-3) 
-
+3) Need to make sure mock_lidar quits completely. IMPORTANT
 
 
 

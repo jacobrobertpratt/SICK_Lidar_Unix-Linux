@@ -1,8 +1,6 @@
 NEXT FEATURES:
 
-Get image from TIM551 and copy that into the mock liar
-
-Setup lidar for testing with TIM551 response image
+Current - Setup LIDAR for testing
 
 Finish testing "scanOnce" functionality
 
@@ -13,3 +11,7 @@ Compile and build FFmpeg
 Build a frame class that builds frames for videos/streams
 
 Output DGRAM stream to VLC with FFmpeg build library to do so. 
+
+DONE:
+
+(03/11/2020) Get image from TIM551 and copy that into the mock lidar
