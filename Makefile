@@ -15,7 +15,8 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:	cleantests
-	rm $(OBJECTS) $(EXECUTABLE) $(FILES) $(TESTEXECUTABLE) ulid ulid.o
+	rm $(OBJECTS) $(EXECUTABLE) $(FILES) $(TESTEXECUTABLE)
+	rm ulid ulid.o
 
 tests:
 	cd testing/ && $(MAKE)

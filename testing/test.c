@@ -115,7 +115,8 @@ int main(int argc, char * argv[]) {
         test_unit_qnode();
         test_unit_fifo();
         test_unit_lidar();
-        test_unit_sopas();
+        //test_unit_sopas();
+        printf("[test.c@%d] test_unit_sopas() disabled until computer stops melting\n",__LINE__);
         test_unit_util();
         test_unit_telegram();
     } else {
@@ -131,8 +132,10 @@ int main(int argc, char * argv[]) {
             test_unit_fifo();
         if(lidar_test_enabled)
             test_unit_lidar();
-        if(sopas_test_enabled)
-            test_unit_sopas();
+        if(sopas_test_enabled){
+            printf("[test.c@%d] test_unit_sopas() disabled until computer stops melting\n",__LINE__);
+            //test_unit_sopas();
+        }
         if(util_test_enabled)
             test_unit_util();
         if(telegram_test_enabled)
