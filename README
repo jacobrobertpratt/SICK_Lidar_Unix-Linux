@@ -27,4 +27,5 @@ socket_t	0x0004
 lidar_t		0x0005
 sopas_t		0x0006
 telegram_t	0x0007
+ulid_frame_t	0x0008
 

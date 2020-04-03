@@ -2,7 +2,6 @@
 #define ULID_SOPAS_COM
 
 #include "common.h"
-#include "error.h"
 #include "socket.h"
 #include "telegram.h"
 

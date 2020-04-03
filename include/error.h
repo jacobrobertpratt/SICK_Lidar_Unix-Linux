@@ -2,8 +2,10 @@
 #ifndef _ULID_ERROR_H_
 #define _ULID_ERROR_H_
 
-#include "common.h"
-#include "util.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 
 /**
  * Error message definitions specific to the ULID library.
@@ -25,6 +27,9 @@
 #define ERROR_SOCKPORT      117     //
 #define ERROR_SOCKMSG       118     //
 #define ERROR_RETMSG        119     //
+#define ERROR_REPLACE       120     //
+#define ERROR_TYPE          121     //
+
 
 #define MAX_ERR_NUM     (sizeof(errorArray) / 8) + 102
 #define ERROR_STRUCT_CODE   0x0000
