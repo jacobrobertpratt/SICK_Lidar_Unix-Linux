@@ -9,7 +9,7 @@ Telegram * telegram_alloc() {
         return NULL;
     }
     
-    tele->struct_code = TELEGRAM_STRUCT_CODE; // 0x0007
+    tele->code = TELEGRAM_STRUCT_CODE; // 7
     tele->device_number = 0;
     tele->device_timestamp = 0;
     tele->sys_timestamp = 0;
@@ -25,6 +25,7 @@ Telegram * telegram_alloc() {
     tele->angular_step.den = 1; // 1-deg
     tele->data_count = 0;
     tele->data_format = 0;
+    tele->max_dist = 0;
     tele->data = NULL;
     
     return tele;

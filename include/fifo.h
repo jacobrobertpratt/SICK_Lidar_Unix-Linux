@@ -15,7 +15,7 @@
  */
 
 #define INITIAL_FIFO_SIZE   50
-#define FIFO_STRUCT_CODE    0x0001
+#define FIFO_STRUCT_CODE    1
 
 
 /** FIFO STRUCT DEFINITION:

@@ -218,6 +218,7 @@ int sopas_scanOnce(Sopas * sopas, Telegram * tele) {
     for(j = 0, i = 26; j < tele->data_count; i++, j++) {
         //printf("[%d,%ld]\n", ang, strtol(arr[i], NULL, 16));
         tele->data[j] = strtol(arr[i], NULL, 16);
+        if(tele->data[j] > tele->max_dist) tele->max_dist = tele->data[j];
     }
     
     if(retMsg)

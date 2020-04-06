@@ -4,7 +4,7 @@
 #include "common.h"
 #include "sopas.h"
 
-#define LIDAR_STRUCT_CODE 0x0005
+#define LIDAR_STRUCT_CODE 5
 
 /* */
 typedef enum device_type_t{

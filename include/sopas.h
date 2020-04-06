@@ -12,7 +12,7 @@
  * @Date Jan 7th, 2020
  */
 
-#define SOPAS_STRUCT_CODE 0x0006
+#define SOPAS_STRUCT_CODE 6
 
 /* */
 typedef enum command_t {

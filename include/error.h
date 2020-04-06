@@ -32,7 +32,7 @@
 
 
 #define MAX_ERR_NUM     (sizeof(errorArray) / 8) + 102
-#define ERROR_STRUCT_CODE   0x0000
+#define ERROR_STRUCT_CODE   0
 
 /**
  * Represents an error log that can be passed to different error log functions

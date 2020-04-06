@@ -10,7 +10,7 @@
  *  with updating the message class.
  */
 
-#define MESSAGE_STRUCT_CODE 0x0002
+#define MESSAGE_STRUCT_CODE 2
 
 /**
  * The messge_t struct defines labels, data, and general information about a message

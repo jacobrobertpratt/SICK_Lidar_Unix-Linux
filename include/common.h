@@ -8,6 +8,7 @@
 #include <time.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 /* LOCAL INCLUDES */
 #include "error.h"
@@ -25,6 +26,10 @@
 #define ERRMSG(a) printf("[%s@%d] ERROR: %s\n",&(strrchr(__FILE__,'/')[1]),__LINE__,a);
 #define WRNMSG(a) printf("[%s@%d] WARNING: %s\n",&(strrchr(__FILE__,'/')[1]),__LINE__,a);
 #define TSTMSG(a) printf("[%s@%d] %s\n",&(strrchr(__FILE__,'/')[1]),__LINE__,a);
+
+/* Common useful macros to use in every program */
+#define min(a,b) (a < b) ? a : b
+#define max(a,b) (a > b) ? a : b
 
 /**
  * The  XXXX_fraction_t structures represent a more accurate version of a floating point number. Since floating point numbers can lose values as they are passed around and manipulated, we use a fraction representation to maintain dependency. This idea is taken from the open sourrce FFMpeg library, I suggest you look through it as it's very cool.
@@ -70,7 +75,9 @@ typedef struct int64_fraction_t {
     int64_t den;
 } int64_frac;
 
+typedef struct ulid_point_t {
+    uint32_t xpos:16,ypos:16;
+} Point;
 
-/* Generating a generic objects macros */
 
 #endif

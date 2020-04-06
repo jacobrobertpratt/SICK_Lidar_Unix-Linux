@@ -16,7 +16,7 @@
  *  @Date 12/26/2019
  */
 
-#define QNODE_STRUCT_CODE 0x0003
+#define QNODE_STRUCT_CODE 3
 
 struct qnode_t;
 

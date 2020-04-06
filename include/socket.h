@@ -12,7 +12,7 @@
  The socket class represents a socket connection. A socket structure must be allocated to start a socket connection. The given device's IP address, socket type, and port number must be known prior to starting a connection. Similarly, information can be passed back and forth between the device through the sendData and recvData functions. The communication protocols for the give device must be known in advance.
  */
 
-#define SOCKET_STRUCT_CODE  0x0004
+#define SOCKET_STRUCT_CODE  4
 #define RET_BUFF_SIZE       1024
 
 

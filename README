@@ -19,13 +19,13 @@ All structures have a unique reference code. This allows checking when passed to
 
 Structure Code Reference:
 
-error_t		0x0000
-fifo_t		0x0001
-message_t	0x0002
-qnode_t		0x0003
-socket_t	0x0004
-lidar_t		0x0005
-sopas_t		0x0006
-telegram_t	0x0007
-ulid_frame_t	0x0008
+error_t		0
+fifo_t		1
+message_t	2
+qnode_t		3
+socket_t	4
+lidar_t		5
+sopas_t		6
+telegram_t	7
+ulid_frame_t	8
 

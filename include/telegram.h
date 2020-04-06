@@ -13,7 +13,7 @@
  * @Date January 7th 2020
  */
 
-#define TELEGRAM_STRUCT_CODE 0x0007
+#define TELEGRAM_STRUCT_CODE 7
 
 /** DISTUNIT:
  * Represents the unit value of length given to each data point. This is used in the telegram structurer below to bring world dimensions from the telegram. If one device gives readings in (mm) and the other in (feet), we then have a bases to compare the two measurments.
@@ -34,7 +34,7 @@ typedef enum dist_unit_t {
 typedef struct telegram_t {
     
     // Call sign of this structure for deallocations purposes.
-    int struct_code;
+    int code;
     
     // Device number associated with this this telegram
     uint8_t device_number;
@@ -72,6 +72,8 @@ typedef struct telegram_t {
     
     // Repesents the format of the data (1 = radial, 0 = cartesian)
     int data_format;
+    
+    uint32_t max_dist;
     
     /* Data comes in a a 2-dimensional array. The values can either be in radial or cartesian format. The format is specified in the format field. */
     uint32_t * data;

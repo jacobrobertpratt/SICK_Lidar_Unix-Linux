@@ -1,8 +1,8 @@
 CC=gcc
-CFLAGS=-c -Wall -Werror
+CFLAGS=-c -Wall 
 LDFLAGS=
 
-SOURCES=ulid.c src/error.c src/util.c src/message.c src/lidar.c src/sopas.c src/socket.c src/qnode.c src/fifo.c src/telegram.c src/uframe.c
+SOURCES=ulid.c src/error.c src/util.c src/message.c src/lidar.c src/sopas.c src/socket.c src/qnode.c src/fifo.c src/telegram.c src/uframe.c src/udraw.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=ulid
 
@@ -14,9 +14,8 @@ $(EXECUTABLE): $(OBJECTS)
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
 
-clean:	cleantests
+clean:
 	rm $(OBJECTS) $(EXECUTABLE) $(FILES) $(TESTEXECUTABLE)
-	rm ulid ulid.o
 
 tests:
 	cd testing/ && $(MAKE)

@@ -5,23 +5,36 @@
 #include "common.h"
 #include "telegram.h"
 
-#define ULID_FRAME_STRUCT_CODE  0x0008
+#define ULID_FRAME_STRUCT_CODE  8
+
+/* Pixel format for the frame information. */
+#define ULID_PIXFMT_ARGB        1;
+
+/* CLASS DESCRIPTION */
+
+
 
 typedef struct ulid_frame_t {
-    uint32_t width:12, height:12; // 4K (4096 x 4096)
-    uint32_t * data; // pixel format = 32-bit for now -> update later
+    uint8_t code;
+    uint32_t width:13, height:13, bitperpix:6;
+    uint8_t * data;
+    // % away from edge of shortest side of frame
+    uint8_t edgebuffer;
 } uFrame;
 
 /* */
-uFrame * frame_alloc();
+uFrame * uframe_alloc();
 
 /* */
-void frame_free(uFrame * frame);
+void uframe_free(uFrame * frame);
 
 /* */
-int frame_initialize(uFrame * frame, int width, int height);
+int uframe_init(uFrame * frame, int width, int height, int bitperpix);
 
 /* */
-int frame_buildFrame(uFrame * frame, void * type);
+int uframe_buildFrame(uFrame * frame, void * data, int type);
+
+/* */
+int uframe_reset(uFrame * frame);
 
 #endif
