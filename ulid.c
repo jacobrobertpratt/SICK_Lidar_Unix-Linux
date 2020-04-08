@@ -4,9 +4,13 @@
 #include "include/common.h"
 #include "include/sopas.h"
 #include "include/uframe.h"
+#include "include/usave.h"
 
 int main(int argc, char * argv[]) {
     
+    save_frameAsJPEG(NULL);
+    
+    /*
     uFrame frame;
     
     // GENERAL STRUCTURE OF PROGRAM
@@ -18,7 +22,8 @@ int main(int argc, char * argv[]) {
     socket_setPort(sopas->sock, 2112);
     socket_connect(sopas->sock);
     
-    uframe_init(&frame, 1080, 720, 32);
+    uframe_init(&frame, 2160, 1080, 32);
+    
     // get telegram
     Telegram * tele = telegram_alloc();
     
@@ -39,6 +44,7 @@ int main(int argc, char * argv[]) {
     // free allocated structs
     telegram_free(&tele);
     sopas_free(&sopas);
+     */
     
     /* Work in progress
         Lidar * lidar = lidar_alloc();

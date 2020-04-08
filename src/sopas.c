@@ -160,6 +160,7 @@ int sopas_scanOnce(Sopas * sopas, Telegram * tele) {
     
     // Check if return message is correct
     if(strcmp(arr[0],comArr[RETREAD]) || strcmp(arr[1], subArr[SCAN])) {
+        printf("return message: %s\n",retMsg);
         uliderror(ERROR_RETMSG);
         return ERROR_RETMSG;
     }

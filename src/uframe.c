@@ -3,23 +3,14 @@
 
 static int uframe_buildFrameTele(uFrame * frame, Telegram * tele) {
     
-    printf("entered uframe_buildFrameTele\n");
-    
     uint32_t width = frame->width;
     uint32_t height = frame->height;
-    uint32_t angstep = tele->angular_step.num / tele->angular_step.den;
-    uint32_t minimum = min(width, height);
-    minimum = (minimum - 10) / 2;
     
-    printf("minimum: %d\n",minimum);
+    double minfrmdim = min(width,height);
     
     // position of lidar device
     uint16_t xpos_lidar = frame->width / 2;
     uint32_t ypos_lidar = frame->height / 2;
-    
-    printf("ypos_lidar: %d\n",ypos_lidar);
-    printf("xpos_lidar: %d\n",xpos_lidar);
-    
     
     // TODO: construct a frame from an allocated and filled telegram structure
     
@@ -39,23 +30,24 @@ static int uframe_buildFrameTele(uFrame * frame, Telegram * tele) {
     
     // Set the Triangle robot position
     
-    uint32_t x_pos;
-    uint32_t y_pos;
+    double angle = (double)tele->start_angle.num / tele->start_angle.den;
+    double angstep = (double)tele->angular_step.num / tele->angular_step.den;
     
-    printf("tele->start_angle.num: %d\n",tele->start_angle.num);
-    printf("tele->start_angle.den: %d\n",tele->start_angle.den);
+    double maxdist = tele->max_dist;
     
-    uint32_t ang = (tele->start_angle.num / tele->start_angle.den);
-                    
-    printf("first ang: %d\n",ang);
+    printf("minfrmdim: %lf\n",minfrmdim);
+    printf("max mills: %lf\n",maxdist);
     
-    double yrad;
-    int i, cnt = tele->data_count;
-    for(i = 0; i < cnt; i++) {
-        
-        ang += angstep;
+    double distperpix = maxdist / minfrmdim;
+    printf("distperpix: %lf\n",distperpix);
+    double x_pos, y_pos;
+    int i;
+    for(i = 0; i < tele->data_count; i++){
+        x_pos = xpos_lidar + ((cos(angle * 3.1415926 / 180) * tele->data[i]) / distperpix);
+        y_pos = ypos_lidar - ((sin(angle * 3.1415926 / 180) * tele->data[i]) / distperpix);
+        angle += angstep;
     }
-    printf("\n");
+    
     return 0;
 }
 
@@ -94,15 +86,22 @@ int uframe_init(uFrame * frame, int width, int height, int bitperpix) {
     else
         frame->bitperpix = 32;
     
+    frame->stride = frame->bitperpix / 8;
+    
     // Set frame width and height
-    if(width > 0 && height > 0) {
+    if(width < 64)
+        frame->width = 64;
+    else if (width > 2160)
+        frame->width = 2160;
+    else
         frame->width = width;
+    
+    if(height < 64)
+        frame->height = 64;
+    else if (height > 1080)
+        frame->height = 1080;
+    else
         frame->height = height;
-    }
-    else {
-        frame->width = 0;
-        frame->height = 0;
-    }
     
     return ret;
 }
