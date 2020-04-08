@@ -3,10 +3,10 @@
 
 #include "common.h"
 
+#include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
+#include <libswscale/swscale.h>
 
-#define GOTHERE   printf("Got to line %d\n",__LINE__);
-
-int save_frameAsJPEG();
+int save_frameAsJPEG(uint32_t * data, int pic_width, int pic_height, int bitperpix, char * name, int idx);
 
 #endif

@@ -6,7 +6,7 @@ LDFLAGS=-Wl
 SOURCES=ulid.c src/error.c src/util.c src/message.c src/lidar.c src/sopas.c src/socket.c src/qnode.c src/fifo.c src/telegram.c src/uframe.c src/udraw.c src/usave.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=ulid
-FFMPEG_LIB=-lavformat -lavutil -lavcodec -lavfilter -lavdevice 
+FFMPEG_LIB=-lavformat -lavutil -lavcodec -lavfilter -lavdevice -lswscale
 
 all: $(SOURCES) $(EXECUTABLE)
     

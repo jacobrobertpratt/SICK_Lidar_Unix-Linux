@@ -31,6 +31,9 @@
 #define min(a,b) (a < b) ? a : b
 #define max(a,b) (a > b) ? a : b
 
+/* ERROR & TESTING MACROS */
+#define GOTHERE printf("Got here ... %d\n",__LINE__);
+
 /**
  * The  XXXX_fraction_t structures represent a more accurate version of a floating point number. Since floating point numbers can lose values as they are passed around and manipulated, we use a fraction representation to maintain dependency. This idea is taken from the open sourrce FFMpeg library, I suggest you look through it as it's very cool.
  */
