@@ -5,6 +5,8 @@
 
 #include <libavformat/avformat.h>
 
-int save_frameAsJPEG(uint8_t * data);
+#define GOTHERE   printf("Got to line %d\n",__LINE__);
+
+int save_frameAsJPEG();
 
 #endif
