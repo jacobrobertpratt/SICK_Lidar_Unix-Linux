@@ -10,7 +10,7 @@ static int uframe_buildFrameTele(uFrame * frame, Telegram * tele) {
     
     // position of lidar device
     uint16_t xpos_lidar = frame->width / 2;
-    uint32_t ypos_lidar = frame->height / 2;
+    uint32_t ypos_lidar = (frame->height * 2) / 3;
     
     // TODO: construct a frame from an allocated and filled telegram structure
     
@@ -40,13 +40,27 @@ static int uframe_buildFrameTele(uFrame * frame, Telegram * tele) {
     
     double distperpix = maxdist / minfrmdim;
     printf("distperpix: %lf\n",distperpix);
+    
     double x_pos, y_pos;
+    
+    uint32_t * data = malloc(frame->width * frame->height * sizeof(uint32_t));
+    uint32_t * strt = data;
+    memset(data, 0, frame->width * frame->height * sizeof(uint32_t));
+    
     int i;
-    for(i = 0; i < tele->data_count; i++){
+    for(i = 0; i < tele->data_count; i++) {
         x_pos = xpos_lidar + ((cos(angle * 3.1415926 / 180) * tele->data[i]) / distperpix);
         y_pos = ypos_lidar - ((sin(angle * 3.1415926 / 180) * tele->data[i]) / distperpix);
         angle += angstep;
+        printf("xpos: %lf    ypos: %lf\n",x_pos, y_pos);
+        if(x_pos < 1 || y_pos < 1 || y_pos > frame->height || x_pos > frame->width)
+            continue;
+        udraw_drawPoint(strt,frame->width,(int)x_pos,(int)y_pos,3);
     }
+    
+    save_frameAsJPEG(strt,frame->width,frame->height,32,"test",0);
+    
+    free(strt);
     
     return 0;
 }

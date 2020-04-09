@@ -5,6 +5,7 @@
 #include "common.h"
 #include "telegram.h"
 #include "udraw.h"
+#include "usave.h"
 
 #define ULID_FRAME_STRUCT_CODE  8
 

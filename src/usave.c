@@ -71,7 +71,7 @@ int save_frameAsJPEG(uint32_t * data, int pic_width, int pic_height, int bitperp
     context->framerate = (AVRational){25, 1};
     
     if (avcodec_open2(context, codec, NULL) < 0)
-        return -1;
+        return 1;
     
     // Alloc Frame
     frame = av_frame_alloc();
